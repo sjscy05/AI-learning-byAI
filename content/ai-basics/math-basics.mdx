@@ -1,0 +1,61 @@
+import { Math } from '@/components/Math'
+
+# 数学基础
+
+## 线性代数
+
+### 向量和矩阵
+
+向量是AI中的基本数据结构。一个向量可以表示为：
+
+<Math display>{'\\mathbf{v} = \\begin{bmatrix} v_1 \\\\ v_2 \\\\ \\vdots \\\\ v_n \\end{bmatrix}'}</Math>
+
+矩阵是向量的集合：
+
+<Math display>{'\\mathbf{A} = \\begin{bmatrix} a_{11} & a_{12} & \\cdots & a_{1n} \\\\ a_{21} & a_{22} & \\cdots & a_{2n} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ a_{m1} & a_{m2} & \\cdots & a_{mn} \\end{bmatrix}'}</Math>
+
+### 矩阵乘法
+
+矩阵乘法是AI中的核心操作：
+
+<Math display>{'\\mathbf{C} = \\mathbf{A} \\cdot \\mathbf{B}'}</Math>
+
+其中：
+
+<Math display>{'c_{ij} = \\sum_{k=1}^{n} a_{ik} \\cdot b_{kj}'}</Math>
+
+## 概率论
+
+### 条件概率
+
+条件概率是机器学习的基础：
+
+<Math display>{'P(A|B) = \\frac{P(A \\cap B)}{P(B)}'}</Math>
+
+### 贝叶斯定理
+
+贝叶斯定理在分类问题中非常重要：
+
+<Math display>{'P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}'}</Math>
+
+## 微积分
+
+### 导数
+
+导数是优化算法的核心：
+
+<Math display>{'f\'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}'}</Math>
+
+### 偏导数
+
+在多变量函数中，我们使用偏导数：
+
+<Math display>{'\\frac{\\partial f}{\\partial x_i}'}</Math>
+
+## 练习题
+
+1. 计算以下矩阵乘法：
+
+<Math display>{'\\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix} \\cdot \\begin{bmatrix} 5 & 6 \\\\ 7 & 8 \\end{bmatrix}'}</Math>
+
+2. 计算函数 <Math>{'f(x) = x^2 + 3x + 2'}</Math> 在 <Math>{'x = 1'}</Math> 处的导数。

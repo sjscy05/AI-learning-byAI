@@ -1,0 +1,50 @@
+import { Math } from '@/components/Math'
+
+# 图像处理基础
+
+## 什么是计算机视觉
+
+计算机视觉（Computer Vision，CV）是人工智能的一个子领域，专注于让计算机理解和解释视觉信息。
+
+## 图像表示
+
+### 像素表示
+
+图像由像素组成，每个像素包含颜色信息：
+
+<Math display>{'\\mathbf{I}(x, y) = [R, G, B]'}</Math>
+
+### 灰度图像
+
+灰度图像只有一个通道：
+
+<Math display>{'\\mathbf{I}(x, y) = I'}</Math>
+
+## 图像操作
+
+### 灰度化
+
+将彩色图像转换为灰度图像：
+
+<Math display>{'I = 0.299R + 0.587G + 0.114B'}</Math>
+
+### 二值化
+
+将图像转换为黑白图像：
+
+<Math display>{'I_{binary} = \\begin{cases} 255 & \\text{if } I > threshold \\\\ 0 & \\text{otherwise} \\end{cases}'}</Math>
+
+## 卷积神经网络
+
+卷积神经网络（CNN）是图像处理的核心技术。
+
+### 卷积操作
+
+卷积操作可以表示为：
+
+<Math display>{'\\mathbf{I} * \\mathbf{K}(x, y) = \\sum_{i=0}^{m-1} \\sum_{j=0}^{n-1} \\mathbf{I}(x+i, y+j) \\cdot \\mathbf{K}(i, j)'}</Math>
+
+## 练习题
+
+1. 实现图像灰度化。
+2. 设计一个简单的卷积核。

@@ -1,0 +1,54 @@
+import { Math } from '@/components/Math'
+
+# 神经网络基础
+
+## 什么是神经网络
+
+神经网络是一种受生物神经网络启发的计算模型。
+
+## 单个神经元
+
+单个神经元可以表示为：
+
+<Math display>{'y = f\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)'}</Math>
+
+其中 <Math>{'f'}</Math> 是激活函数。
+
+## 常用激活函数
+
+### Sigmoid函数
+
+<Math display>{'\\sigma(x) = \\frac{1}{1 + e^{-x}}'}</Math>
+
+### ReLU函数
+
+<Math display>{'\\text{ReLU}(x) = \\max(0, x)'}</Math>
+
+### Tanh函数
+
+<Math display>{'\\tanh(x) = \\frac{e^x - e^{-x}}{e^x + e^{-x}}'}</Math>
+
+## 多层感知机
+
+多层感知机（MLP）由多个层组成：
+
+1. **输入层**: 接收原始数据
+2. **隐藏层**: 进行特征提取
+3. **输出层**: 产生最终预测
+
+## 前向传播
+
+前向传播的过程：
+
+<Math display>{'\\mathbf{h}^{(l)} = f\\left(\\mathbf{W}^{(l)} \\mathbf{h}^{(l-1)} + \\mathbf{b}^{(l)}\\right)'}</Math>
+
+## 反向传播
+
+反向传播用于计算梯度：
+
+<Math display>{'\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} = \\frac{\\partial L}{\\partial \\mathbf{h}^{(l)}} \\cdot \\left(\\mathbf{h}^{(l-1)}\\right)^T'}</Math>
+
+## 练习题
+
+1. 实现一个简单的神经网络。
+2. 比较不同激活函数的优缺点。
