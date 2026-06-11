@@ -1,9 +1,6 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import '../styles/globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'AI学习网站',
@@ -17,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body className={inter.className}>
+      <body style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

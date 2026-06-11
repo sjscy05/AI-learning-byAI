@@ -24,7 +24,7 @@ export async function getMDXContent(slug: string, category: string): Promise<MDX
   const { data, content } = matter(fileContent)
   
   return {
-    frontMatter: data,
+    frontMatter: { title: data.title || slug, description: data.description },
     content,
     slug,
   }
