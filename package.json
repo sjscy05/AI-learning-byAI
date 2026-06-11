@@ -12,12 +12,14 @@
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.0.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "framer-motion": "^10.0.0",
     "katex": "^0.16.0",
     "next": "^14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-katex": "^1.0.0",
+    "react-syntax-highlighter": "^16.1.1",
     "recharts": "^2.0.0"
   },
   "devDependencies": {
