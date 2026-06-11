@@ -1,5 +1,3 @@
-import { Math } from '@/components/Math'
-
 # 图像处理基础
 
 ## 什么是计算机视觉
@@ -12,13 +10,13 @@ import { Math } from '@/components/Math'
 
 图像由像素组成，每个像素包含颜色信息：
 
-<Math display>{'\\mathbf{I}(x, y) = [R, G, B]'}</Math>
+$$\mathbf{I}(x, y) = [R, G, B]$$
 
 ### 灰度图像
 
 灰度图像只有一个通道：
 
-<Math display>{'\\mathbf{I}(x, y) = I'}</Math>
+$$\mathbf{I}(x, y) = I$$
 
 ## 图像操作
 
@@ -26,13 +24,13 @@ import { Math } from '@/components/Math'
 
 将彩色图像转换为灰度图像：
 
-<Math display>{'I = 0.299R + 0.587G + 0.114B'}</Math>
+$$I = 0.299R + 0.587G + 0.114B$$
 
 ### 二值化
 
 将图像转换为黑白图像：
 
-<Math display>{'I_{binary} = \\begin{cases} 255 & \\text{if } I > threshold \\\\ 0 & \\text{otherwise} \\end{cases}'}</Math>
+$$I_{binary} = \begin{cases} 255 & \text{if } I > threshold \\ 0 & \text{otherwise} \end{cases}$$
 
 ## 卷积神经网络
 
@@ -42,7 +40,7 @@ import { Math } from '@/components/Math'
 
 卷积操作可以表示为：
 
-<Math display>{'\\mathbf{I} * \\mathbf{K}(x, y) = \\sum_{i=0}^{m-1} \\sum_{j=0}^{n-1} \\mathbf{I}(x+i, y+j) \\cdot \\mathbf{K}(i, j)'}</Math>
+$$\mathbf{I} * \mathbf{K}(x, y) = \sum_{i=0}^{m-1} \sum_{j=0}^{n-1} \mathbf{I}(x+i, y+j) \cdot \mathbf{K}(i, j)$$
 
 ## 练习题
 

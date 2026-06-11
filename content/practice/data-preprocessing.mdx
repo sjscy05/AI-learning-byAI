@@ -1,5 +1,3 @@
-import { Math } from '@/components/Math'
-
 # 数据预处理
 
 ## 什么是数据预处理
@@ -20,18 +18,18 @@ import { Math } from '@/components/Math'
 
 异常值检测方法：
 
-1. **Z-score方法**: <Math display>{'z = \\frac{x - \\mu}{\\sigma}'}</Math>
+1. **Z-score方法**: $z = \frac{x - \mu}{\sigma}$
 2. **IQR方法**: 使用四分位距检测异常值
 
 ## 数据标准化
 
 ### Z-score标准化
 
-<Math display>{'x_{standardized} = \\frac{x - \\mu}{\\sigma}'}</Math>
+$$x_{standardized} = \frac{x - \mu}{\sigma}$$
 
 ### Min-Max标准化
 
-<Math display>{'x_{normalized} = \\frac{x - x_{min}}{x_{max} - x_{min}}'}</Math>
+$$x_{normalized} = \frac{x - x_{min}}{x_{max} - x_{min}}$$
 
 ## 特征工程
 
@@ -47,7 +45,7 @@ import { Math } from '@/components/Math'
 
 从原始数据中提取新特征的方法：
 
-1. **多项式特征**: <Math display>{'x_{new} = x_1^2, x_2^2, x_1x_2'}</Math>
+1. **多项式特征**: $x_{new} = x_1^2, x_2^2, x_1x_2$
 2. **主成分分析（PCA）**: 降维技术
 
 ## 练习题

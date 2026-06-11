@@ -1,5 +1,3 @@
-import { Math } from '@/components/Math'
-
 # 神经网络基础
 
 ## 什么是神经网络
@@ -10,23 +8,23 @@ import { Math } from '@/components/Math'
 
 单个神经元可以表示为：
 
-<Math display>{'y = f\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)'}</Math>
+$$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
 
-其中 <Math>{'f'}</Math> 是激活函数。
+其中 $f$ 是激活函数。
 
 ## 常用激活函数
 
 ### Sigmoid函数
 
-<Math display>{'\\sigma(x) = \\frac{1}{1 + e^{-x}}'}</Math>
+$$\sigma(x) = \frac{1}{1 + e^{-x}}$$
 
 ### ReLU函数
 
-<Math display>{'\\text{ReLU}(x) = \\max(0, x)'}</Math>
+$$\text{ReLU}(x) = \max(0, x)$$
 
 ### Tanh函数
 
-<Math display>{'\\tanh(x) = \\frac{e^x - e^{-x}}{e^x + e^{-x}}'}</Math>
+$$\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
 
 ## 多层感知机
 
@@ -40,13 +38,13 @@ import { Math } from '@/components/Math'
 
 前向传播的过程：
 
-<Math display>{'\\mathbf{h}^{(l)} = f\\left(\\mathbf{W}^{(l)} \\mathbf{h}^{(l-1)} + \\mathbf{b}^{(l)}\\right)'}</Math>
+$$\mathbf{h}^{(l)} = f\left(\mathbf{W}^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}\right)$$
 
 ## 反向传播
 
 反向传播用于计算梯度：
 
-<Math display>{'\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} = \\frac{\\partial L}{\\partial \\mathbf{h}^{(l)}} \\cdot \\left(\\mathbf{h}^{(l-1)}\\right)^T'}</Math>
+$$\frac{\partial L}{\partial \mathbf{W}^{(l)}} = \frac{\partial L}{\partial \mathbf{h}^{(l)}} \cdot \left(\mathbf{h}^{(l-1)}\right)^T$$
 
 ## 练习题
 
