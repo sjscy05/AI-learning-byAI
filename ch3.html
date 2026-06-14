@@ -41,42 +41,10 @@
 <body>
 
 <!-- Progress bar -->
-<div id="progress-bar"></div>
 
 <!-- Navbar -->
-<nav class="navbar">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-    <a href="index.html" class="flex items-center space-x-2">
-      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
-    </a>
-    <div class="hidden md:flex items-center space-x-1" id="nav-links">
-      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">📈 监督学习</a>
-      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
-      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    </div>
-    <div class="flex items-center space-x-2">
-      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
-        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </svg>
-      </button>
-      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-</nav>
 
 <!-- Mobile overlay -->
-<div class="mobile-overlay" id="mobile-overlay"></div>
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="flex items-center justify-between mb-6">
     <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
@@ -103,31 +71,9 @@
 </div>
 
 <!-- Sidebar -->
-<aside class="sidebar" id="sidebar">
-  <div class="mb-4 px-3">
-    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
-  </div>
-  <nav class="space-y-0.5" id="sidebar-nav">
-    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
-    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
-    <a href="ch3.html" class="sidebar-link active" data-section="supervised-learning">📈 监督学习</a>
-    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
-    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
-    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
-    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
-    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
-    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
-    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
-    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
-    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
-  </nav>
-  <div class="mt-8 px-3">
-    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
-  </div>
-</aside>
 
 <!-- Main content -->
-<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+<main class="main-content" style="margin-left:0; padding-top:80px; padding-bottom:4rem;">
   <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
     <section class="chapter-card prose">
 
@@ -159,9 +105,6 @@ model.fit(X_train, y_train)
 # 预测
 price = model.predict([[100, 3, 4]])
 print(f"预测房价：{price[0]:.0f}万元")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <p><strong>线性回归的数学原理：</strong></p>
@@ -199,9 +142,6 @@ new_email = ["恭喜你获得免费手机"]
 X_new = vectorizer.transform(new_email)
 result = model.predict(X_new)
         print("垃圾邮件" if result[0] == 1 else "正常邮件")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 监督学习数学框架 ========== -->
@@ -258,9 +198,6 @@ class LinearRegressionGD:
     def predict(self, X):
         return X.dot(self.weights) + self.bias</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <p><strong>正则化回归</strong></p>
       <p>正则化通过在损失函数中添加惩罚项，防止模型过拟合：</p>
@@ -292,9 +229,6 @@ print(f"Ridge R²:   {ridge.score(X_test, y_test):.4f}")
 print(f"Lasso R²:   {lasso.score(X_test, y_test):.4f}")
 print(f"ElasticNet: {elastic.score(X_test, y_test):.4f}")</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <p><strong>多项式回归</strong></p>
       <p>当数据的非线性关系明显时，多项式回归通过添加高次特征来拟合曲线：</p>
@@ -316,9 +250,6 @@ model = make_pipeline(
 )
 model.fit(X, y)
 print(f"多项式回归 R²: {model.score(X, y):.4f}")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 分类算法详解 ========== -->
@@ -344,9 +275,6 @@ model = LogisticRegression(max_iter=200)
 model.fit(X_train, y_train)
 print(f"逻辑回归准确率: {model.score(X_test, y_test):.2%}")</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <p><strong>支持向量机（SVM）</strong></p>
       <p>SVM 的核心思想是找到一个超平面，使得两类样本之间的间隔（margin）最大化：</p>
@@ -369,9 +297,6 @@ X_scaled = scaler.fit_transform(X)
 svm_model = SVC(kernel='rbf', C=1.0, gamma='scale')
 svm_model.fit(X_scaled, y)
 print(f"SVM 准确率: {svm_model.score(X_scaled, y):.2%}")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <p><strong>决策树与随机森林</strong></p>
@@ -400,9 +325,6 @@ print(f"随机森林准确率: {rf.score(X_test, y_test):.2%}")
 importances = rf.feature_importances_
 for name, imp in zip(load_wine().feature_names, importances):
     print(f"  {name}: {imp:.3f}")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 模型评估指标 ========== -->
@@ -473,9 +395,6 @@ print(f"\nMSE:  {mean_squared_error(y_reg_true, y_reg_pred):.4f}")
 print(f"RMSE: {np.sqrt(mean_squared_error(y_reg_true, y_reg_pred)):.4f}")
 print(f"MAE:  {mean_absolute_error(y_reg_true, y_reg_pred):.4f}")
 print(f"R²:   {r2_score(y_reg_true, y_reg_pred):.4f}")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 过拟合与欠拟合 ========== -->
@@ -570,7 +489,6 @@ print(f"R²:   {r2_score(y_reg_true, y_reg_pred):.4f}")</code></pre>
     });
   });
   </script>
-
 
 </body>
 </html>

@@ -41,42 +41,10 @@
 <body>
 
 <!-- Progress bar -->
-<div id="progress-bar"></div>
 
 <!-- Navbar -->
-<nav class="navbar">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-    <a href="index.html" class="flex items-center space-x-2">
-      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
-    </a>
-    <div class="hidden md:flex items-center space-x-1" id="nav-links">
-      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
-      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    </div>
-    <div class="flex items-center space-x-2">
-      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
-        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </svg>
-      </button>
-      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-</nav>
 
 <!-- Mobile overlay -->
-<div class="mobile-overlay" id="mobile-overlay"></div>
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="flex items-center justify-between mb-6">
     <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
@@ -103,31 +71,9 @@
 </div>
 
 <!-- Sidebar -->
-<aside class="sidebar" id="sidebar">
-  <div class="mb-4 px-3">
-    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
-  </div>
-  <nav class="space-y-0.5" id="sidebar-nav">
-    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
-    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
-    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
-    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
-    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
-    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
-    <a href="ch7.html" class="sidebar-link active" data-section="unsupervised">📊 无监督学习</a>
-    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
-    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
-    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
-    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
-    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
-  </nav>
-  <div class="mt-8 px-3">
-    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
-  </div>
-</aside>
 
 <!-- Main content -->
-<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+<main class="main-content" style="margin-left:0; padding-top:80px; padding-bottom:4rem;">
   <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
     <section class="chapter-card prose">
 
@@ -213,9 +159,6 @@ plt.grid(True)
 plt.show()
 # 选择"肘部"对应的K值（曲线下降速度突然变缓的点）</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <h3>聚类过程可视化</h3>
       <canvas id="kmeans-canvas" width="600" height="300" style="width:100%; height:300px; border:1px solid var(--border); border-radius:8px; cursor:pointer;"></canvas>
@@ -249,9 +192,6 @@ print(f"各组中心点:\n{kmeans.cluster_centers_}")
 # 2. 对初始中心敏感（K-Means++改进）
 # 3. 只能发现球形簇
 # 4. 对异常值敏感</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== DBSCAN详解 ========== -->
@@ -308,9 +248,6 @@ print(f"噪声点数量: {n_noise}")
 # DBSCAN的优缺点：
 # 优点：不需要指定K、能发现任意形状的簇、能识别噪声
 # 缺点：对ε和MinPts敏感、高维数据效果差、密度不均匀时效果差</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <p><strong>DBSCAN vs K-Means 对比：</strong></p>
@@ -397,9 +334,6 @@ def my_pca(X, n_components):
 X_proj, eigenvals = my_pca(X, n_components=3)
 print(f"\n手动PCA结果形状: {X_proj.shape}")</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <!-- ========== 聚类评估指标 ========== -->
       <h3>聚类评估指标</h3>
@@ -458,9 +392,6 @@ if len(set(db_labels[mask])) > 1:
     ch_db = calinski_harabasz_score(X[mask], db_labels[mask])
     print(f"\nDBSCAN: 轮廓系数={sil_db:.4f}, CH指数={ch_db:.1f}")
     print(f"噪声点: {np.sum(db_labels == -1)}")</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <h3>其他聚类算法简介</h3>
@@ -535,7 +466,6 @@ if len(set(db_labels[mask])) > 1:
     });
   });
   </script>
-
 
   <script>
   const kmeansCanvas = document.getElementById('kmeans-canvas');

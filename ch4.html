@@ -41,148 +41,10 @@
 <body>
 
 <!-- Progress bar -->
-<div id="progress-bar"></div>
 
 <!-- Navbar -->
-<nav class="navbar">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-    <a href="index.html" class="flex items-center space-x-2">
-      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
-    </a>
-    <div class="hidden md:flex items-center space-x-1" id="nav-links">
-      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🧠 神经网络</a>
-      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    </div>
-    <div class="flex items-center space-x-2">
-      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
-        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </svg>
-      </button>
-      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-</nav>
 
 <!-- Mobile overlay -->
-<div class="mobile-overlay" id="mobile-overlay"></div>
-<div class="mobile-drawer" id="mobile-drawer">
-  <div class="flex items-center justify-between mb-6">
-    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
-    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </button>
-  </div>
-  <nav class="space-y-1" id="mobile-nav">
-    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🧠 神经网络</a>
-    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
-    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
-    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
-    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
-    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
-    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
-  </nav>
-</div>
-
-<!-- Sidebar -->
-<aside class="sidebar" id="sidebar">
-  <div class="mb-4 px-3">
-    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
-  </div>
-  <nav class="space-y-0.5" id="sidebar-nav">
-    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
-    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
-    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
-    <a href="ch4.html" class="sidebar-link active" data-section="neural-networks">🧠 神经网络</a>
-    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
-    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
-    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
-    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
-    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
-    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
-    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
-    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
-  </nav>
-  <div class="mt-8 px-3">
-    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
-  </div>
-</aside>
-
-<!-- Main content -->
-<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
-  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
-    <section class="chapter-card prose">
-
-      <h2 style="margin-top:0;">🧠 第四章：神经网络直观理解</h2>
-
-      <h3>多层水闸调节水流 —— 神经元的工作方式</h3>
-      <p>想象一条水渠系统：</p>
-      <ul>
-        <li>上游有多条支流（<strong>输入</strong>）</li>
-        <li>每个支流有一个水闸（<strong>权重</strong>），控制放水量</li>
-        <li>水流汇集到一个水池（<strong>求和</strong>）</li>
-        <li>水池有一个出水阀门（<strong>激活函数</strong>），决定是否放水、放多少</li>
-      </ul>
-      <p>这就是一个神经元的工作方式：</p>
-      <div class="math-display" id="math-neuron"></div>
-      <p>其中 f 是激活函数，决定这个神经元是否"激活"。</p>
-
-      <h3>CSS绘制的神经网络结构图</h3>
-      <div style="overflow-x:auto; padding:1rem 0;">
-        <div style="display:flex; align-items:center; justify-content:center; gap:0; min-width:500px;">
-          <!-- Input layer -->
-          <div class="nn-layer">
-            <div class="nn-node">x₁</div>
-            <div class="nn-node">x₂</div>
-            <div class="nn-node">x₃</div>
-            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">输入层</span>
-          </div>
-          <!-- Arrow 1 -->
-          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
-          <!-- Hidden layer 1 -->
-          <div class="nn-layer">
-            <div class="nn-node">h₁</div>
-            <div class="nn-node">h₂</div>
-            <div class="nn-node">h₃</div>
-            <div class="nn-node">h₄</div>
-            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">隐藏层1</span>
-          </div>
-          <!-- Arrow 2 -->
-          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
-          <!-- Hidden layer 2 -->
-          <div class="nn-layer">
-            <div class="nn-node">h₁</div>
-            <div class="nn-node">h₂</div>
-            <div class="nn-node">h₃</div>
-            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">隐藏层2</span>
-          </div>
-          <!-- Arrow 3 -->
-          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
-          <!-- Output layer -->
-          <div class="nn-layer">
-            <div class="nn-node" style="background:var(--primary); color:white; border-color:var(--primary);">y</div>
-            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">输出层</span>
-          </div>
-        </div>
-      </div>
 
       <!-- ========== 人工神经元的数学模型 ========== -->
       <h3>人工神经元的数学模型</h3>
@@ -369,9 +231,6 @@ nn = NeuralNetwork(input_size=2, hidden_size=8, output_size=1, lr=0.1)
 nn.train(X, y, epochs=2000)
 print("预测结果:", nn.forward(X).round())</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <div class="code-block">
         <button class="copy-btn" onclick="copyCode(this)">复制</button>
@@ -402,9 +261,6 @@ for epoch in range(100):
     optimizer.zero_grad()
     loss.backward()       # 自动反向传播
     optimizer.step()</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 常见优化器 ========== -->
@@ -443,9 +299,6 @@ for epoch in range(100):
     train(...)
     scheduler.step()</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <!-- ========== 正则化技术 ========== -->
       <h3>正则化技术</h3>
@@ -481,9 +334,6 @@ output = model(x)
 model.eval()
 output = model(x)</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <p><strong>2. Batch Normalization —— 批归一化</strong></p>
       <p>对每个mini-batch的激活值进行归一化（均值0、方差1），然后通过可学习的参数 $\gamma$ 和 $\beta$ 恢复表达能力。好处：加速训练、允许使用更大学习率、自带轻微正则化效果。</p>
@@ -508,9 +358,6 @@ output = model(x)</code></pre>
 # 注意: BatchNorm在训练和推理时行为不同
 model.train()  # 使用batch统计量
 model.eval()   # 使用全局统计量</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <p><strong>3. 数据增强 —— 增加训练数据多样性</strong></p>
@@ -542,9 +389,6 @@ train_dataset = CIFAR10(root='./data', train=True,
                         transform=train_transform, download=True)
 val_dataset = CIFAR10(root='./data', train=False,
                       transform=val_transform)</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <p><strong>正则化技术对比：</strong></p>
@@ -599,7 +443,6 @@ val_dataset = CIFAR10(root='./data', train=False,
     });
   });
   </script>
-
 
 </body>
 </html>

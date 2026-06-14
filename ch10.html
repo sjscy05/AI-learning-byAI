@@ -41,232 +41,10 @@
 <body>
 
 <!-- Progress bar -->
-<div id="progress-bar"></div>
 
 <!-- Navbar -->
-<nav class="navbar">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-    <a href="index.html" class="flex items-center space-x-2">
-      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
-    </a>
-    <div class="hidden md:flex items-center space-x-1" id="nav-links">
-      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
-      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    </div>
-    <div class="flex items-center space-x-2">
-      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
-        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </svg>
-      </button>
-      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-</nav>
 
 <!-- Mobile overlay -->
-<div class="mobile-overlay" id="mobile-overlay"></div>
-<div class="mobile-drawer" id="mobile-drawer">
-  <div class="flex items-center justify-between mb-6">
-    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
-    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </button>
-  </div>
-  <nav class="space-y-1" id="mobile-nav">
-    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
-    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
-    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
-    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
-    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">👁️ CV进阶</a>
-    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
-    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
-  </nav>
-</div>
-
-<!-- Sidebar -->
-<aside class="sidebar" id="sidebar">
-  <div class="mb-4 px-3">
-    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
-  </div>
-  <nav class="space-y-0.5" id="sidebar-nav">
-    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
-    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
-    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
-    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
-    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
-    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
-    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
-    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
-    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
-    <a href="ch10.html" class="sidebar-link active" data-section="cv-advanced">👁️ CV进阶</a>
-    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
-    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
-  </nav>
-  <div class="mt-8 px-3">
-    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
-  </div>
-</aside>
-
-<!-- Main content -->
-<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
-  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
-    <section class="chapter-card prose">
-
-      <h2 style="margin-top:0;">👁️ 第十章：计算机视觉进阶</h2>
-
-      <h3>给照片化妆 —— GAN的魔力</h3>
-      <p>想象一个<strong>画家</strong>和一个<strong>鉴定师</strong>在博弈：画家不断练习画得更逼真，鉴定师不断学习分辨真假。最终画家能画出以假乱真的作品。</p>
-      <blockquote>
-        <strong>GAN（生成对抗网络）：</strong>由生成器（画家）和判别器（鉴定师）对抗训练，生成器学会创造逼真的数据。
-      </blockquote>
-
-      <!-- ========== GAN损失函数推导 ========== -->
-      <h3>GAN的数学原理</h3>
-      <p>GAN由两个网络组成：生成器 $G$ 和判别器 $D$。它们通过对抗训练共同进步。</p>
-
-      <p><strong>GAN的损失函数（min-max目标）：</strong></p>
-      <div class="math-display" id="math-gan-loss"></div>
-      <p>其中 $x$ 是真实数据，$z$ 是随机噪声，$G(z)$ 是生成器生成的假数据。</p>
-
-      <p><strong>训练过程：</strong></p>
-      <ul>
-        <li><strong>判别器 $D$ 的目标</strong>：最大化 $\log D(x) + \log(1 - D(G(z)))$，即正确区分真假</li>
-        <li><strong>生成器 $G$ 的目标</strong>：最小化 $\log(1 - D(G(z)))$，即让判别器分不清真假</li>
-      </ul>
-
-      <p><strong>训练过程的直觉理解：</strong></p>
-      <div style="background:var(--code-bg); padding:1rem; border-radius:8px; margin:1rem 0;">
-        <p><strong>第一步（固定G，训练D）：</strong>给判别器看真图和假图，让它学会区分。判别器越好，生成器越有动力改进。</p>
-        <p><strong>第二步（固定D，训练G）：</strong>生成器生成假图，骗判别器。如果判别器被骗了，说明生成器进步了。</p>
-        <p><strong>收敛条件：</strong>当生成器生成的数据分布与真实数据分布完全一致时，判别器的输出概率为0.5（无法区分）。</p>
-      </div>
-
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">复制</button>
-        <pre><code class="language-python">import torch
-import torch.nn as nn
-
-class Generator(nn.Module):
-    """生成器：将噪声z映射为假图像"""
-    def __init__(self, latent_dim=100, img_dim=784):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(latent_dim, 256),
-            nn.LeakyReLU(0.2),
-            nn.Linear(256, 512),
-            nn.LeakyReLU(0.2),
-            nn.Linear(512, img_dim),
-            nn.Tanh()  # 输出范围[-1, 1]
-        )
-
-    def forward(self, z):
-        return self.net(z)
-
-class Discriminator(nn.Module):
-    """判别器：判断输入是真还是假"""
-    def __init__(self, img_dim=784):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(img_dim, 512),
-            nn.LeakyReLU(0.2),
-            nn.Dropout(0.3),
-            nn.Linear(512, 256),
-            nn.LeakyReLU(0.2),
-            nn.Dropout(0.3),
-            nn.Linear(256, 1),
-            nn.Sigmoid()
-        )
-
-    def forward(self, x):
-        return self.net(x)
-
-# 训练循环（简化版）
-def train_gan(generator, discriminator, dataloader, epochs=100):
-    criterion = nn.BCELoss()
-    opt_G = torch.optim.Adam(generator.parameters(), lr=2e-4, betas=(0.5, 0.999))
-    opt_D = torch.optim.Adam(discriminator.parameters(), lr=2e-4, betas=(0.5, 0.999))
-
-    for epoch in range(epochs):
-        for real_imgs, _ in dataloader:
-            batch_size = real_imgs.size(0)
-            real_imgs = real_imgs.view(batch_size, -1)
-
-            # 真实标签和假标签
-            real_labels = torch.ones(batch_size, 1)
-            fake_labels = torch.zeros(batch_size, 1)
-
-            # === 训练判别器 ===
-            z = torch.randn(batch_size, 100)  # 随机噪声
-            fake_imgs = generator(z)
-
-            d_real = discriminator(real_imgs)
-            d_fake = discriminator(fake_imgs.detach())  # detach阻止梯度传到G
-
-            d_loss = criterion(d_real, real_labels) + criterion(d_fake, fake_labels)
-
-            opt_D.zero_grad()
-            d_loss.backward()
-            opt_D.step()
-
-            # === 训练生成器 ===
-            z = torch.randn(batch_size, 100)
-            fake_imgs = generator(z)
-            d_fake = discriminator(fake_imgs)
-
-            g_loss = criterion(d_fake, real_labels)  # G希望D认为是真
-
-            opt_G.zero_grad()
-            g_loss.backward()
-            opt_G.step()</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
-
-      <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; margin:1.5rem 0;">
-        <div style="background:var(--code-bg); padding:1rem 1.5rem; border-radius:8px; text-align:center;">
-          <div style="font-size:1.5rem;">🎲</div>
-          <div style="font-weight:600;">随机噪声</div>
-          <div style="font-size:0.75rem; color:#6b7280;">输入</div>
-        </div>
-        <span style="font-size:1.5rem;">→</span>
-        <div style="background:rgba(59,73,223,0.1); padding:1rem 1.5rem; border-radius:8px; text-align:center; border:2px solid var(--primary);">
-          <div style="font-size:1.5rem;">🎨</div>
-          <div style="font-weight:600;">生成器</div>
-          <div style="font-size:0.75rem; color:#6b7280;">创作假数据</div>
-        </div>
-        <span style="font-size:1.5rem;">→</span>
-        <div style="background:var(--code-bg); padding:1rem 1.5rem; border-radius:8px; text-align:center;">
-          <div style="font-size:1.5rem;">🖼️</div>
-          <div style="font-weight:600;">假数据</div>
-          <div style="font-size:0.75rem; color:#6b7280;">生成结果</div>
-        </div>
-        <span style="font-size:1.5rem;">→</span>
-        <div style="background:rgba(239,68,68,0.1); padding:1rem 1.5rem; border-radius:8px; text-align:center; border:2px solid #ef4444;">
-          <div style="font-size:1.5rem;">🔍</div>
-          <div style="font-weight:600;">判别器</div>
-          <div style="font-size:0.75rem; color:#6b7280;">判断真假</div>
-        </div>
-      </div>
 
       <!-- ========== YOLO算法详解 ========== -->
       <h3>YOLO —— 实时目标检测</h3>
@@ -322,9 +100,6 @@ for result in results:
 # YOLOv8m: 25.9M参数, 50.2 mAP
 # YOLOv8l: 43.7M参数, 52.9 mAP
 # YOLOv8x: 68.2M参数, 53.9 mAP, 最精确</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 图像分割方法对比 ========== -->
@@ -415,9 +190,6 @@ class VisionTransformer(nn.Module):
 model = VisionTransformer(img_size=224, patch_size=16, n_classes=1000)
 print(f"ViT-B/16参数量: {sum(p.numel() for p in model.parameters()):,}")</code></pre>
       </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
-      </div>
 
       <p><strong>ViT vs CNN对比：</strong></p>
       <table class="feature-table">
@@ -486,7 +258,6 @@ print(f"ViT-B/16参数量: {sum(p.numel() for p in model.parameters()):,}")</cod
     });
   });
   </script>
-
 
 </body>
 </html>

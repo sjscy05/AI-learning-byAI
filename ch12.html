@@ -41,189 +41,10 @@
 <body>
 
 <!-- Progress bar -->
-<div id="progress-bar"></div>
 
 <!-- Navbar -->
-<nav class="navbar">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-    <a href="index.html" class="flex items-center space-x-2">
-      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
-    </a>
-    <div class="hidden md:flex items-center space-x-1" id="nav-links">
-      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
-      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    </div>
-    <div class="flex items-center space-x-2">
-      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
-        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </svg>
-      </button>
-      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-</nav>
 
 <!-- Mobile overlay -->
-<div class="mobile-overlay" id="mobile-overlay"></div>
-<div class="mobile-drawer" id="mobile-drawer">
-  <div class="flex items-center justify-between mb-6">
-    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
-    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
-      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </button>
-  </div>
-  <nav class="space-y-1" id="mobile-nav">
-    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
-    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
-    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
-    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
-    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
-    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
-    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
-    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
-    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
-    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
-    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
-    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🚀 AI未来</a>
-  </nav>
-</div>
-
-<!-- Sidebar -->
-<aside class="sidebar" id="sidebar">
-  <div class="mb-4 px-3">
-    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
-  </div>
-  <nav class="space-y-0.5" id="sidebar-nav">
-    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
-    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
-    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
-    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
-    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
-    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
-    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
-    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
-    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
-    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
-    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
-    <a href="ch12.html" class="sidebar-link active" data-section="future">🚀 AI未来</a>
-  </nav>
-  <div class="mt-8 px-3">
-    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
-  </div>
-</aside>
-
-<!-- Main content -->
-<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
-  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
-    <section class="chapter-card prose">
-
-      <h2 style="margin-top:0;">🚀 第十二章：大模型与AI未来</h2>
-
-      <h3>从专才到通才 —— 通用人工智能之路</h3>
-      <p>过去的AI是"专才"：下棋的只会下棋，翻译的只会翻译。现在的GPT-4能写代码、画画、翻译、推理，越来越像"通才"。</p>
-      <p><strong>AGI（通用人工智能）</strong>：像人类一样，能处理任何智力任务的AI。这是AI研究的终极目标。</p>
-
-      <!-- ========== Scaling Law ========== -->
-      <h3>大模型的Scaling Law —— 规模定律</h3>
-      <p><strong>核心发现：</strong>大语言模型的性能（损失）与三个因素呈幂律关系：</p>
-
-      <div class="math-display" id="math-scaling-law"></div>
-      <p>其中 $N$ 是模型参数量，$D$ 是训练数据量，$C$ 是计算量。三者中任何一个不足，都会成为性能瓶颈。</p>
-
-      <p><strong>Chinchilla定律（2022）：</strong></p>
-      <blockquote>
-        <strong>关键结论：</strong>对于给定的计算预算，模型参数量和训练数据量应该等比例增长。最优配比约为：每个参数对应20个训练token。
-      </blockquote>
-
-      <table class="feature-table">
-        <thead>
-          <tr><th>模型</th><th>参数量</th><th>训练数据</th><th>计算量</th><th>是否遵循Chinchilla</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>GPT-3</td><td>1750亿</td><td>3000亿token</td><td>3640 PF天</td><td>否（数据不足）</td></tr>
-          <tr><td>Chinchilla</td><td>700亿</td><td>1.4万亿token</td><td>~5760 PF天</td><td>是</td></tr>
-          <tr><td>LLaMA-2</td><td>700亿</td><td>2万亿token</td><td>~1720 PF天</td><td>是</td></tr>
-        </tbody>
-      </table>
-      <p><strong>启示：</strong>与其盲目增大模型，不如用更小的模型+更多的数据，效果可能更好且推理更快。</p>
-
-      <!-- ========== 涌现能力 ========== -->
-      <h3>涌现能力 —— 量变引起质变</h3>
-      <p><strong>现象：</strong>当模型规模达到某个阈值时，突然"涌现"出训练时未明确教过的能力。</p>
-
-      <div style="background:var(--code-bg); padding:1rem; border-radius:8px; margin:1rem 0;">
-        <p><strong>涌现能力的例子：</strong></p>
-        <ul>
-          <li><strong>少样本学习（In-context Learning）：</strong>GPT-3在few-shot设置下能完成新任务，无需微调</li>
-          <li><strong>思维链推理（Chain-of-Thought）：</strong>大模型能分步推理解决数学问题</li>
-          <li><strong>代码生成：</strong>GPT-4能根据自然语言描述生成可运行的代码</li>
-          <li><strong>多语言理解：</strong>在未见过的语言对上进行翻译</li>
-        </ul>
-      </div>
-
-      <p><strong>涌现能力的特征：</strong></p>
-      <ul>
-        <li>在小模型上完全不存在，大模型上突然出现</li>
-        <li>无法通过小模型的表现来预测</li>
-        <li>通常在模型参数量达到数十亿到数千亿时出现</li>
-      </ul>
-
-      <!-- ========== 多模态融合 ========== -->
-      <h3>多模态融合 —— 打通视觉、语言和声音</h3>
-      <p><strong>目标：</strong>让AI同时理解和生成文本、图像、音频、视频等多种模态的信息。</p>
-
-      <table class="feature-table">
-        <thead>
-          <tr><th>模态</th><th>输入</th><th>输出</th><th>典型应用</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>文本</td><td>自然语言</td><td>自然语言</td><td>ChatGPT、Claude</td></tr>
-          <tr><td>视觉</td><td>图像/视频</td><td>图像/描述</td><td>DALL-E、Midjourney</td></tr>
-          <tr><td>音频</td><td>语音</td><td>语音/文本</td><td>Whisper、GPT-4o</td></tr>
-          <tr><td>多模态</td><td>混合输入</td><td>混合输出</td><td>GPT-4V、Gemini</td></tr>
-        </tbody>
-      </table>
-
-      <p><strong>多模态融合的三种方式：</strong></p>
-      <ol>
-        <li><strong>早期融合</strong>：将不同模态的特征直接拼接，一起输入模型</li>
-        <li><strong>晚期融合</strong>：各模态独立编码，最后在高层融合</li>
-        <li><strong>交叉注意力融合</strong>：不同模态通过注意力机制交互（如Flamingo）</li>
-      </ol>
-
-      <!-- ========== AI Agent ========== -->
-      <h3>AI Agent —— 自主决策的AI代理</h3>
-      <p><strong>定义：</strong>AI Agent是能够自主感知环境、制定计划、执行行动并从反馈中学习的智能系统。</p>
-
-      <p><strong>Agent的核心架构：</strong></p>
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; margin:1rem 0;">
-        <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; border-left:4px solid var(--primary);">
-          <div style="font-weight:600;">感知</div>
-          <div style="font-size:0.8rem; color:#6b7280;">接收文本、图像、API返回等信息</div>
-        </div>
-        <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; border-left:4px solid #10b981;">
-          <div style="font-weight:600;">规划</div>
-          <div style="font-size:0.8rem; color:#6b7280;">分解任务、制定执行步骤</div>
-        </div>
-        <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; border-left:4px solid #f59e0b;">
-          <div style="font-weight:600;">行动</div>
-          <div style="font-size:0.8rem; color:#6b7280;">调用工具、执行代码、与环境交互</div>
-        </div>
-      </div>
 
       <p><strong>Agent的关键组件：</strong></p>
       <ul>
@@ -280,9 +101,6 @@ tools = {
     "calculator": CalculatorTool(),
     "code_executor": CodeExecutorTool(),
 }</code></pre>
-      </div>
-      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
-        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
       </div>
 
       <!-- ========== 具身智能 ========== -->
@@ -429,7 +247,6 @@ tools = {
     });
   });
   </script>
-
 
 </body>
 </html>
