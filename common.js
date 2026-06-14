@@ -155,20 +155,31 @@ function showRandomQuote() {
 
 // ========== Pyodide Integration ==========
 let pyodideInstance = null;
+let pyodideLoading = false;
 
 async function initPyodide() {
   if (pyodideInstance) return pyodideInstance;
-  if (typeof loadPyodide === 'undefined') {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js';
-    document.head.appendChild(script);
-    await new Promise((resolve, reject) => {
-      script.onload = resolve;
-      script.onerror = reject;
-    });
+  if (pyodideLoading) {
+    await new Promise(r => { const check = () => { if (pyodideInstance) r(); else setTimeout(check, 200); }; check(); });
+    return pyodideInstance;
   }
-  pyodideInstance = await loadPyodide();
-  return pyodideInstance;
+  pyodideLoading = true;
+  try {
+    if (typeof loadPyodide === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/pyodide/v0.25.4/full/pyodide.js';
+      document.head.appendChild(script);
+      await new Promise((resolve, reject) => {
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('无法加载Pyodide运行时，请检查网络连接'));
+      });
+    }
+    pyodideInstance = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.4/full/' });
+    return pyodideInstance;
+  } catch (err) {
+    pyodideLoading = false;
+    throw err;
+  }
 }
 
 async function runCode(btn) {
@@ -178,7 +189,10 @@ async function runCode(btn) {
   const codeEl = codeBlock.querySelector('code') || codeBlock.querySelector('pre');
   if (!codeEl) return;
 
-  const pythonCode = codeEl.textContent;
+  let pythonCode = codeEl.textContent;
+
+  // Remove trailing comments that are just expected output
+  pythonCode = pythonCode.replace(/\n# 输出:.*$/m, '');
 
   let outputDiv = btn.parentElement.nextElementSibling;
   if (!outputDiv || !outputDiv.classList.contains('pyodide-output')) {
@@ -188,20 +202,36 @@ async function runCode(btn) {
   }
 
   btn.disabled = true;
-  btn.textContent = '运行中...';
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;vertical-align:middle"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle></svg> 加载运行环境...';
   outputDiv.textContent = '';
+  outputDiv.style.display = 'block';
 
   try {
     const pyodide = await initPyodide();
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;vertical-align:middle"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle></svg> 运行中...';
 
-    pyodide.setStdout({ batched: (text) => { outputDiv.textContent += text; } });
-    pyodide.setStderr({ batched: (text) => { outputDiv.textContent += text; } });
+    let stdout = '';
+    let stderr = '';
+    pyodide.setStdout({ batched: (text) => { stdout += text; } });
+    pyodide.setStderr({ batched: (text) => { stderr += text; } });
 
     await pyodide.runPythonAsync(pythonCode);
+
+    let output = '';
+    if (stdout) output += stdout;
+    if (stderr) output += (output ? '\n' : '') + stderr;
+    outputDiv.textContent = output || '(无输出)';
+    outputDiv.style.color = '';
   } catch (err) {
-    outputDiv.textContent = '错误: ' + err.message;
+    let msg = err.message || String(err);
+    // Clean up Pyodide error messages
+    msg = msg.replace(/File "<exec>",/g, '第');
+    msg = msg.replace(/Traceback \(most recent call last\):\n\s*File "<exec>", line \d+, in <module>\n/g, '');
+    outputDiv.textContent = '❌ 运行错误: ' + msg;
+    outputDiv.style.color = '#ef4444';
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行';
+    btn.innerHTML = originalHTML;
   }
 }
