@@ -39,6 +39,10 @@
   </script>
 </head>
 <body>
+<main class="main-content" style="margin-left:0; padding-top:2rem; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
 <p><strong>策略 $\pi(a|s)$：</strong>在状态 $s$ 下选择动作 $a$ 的概率分布。强化学习的目标是找到最优策略 $\pi^*$，使得累积折扣奖励最大化。</p>
 
       <!-- ========== 贝尔曼方程 ========== -->
@@ -137,247 +141,25 @@ class QLearningAgent:
 # print(f"平均奖励: {np.mean(rewards[-100:]):.2f}")</code></pre>
       </div>
 
-      <!-- ========== DQN ========== -->
-      <h3>DQN —— 深度Q网络</h3>
-      <p><strong>问题：</strong>当状态空间很大（如Atari游戏的画面有 $210 \times 160 \times 3$ 种可能状态）时，Q表无法存储所有状态。</p>
-      <p><strong>解决方案：</strong>用神经网络来近似Q函数：$Q(s,a;\theta) \approx Q^*(s,a)$。</p>
+      
 
-      <p><strong>DQN的两大创新：</strong></p>
-      <table class="feature-table">
-        <thead>
-          <tr><th>创新</th><th>原理</th><th>为什么需要</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>经验回放</strong></td><td>将经验 $(s,a,r,s',d)$ 存入缓冲区，随机采样训练</td><td>打破样本相关性，提高数据效率</td></tr>
-          <tr><td><strong>目标网络</strong></td><td>使用单独的目标网络计算目标Q值，定期更新</td><td>稳定训练，避免振荡</td></tr>
-        </tbody>
-      </table>
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
 
-      <p><strong>DQN损失函数：</strong></p>
-      <div class="math-display" id="math-dqn-loss"></div>
-      <p>其中 $\theta$ 是在线网络参数，$\theta^-$ 是目标网络参数，$D$ 是经验回放缓冲区。</p>
-
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">复制</button>
-        <pre><code class="language-python">import torch
-import torch.nn as nn
-import numpy as np
-from collections import deque
-import random
-
-class DQN(nn.Module):
-    """DQN网络：输入状态，输出每个动作的Q值"""
-    def __init__(self, state_dim, action_dim):
-        super().__init__()
-        self.network = nn.Sequential(
-            nn.Linear(state_dim, 128),
-            nn.ReLU(),
-            nn.Linear(128, 128),
-            nn.ReLU(),
-            nn.Linear(128, action_dim)
-        )
-
-    def forward(self, x):
-        return self.network(x)
-
-class DQNAgent:
-    def __init__(self, state_dim, action_dim, lr=1e-3, gamma=0.99,
-                 epsilon=1.0, epsilon_min=0.01, buffer_size=10000, batch_size=64):
-        self.action_dim = action_dim
-        self.gamma = gamma
-        self.epsilon = epsilon
-        self.epsilon_min = epsilon_min
-        self.batch_size = batch_size
-
-        # 在线网络和目标网络
-        self.q_net = DQN(state_dim, action_dim)
-        self.target_net = DQN(state_dim, action_dim)
-        self.target_net.load_state_dict(self.q_net.state_dict())
-
-        self.optimizer = torch.optim.Adam(self.q_net.parameters(), lr=lr)
-        self.loss_fn = nn.MSELoss()
-
-        # 经验回放缓冲区
-        self.replay_buffer = deque(maxlen=buffer_size)
-
-    def choose_action(self, state):
-        if random.random() < self.epsilon:
-            return random.randint(0, self.action_dim - 1)
-        with torch.no_grad():
-            state_t = torch.FloatTensor(state).unsqueeze(0)
-            q_values = self.q_net(state_t)
-            return q_values.argmax(dim=1).item()
-
-    def store(self, state, action, reward, next_state, done):
-        self.replay_buffer.append((state, action, reward, next_state, done))
-
-    def train_step(self):
-        if len(self.replay_buffer) < self.batch_size:
-            return
-
-        # 从缓冲区随机采样
-        batch = random.sample(self.replay_buffer, self.batch_size)
-        states, actions, rewards, next_states, dones = zip(*batch)
-
-        states = torch.FloatTensor(np.array(states))
-        actions = torch.LongTensor(actions).unsqueeze(1)
-        rewards = torch.FloatTensor(rewards)
-        next_states = torch.FloatTensor(np.array(next_states))
-        dones = torch.FloatTensor(dones)
-
-        # 计算当前Q值
-        q_values = self.q_net(states).gather(1, actions).squeeze()
-
-        # 计算目标Q值（使用目标网络）
-        with torch.no_grad():
-            next_q_values = self.target_net(next_states).max(dim=1)[0]
-            targets = rewards + self.gamma * next_q_values * (1 - dones)
-
-        # 更新在线网络
-        loss = self.loss_fn(q_values, targets)
-        self.optimizer.zero_grad()
-        loss.backward()
-        self.optimizer.step()
-
-        return loss.item()
-
-    def update_target(self):
-        """定期将在线网络参数复制到目标网络"""
-        self.target_net.load_state_dict(self.q_net.state_dict())
-
-# DQN伪代码流程
-"""
-for episode in range(num_episodes):
-    state = env.reset()
-    done = False
-    while not done:
-        action = agent.choose_action(state)
-        next_state, reward, done = env.step(action)
-        agent.store(state, action, reward, next_state, done)
-        agent.train_step()
-        state = next_state
-    agent.update_target()  # 每隔N步更新目标网络
-    agent.epsilon = max(agent.epsilon_min, agent.epsilon * 0.995)
-"""</code></pre>
-      </div>
-
-      <!-- ========== 策略梯度 ========== -->
-      <h3>策略梯度方法 —— 直接优化策略</h3>
-      <p><strong>Q-Learning的问题：</strong>它学习的是价值函数，然后间接得到策略。策略梯度方法直接优化策略 $\pi_\theta(a|s)$，参数化为神经网络。</p>
-
-      <p><strong>策略梯度定理：</strong></p>
-      <div class="math-display" id="math-policy-gradient"></div>
-      <p>直觉理解：如果采取某个动作使回报增加，就增大这个动作的概率；反之减小。</p>
-
-      <p><strong>REINFORCE算法：</strong></p>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">复制</button>
-        <pre><code class="language-python">import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
-class PolicyNetwork(nn.Module):
-    def __init__(self, state_dim, action_dim):
-        super().__init__()
-        self.network = nn.Sequential(
-            nn.Linear(state_dim, 128),
-            nn.ReLU(),
-            nn.Linear(128, action_dim),
-            nn.Softmax(dim=-1)
-        )
-
-    def forward(self, x):
-        return self.network(x)
-
-def REINFORCE(env, policy, lr=1e-3, gamma=0.99):
-    optimizer = torch.optim.Adam(policy.parameters(), lr=lr)
-
-    for episode in range(1000):
-        state = env.reset()
-        log_probs = []
-        rewards = []
-
-        # 收集轨迹
-        done = False
-        while not done:
-            state_t = torch.FloatTensor(state).unsqueeze(0)
-            probs = policy(state_t)
-            action_dist = torch.distributions.Categorical(probs)
-            action = action_dist.sample()
-
-            log_probs.append(action_dist.log_prob(action))
-            state, reward, done = env.step(action.item())
-            rewards.append(reward)
-
-        # 计算折扣回报
-        returns = []
-        G = 0
-        for r in reversed(rewards):
-            G = r + gamma * G
-            returns.insert(0, G)
-        returns = torch.FloatTensor(returns)
-        returns = (returns - returns.mean()) / (returns.std() + 1e-8)
-
-        # 策略梯度更新
-        loss = 0
-        for log_prob, G in zip(log_probs, returns):
-            loss -= log_prob * G
-
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()</code></pre>
-      </div>
-
-      <p><strong>策略梯度 vs 值函数方法对比：</strong></p>
-      <table class="feature-table">
-        <thead>
-          <tr><th>特性</th><th>值函数方法（Q-Learning/DQN）</th><th>策略梯度方法</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>优化目标</td><td>学习价值函数Q(s,a)</td><td>直接优化策略π(a|s)</td></tr>
-          <tr><td>动作空间</td><td>离散动作</td><td>连续/离散动作</td></tr>
-          <tr><td>收敛性</td><td>可能不稳定</td><td>更稳定但方差大</td></tr>
-          <tr><td>探索</td><td>ε-贪心</td><td>策略本身提供随机性</td></tr>
-        </tbody>
-      </table>
-
-      <h3>强化学习的应用</h3>
-      <ul>
-        <li><strong>AlphaGo</strong>：击败围棋世界冠军，结合策略梯度和蒙特卡洛树搜索</li>
-        <li><strong>游戏AI</strong>：Atari游戏、星际争霸、Dota2</li>
-        <li><strong>机器人控制</strong>：学习走路、抓取物体</li>
-        <li><strong>自动驾驶</strong>：学习驾驶策略</li>
-        <li><strong>推荐系统</strong>：根据用户反馈优化推荐</li>
-        <li><strong>ChatGPT</strong>：使用RLHF（基于人类反馈的强化学习）对齐</li>
-      </ul>
-
-      <h3>练习题</h3>
-      <p><strong>练习1：</strong>实现一个Q-Learning智能体，在GridWorld环境中找到从起点到终点的最短路径。</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Q-Learning的核心是Q表更新公式：Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',a') - Q(s,a)]。关键是理解exploration vs exploitation的平衡——ε-greedy策略如何在探索新路径和利用已知最优之间权衡。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-      <p><strong>练习2：</strong>解释贝尔曼方程中折扣因子 $\gamma$ 的作用。$\gamma=0$ 和 $\gamma=1$ 分别代表什么行为模式？</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> γ控制"未来奖励"在当前决策中的权重。γ=0时智能体只关心即时奖励（短视），γ→1时智能体考虑所有未来奖励（远视）。在连续任务中，γ<1也保证了无穷级数的收敛。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-      <p><strong>练习3：</strong>比较Q-Learning和DQN的优缺点。在什么场景下DQN比Q-Learning更好？</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Q-Learning用表格存储Q值，状态空间一大就会遭遇"维度灾难"。DQN用神经网络近似Q函数，能处理连续/高维状态空间。但DQN训练不稳定，需要experience replay和target network等技巧。想想CartPole的状态（角度、角速度等）用表格怎么存？</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-      <p><strong>练习4：</strong>实现一个简单的DQN，在CartPole-v1环境中训练智能体保持平衡。</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> DQN的关键组件：经验回放缓冲区（打破数据相关性）、目标网络（稳定训练）、ε-greedy探索。注意CartPole的奖励设计：每存活一步+1，目标是让总奖励最大化。训练时观察loss曲线和reward曲线的变化趋势。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-
-
-<div class="chapter-nav">  <a href="ch7.html"><span class="nav-label">← 上一章</span><span class="nav-title">📊 无监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch9.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">📝 NLP进阶</span></a></div>
     </section>
   </div>
 </main>
+
+    
+  </div>
+
+
+<div class="chapter-nav">  <a href="ch7.html"><span class="nav-label">← 上一章</span><span class="nav-title">📊 无监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch9.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">📝 NLP进阶</span></a></div>
+    
+  </div>
+
 
 <!-- Footer -->
 <div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">

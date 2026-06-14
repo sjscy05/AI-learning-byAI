@@ -39,6 +39,10 @@
   </script>
 </head>
 <body>
+<main class="main-content" style="margin-left:0; padding-top:2rem; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
 <p><strong>Agent的关键组件：</strong></p>
       <ul>
         <li><strong>大语言模型（LLM）</strong>：作为"大脑"，负责推理和决策</li>
@@ -96,138 +100,25 @@ tools = {
 }</code></pre>
       </div>
 
-      <!-- ========== 具身智能 ========== -->
-      <h3>具身智能 —— AI进入物理世界</h3>
-      <p><strong>目标：</strong>让AI不仅能思考，还能在物理世界中行动（机器人、自动驾驶等）。</p>
+      
 
-      <p><strong>具身智能的关键技术：</strong></p>
-      <ul>
-        <li><strong>感知</strong>：视觉SLAM、深度估计、3D重建</li>
-        <li><strong>控制</strong>：运动规划、力控制、柔顺控制</li>
-        <li><strong>仿真</strong>：数字孪生、Sim-to-Real迁移</li>
-        <li><strong>学习</strong>：强化学习、模仿学习</li>
-      </ul>
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
 
-      <p><strong>代表性进展：</strong></p>
-      <table class="feature-table">
-        <thead>
-          <tr><th>项目</th><th>机构</th><th>特点</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Figure 01</td><td>Figure AI</td><td>人形机器人，与OpenAI合作</td></tr>
-          <tr><td>Optimus</td><td>Tesla</td><td>通用人形机器人</td></tr>
-          <tr><td>RT-2</td><td>Google DeepMind</td><td>视觉-语言-动作模型</td></tr>
-          <tr><td>灵宝机器人</td><td>中国多家公司</td><td>协作机器人、服务机器人</td></tr>
-        </tbody>
-      </table>
-
-      <!-- ========== 学习路线图 ========== -->
-      <h3>AI学习路线图 —— 从入门到高级</h3>
-      <div style="background:var(--code-bg); padding:1.5rem; border-radius:8px; margin:1rem 0;">
-        <p style="font-weight:600; margin-bottom:0.75rem; color:var(--primary);">📍 第一阶段：入门基础（1-3个月）</p>
-        <ul style="margin-bottom:1rem;">
-          <li>Python编程基础（语法、NumPy、Pandas）</li>
-          <li>机器学习基本概念（监督/无监督/强化学习）</li>
-          <li>线性回归、逻辑回归、决策树</li>
-          <li>完成一个简单项目（如房价预测、鸢尾花分类）</li>
-          <li>推荐资源：Andrew Ng的Machine Learning课程</li>
-        </ul>
-
-        <p style="font-weight:600; margin-bottom:0.75rem; color:var(--primary);">📍 第二阶段：进阶提升（3-6个月）</p>
-        <ul style="margin-bottom:1rem;">
-          <li>深度学习基础（CNN、RNN、Transformer）</li>
-          <li>PyTorch或TensorFlow框架</li>
-          <li>计算机视觉（图像分类、目标检测）</li>
-          <li>自然语言处理（文本分类、序列建模）</li>
-          <li>完成一个完整项目（如图像分类系统）</li>
-          <li>推荐资源：d2l.ai（动手学深度学习）</li>
-        </ul>
-
-        <p style="font-weight:600; margin-bottom:0.75rem; color:var(--primary);">📍 第三阶段：高级研究（6个月+）</p>
-        <ul>
-          <li>阅读经典论文（Attention Is All You Need等）</li>
-          <li>大模型微调（LoRA、QLoRA、PEFT）</li>
-          <li>AI Agent和多模态模型</li>
-          <li>选择专业方向深入（NLP/CV/RL/Agent）</li>
-          <li>参与开源项目、发表论文</li>
-          <li>推荐资源：Hugging Face、Kaggle竞赛</li>
-        </ul>
-      </div>
-
-      <h3>大模型的关键技术</h3>
-      <table class="feature-table">
-        <thead>
-          <tr><th>技术</th><th>说明</th><th>代表</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Transformer</td><td>注意力机制架构</td><td>GPT、BERT</td></tr>
-          <tr><td>预训练+微调</td><td>先通用学习，再任务适配</td><td>GPT-3/4</td></tr>
-          <tr><td>RLHF</td><td>人类反馈强化学习</td><td>ChatGPT</td></tr>
-          <tr><td>多模态</td><td>文本+图像+音频</td><td>GPT-4V、Gemini</td></tr>
-          <tr><td>Agent</td><td>自主决策的AI代理</td><td>AutoGPT、Claude Agent</td></tr>
-          <tr><td>RAG</td><td>检索增强生成</td><td>知识问答系统</td></tr>
-          <tr><td>MoE</td><td>混合专家模型</td><td>Mixtral、GPT-4（推测）</td></tr>
-        </tbody>
-      </table>
-
-      <h3>推荐学习资源</h3>
-      <table class="feature-table">
-        <thead>
-          <tr><th>类型</th><th>资源</th><th>特点</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>📚 书籍</td><td>《动手学深度学习》(d2l.ai)</td><td>理论+代码，免费在线</td></tr>
-          <tr><td>📚 书籍</td><td>《Deep Learning》by Goodfellow</td><td>理论全面，适合进阶</td></tr>
-          <tr><td>🎓 课程</td><td>Andrew Ng - Machine Learning</td><td>入门首选，Coursera</td></tr>
-          <tr><td>🎓 课程</td><td>fast.ai</td><td>实战导向，免费</td></tr>
-          <tr><td>💻 平台</td><td>Kaggle</td><td>数据科学竞赛，练手</td></tr>
-          <tr><td>💻 平台</td><td>Hugging Face</td><td>模型库，NLP实战</td></tr>
-          <tr><td>📄 论文</td><td>"Attention Is All You Need"</td><td>必读，Transformer基础</td></tr>
-        </tbody>
-      </table>
-
-      <h3>AI的未来展望</h3>
-      <ul>
-        <li><strong>多模态AI</strong>：能看、能听、能说的全能助手</li>
-        <li><strong>具身智能</strong>：AI进入机器人，改变物理世界</li>
-        <li><strong>AI Agent</strong>：自主完成复杂任务的AI代理</li>
-        <li><strong>科学发现</strong>：AI辅助药物研发、材料发现、数学证明</li>
-        <li><strong>个性化AI</strong>：每个人都有专属AI助手</li>
-        <li><strong>AI安全</strong>：确保AI系统安全、可靠、可控</li>
-      </ul>
-
-      <div style="background:linear-gradient(135deg, rgba(59,73,223,0.1), rgba(99,102,241,0.1)); padding:1.5rem; border-radius:8px; margin-top:1.5rem; text-align:center;">
-        <p style="font-size:1.1rem; font-weight:600; color:var(--primary); margin-bottom:0.5rem;">恭喜你完成了AI入门之旅！</p>
-        <p style="color:#6b7280; margin-bottom:0;">这只是开始，AI的世界无限广阔。保持好奇心，持续学习，你就是未来的AI创造者！</p>
-      </div>
-
-      <h3>练习题</h3>
-      <p><strong>练习1：</strong>根据Chinchilla定律，如果计算预算固定为100 PF天，最优的模型参数量和训练数据量分别是多少？</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Chinchilla定律的核心结论是：最优情况下，模型参数量和训练数据量应该同比例增长。经验法则是每个参数对应约20个训练token。但这是"计算最优"——实际中还需考虑推理成本、部署限制等因素。大模型往往是"过度训练"的。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-      <p><strong>练习2：</strong>调研一个AI Agent框架（如LangChain、AutoGPT），分析其架构中的感知-规划-行动循环。</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Agent的核心循环：感知（获取环境信息/用户输入）→ 规划（LLM推理分解任务）→ 行动（调用工具执行）→ 观察（获取执行结果）→ 反思（评估是否完成）。注意"规划"的实现方式——是单步推理还是ReAct式交替推理和行动。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-      <p><strong>练习3：</strong>设计一个多模态应用：输入一张图片和一个问题，输出回答。描述其技术架构。</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 典型架构：视觉编码器（如ViT）提取图像特征 → 投影层将视觉特征映射到语言空间 → LLM接收融合后的特征进行推理。关键设计选择：特征融合方式（早期融合vs晚期融合）、是否使用预训练模型、如何处理高分辨率图像。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-      <p><strong>练习4：</strong>根据学习路线图，为自己制定一个3个月的AI学习计划，包括每周的学习目标和项目实践。</p>
-      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
-        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 建议按"基础→进阶→实战"三阶段规划：第1月打牢Python/数学/ML基础；第2月深入DL/CV/NLP；第3月做完整项目。每周设定可衡量的目标（如"实现X模型，准确率达到Y%"），实践项目要贯穿始终，不要只学理论。</p>
-      </div>
-      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-
-
-<div class="chapter-nav">  <a href="ch11.html"><span class="nav-label">← 上一章</span><span class="nav-title">⚖️ AI伦理</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="index.html" class="nav-next"><span class="nav-label">返回目录 →</span><span class="nav-title">📚</span></a></div>
     </section>
   </div>
 </main>
+
+    
+  </div>
+
+
+<div class="chapter-nav">  <a href="ch11.html"><span class="nav-label">← 上一章</span><span class="nav-title">⚖️ AI伦理</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="index.html" class="nav-next"><span class="nav-label">返回目录 →</span><span class="nav-title">📚</span></a></div>
+    
+  </div>
+
 
 <!-- Footer -->
 <div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
