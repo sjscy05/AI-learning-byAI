@@ -360,9 +360,25 @@ def REINFORCE(env, policy, lr=1e-3, gamma=0.99):
 
       <h3>练习题</h3>
       <p><strong>练习1：</strong>实现一个Q-Learning智能体，在GridWorld环境中找到从起点到终点的最短路径。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Q-Learning的核心是Q表更新公式：Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',a') - Q(s,a)]。关键是理解exploration vs exploitation的平衡——ε-greedy策略如何在探索新路径和利用已知最优之间权衡。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习2：</strong>解释贝尔曼方程中折扣因子 $\gamma$ 的作用。$\gamma=0$ 和 $\gamma=1$ 分别代表什么行为模式？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> γ控制"未来奖励"在当前决策中的权重。γ=0时智能体只关心即时奖励（短视），γ→1时智能体考虑所有未来奖励（远视）。在连续任务中，γ<1也保证了无穷级数的收敛。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习3：</strong>比较Q-Learning和DQN的优缺点。在什么场景下DQN比Q-Learning更好？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Q-Learning用表格存储Q值，状态空间一大就会遭遇"维度灾难"。DQN用神经网络近似Q函数，能处理连续/高维状态空间。但DQN训练不稳定，需要experience replay和target network等技巧。想想CartPole的状态（角度、角速度等）用表格怎么存？</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习4：</strong>实现一个简单的DQN，在CartPole-v1环境中训练智能体保持平衡。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> DQN的关键组件：经验回放缓冲区（打破数据相关性）、目标网络（稳定训练）、ε-greedy探索。注意CartPole的奖励设计：每存活一步+1，目标是让总奖励最大化。训练时观察loss曲线和reward曲线的变化趋势。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
     
 
 <div class="chapter-nav">  <a href="ch7.html"><span class="nav-label">← 上一章</span><span class="nav-title">📊 无监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch9.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">📝 NLP进阶</span></a></div>

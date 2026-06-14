@@ -220,9 +220,25 @@ print(f"ViT-B/16参数量: {sum(p.numel() for p in model.parameters()):,}")</cod
 
       <h3>练习题</h3>
       <p><strong>练习1：</strong>实现一个简单的GAN，在MNIST数据集上生成手写数字。观察训练过程中生成图像的变化。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> GAN的训练是一个博弈过程：生成器试图"骗过"判别器，判别器试图区分真假。注意训练平衡——如果判别器太强，生成器梯度消失；如果太弱，生成器学不到有意义的东西。建议先从简单架构开始，观察loss曲线的波动。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习2：</strong>解释GAN训练中的模式崩塌（mode collapse）问题。提出至少两种缓解方法。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 模式崩塌是指生成器只学会生成少数几种样本（"偷懒"），而忽略数据的多样性。常用缓解方法：1）mini-batch discrimination让判别器看到一批样本而非单个；2）unrolled GAN让生成器考虑判别器的未来更新；3）使用WGAN等替代损失函数。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习3：</strong>使用YOLOv8在自定义数据集上训练目标检测模型，评估mAP指标。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> YOLO的核心思想是将检测转化为回归问题——一次性预测所有边界框和类别。mAP（mean Average Precision）综合考虑了检测的准确率和召回率。数据标注质量对结果影响很大，注意检查标注格式是否符合YOLO要求。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习4：</strong>比较CNN和ViT在小数据集（如CIFAR-10）和大数据集（如ImageNet-21k）上的表现差异。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> CNN有归纳偏置（局部性、平移不变性），在小数据集上泛化更好；ViT几乎没有视觉先验，需要大量数据才能学到类似的空间关系。但在超大数据集上，ViT的全局注意力机制能捕获CNN难以学到的长距离依赖。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
     
 
 <div class="chapter-nav">  <a href="ch9.html"><span class="nav-label">← 上一章</span><span class="nav-title">📝 NLP进阶</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch11.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">⚖️ AI伦理</span></a></div>

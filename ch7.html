@@ -422,9 +422,25 @@ if len(set(db_labels[mask])) > 1:
 
       <h3>练习题</h3>
       <p><strong>练习1：</strong>使用肘部法则确定最优K值。在Iris数据集上运行K-Means，绘制WCSS随K变化的曲线，找到最优K值。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> K-Means假设簇是凸形且各向同性的。肘部法则的核心是观察WCSS下降速率的"拐点"——当K增加不再带来显著改善时，就接近最优值。思考：如果数据的真实簇形状不规则，K-Means还适用吗？</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习2：</strong>比较K-Means和DBSCAN在以下数据集上的表现：(a) 球形簇 (b) 月牙形簇 (c) 环形簇。分析各自的优缺点。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> K-Means基于距离度量，倾向于发现球形簇；DBSCAN基于密度连通性，能发现任意形状的簇。考虑两种算法的核心假设：K-Means假设簇中心存在且大小相近，DBSCAN假设簇的密度均匀且有明确边界。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习3：</strong>手动实现PCA（不使用sklearn），在2D数据上验证结果。将数据投影到方差最大的方向，可视化投影前后的数据。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> PCA的关键步骤：中心化数据 → 计算协方差矩阵 → 特征值分解 → 选取最大特征值对应的特征向量作为投影方向。想想为什么投影方向就是方差最大的方向——这与特征向量的几何意义有关。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习4：</strong>在客户分群场景中，使用轮廓系数和CH指数选择最优的聚类算法和参数。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 轮廓系数衡量簇内紧密度和簇间分离度的平衡（范围[-1,1]，越大越好）；CH指数衡量簇间距离与簇内方差的比值（越大越好）。注意：两者对不同簇形状的偏好不同，实际中应结合业务理解综合判断。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
     
 
 <div class="chapter-nav">  <a href="ch6.html"><span class="nav-label">← 上一章</span><span class="nav-title">💬 Transformer</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch8.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🎮 强化学习</span></a></div>

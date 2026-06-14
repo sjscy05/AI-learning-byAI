@@ -271,11 +271,36 @@ explanation.show_in_notebook()</code></pre>
 
       <h3>思考题</h3>
       <ol>
-        <li>如果AI法官判案，你会信任它的判决吗？如何定义"公平"的AI法官？</li>
-        <li>自动驾驶汽车在紧急情况下应该保护乘客还是行人？不同文化背景下答案会不同吗？</li>
-        <li>AI生成的艺术作品算"创作"吗？版权应该归谁？</li>
-        <li>差分隐私的隐私预算 $\varepsilon$ 应该由谁来设定？用户、企业还是政府？</li>
-        <li>联邦学习真的能完全保护隐私吗？可能存在哪些攻击方式？</li>
+        <li>如果AI法官判案，你会信任它的判决吗？如何定义"公平"的AI法官？
+          <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+            <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 思考"公平"的多重定义：统计公平（不同群体判决率相同）、个体公平（相似案件相似判决）、程序公平（决策过程可解释）。不同公平定义之间可能存在数学上的不可兼得。AI法官的优势是一致性，但缺乏人类的同理法和情境判断。</p>
+          </div>
+          <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+        </li>
+        <li>自动驾驶汽车在紧急情况下应该保护乘客还是行人？不同文化背景下答案会不同吗？
+          <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+            <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 这是经典的"电车问题"变体。功利主义倾向于最小化总伤害，义务论可能强调不能主动选择牺牲谁。不同文化确实有不同偏好——集体主义文化可能更接受牺牲少数保护多数，个人主义文化可能更强调个体权利。现实中还需要考虑法律责任和用户接受度。</p>
+          </div>
+          <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+        </li>
+        <li>AI生成的艺术作品算"创作"吗？版权应该归谁？
+          <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+            <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 关键在于"创作"的定义——是否需要人类的创造性意图？如果AI只是工具（如Photoshop），版权可能归使用者；如果AI自主生成，版权归属就模糊了。还要考虑训练数据中原始作者的权益——AI是否在"学习"还是"复制"？</p>
+          </div>
+          <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+        </li>
+        <li>差分隐私的隐私预算 $\varepsilon$ 应该由谁来设定？用户、企业还是政府？
+          <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+            <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> ε越小隐私保护越强，但数据可用性越低——这是隐私与效用的权衡。用户设定可能缺乏技术理解，企业设定可能偏向数据利用，政府设定可能一刀切。现实中的做法通常是多方协商，结合具体场景（医疗vs广告）设定不同标准。</p>
+          </div>
+          <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+        </li>
+        <li>联邦学习真的能完全保护隐私吗？可能存在哪些攻击方式？
+          <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+            <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 联邦学习保护的是原始数据不离开本地，但梯度/模型更新仍可能泄露信息。攻击方式包括：1）梯度反演攻击（从梯度推断训练数据）；2）成员推断攻击（判断某条数据是否参与训练）；3）模型投毒攻击。通常需要结合差分隐私和安全聚合来增强保护。</p>
+          </div>
+          <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+        </li>
       </ol>
     
 

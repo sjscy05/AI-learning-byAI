@@ -336,9 +336,25 @@ for review in reviews:
 
       <h3>练习题</h3>
       <p><strong>练习1：</strong>训练一个Word2Vec模型（使用gensim），在中文语料上学习词向量，验证"国王-男人+女人≈女王"的语义关系。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Word2Vec通过上下文预测词（CBOW）或通过词预测上下文（Skip-gram）来学习词向量。语义关系验证利用了词向量空间的线性性质——向量运算能捕获语义关系。注意：中文需要先分词，语料量越大、语义关系越准确。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习2：</strong>解释Self-Attention中为什么要除以 $\sqrt{d_k}$。如果不除，会发生什么？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Q和K的点积结果的方差会随维度d_k增大而增大。如果不缩放，softmax会进入梯度极小的饱和区，导致训练困难。除以√d_k使点积的方差保持在合理范围，让softmax的输出更平滑。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习3：</strong>使用BERT对中文文本进行情感分类。比较BERT和传统机器学习方法（如TF-IDF+SVM）的效果差异。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> BERT通过预训练获得了深层语义理解能力，能处理一词多义、上下文依赖等TF-IDF无法捕获的语义。TF-IDF是词袋模型，忽略词序和语义。但BERT需要更多计算资源，且在小数据集上微调时要注意过拟合。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
       <p><strong>练习4：</strong>比较BERT和GPT的架构差异，分析为什么BERT更适合理解任务，GPT更适合生成任务。</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> BERT使用双向Transformer（能看到前后文），适合理解完整句子；GPT使用单向Transformer（只能看前文），天然适合逐词生成。BERT的预训练目标是"完形填空"（理解），GPT是"预测下一个词"（生成）。架构决定了各自的天然优势。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
     
 
 <div class="chapter-nav">  <a href="ch8.html"><span class="nav-label">← 上一章</span><span class="nav-title">🎮 强化学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch10.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">👁️ CV进阶</span></a></div>

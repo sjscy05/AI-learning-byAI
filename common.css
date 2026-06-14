@@ -395,3 +395,26 @@ body {
   color: #6b7280;
   line-height: 1.5;
 }
+
+.hint-toggle {
+  font-size: 0.8rem;
+  color: var(--primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+}
+.hint-toggle:hover {
+  color: #2d3ac7;
+}
+.exercise-hint {
+  display: none;
+  margin: 0.5rem 0 1rem 1rem;
+  padding: 1rem;
+  background: rgba(59,73,223,0.05);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
