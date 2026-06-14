@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>🧠 第4章：神经网络直观理解 - AI入门指南</title>
+  <title>🧠 第4章：神经网络 - AI入门指南</title>
   <link rel="stylesheet" href="common.css"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -14,36 +14,66 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: '#3b49df',
-            'primary-dark': '#6366f1',
-            surface: { light: '#fdfbf7', dark: '#0f0f23' },
-            card: { light: '#ffffff', dark: '#1a1a2e' },
-            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
-            heading: { light: '#0f0f23', dark: '#f8fafc' },
-            code: { light: '#f6f8fa', dark: '#1e293b' },
-          },
-          fontFamily: {
-            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
-          }
-        }
-      }
-    }
-  </script>
+  <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#3b49df' }, fontFamily: { serif: ['Georgia','serif'], sans: ['Inter','system-ui','sans-serif'], mono: ['"JetBrains Mono"','monospace'] } } } }</script>
 </head>
 <body>
 <main class="main-content" style="margin-left:0; padding-top:2rem; padding-bottom:4rem;">
   <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
     <section class="chapter-card prose">
+<h2 style="margin-top:0;">🧠 第四章：神经网络直观理解</h2>
 
-<!-- ========== 人工神经元的数学模型 ========== -->
+      <h3>多层水闸调节水流 —— 神经元的工作方式</h3>
+      <p>想象一条水渠系统：</p>
+      <ul>
+        <li>上游有多条支流（<strong>输入</strong>）</li>
+        <li>每个支流有一个水闸（<strong>权重</strong>），控制放水量</li>
+        <li>水流汇集到一个水池（<strong>求和</strong>）</li>
+        <li>水池有一个出水阀门（<strong>激活函数</strong>），决定是否放水、放多少</li>
+      </ul>
+      <p>这就是一个神经元的工作方式：</p>
+      <div class="math-display" id="math-neuron"></div>
+      <p>其中 f 是激活函数，决定这个神经元是否"激活"。</p>
+
+      <h3>CSS绘制的神经网络结构图</h3>
+      <div style="overflow-x:auto; padding:1rem 0;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:0; min-width:500px;">
+          <!-- Input layer -->
+          <div class="nn-layer">
+            <div class="nn-node">x₁</div>
+            <div class="nn-node">x₂</div>
+            <div class="nn-node">x₃</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">输入层</span>
+          </div>
+          <!-- Arrow 1 -->
+          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
+          <!-- Hidden layer 1 -->
+          <div class="nn-layer">
+            <div class="nn-node">h₁</div>
+            <div class="nn-node">h₂</div>
+            <div class="nn-node">h₃</div>
+            <div class="nn-node">h₄</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">隐藏层1</span>
+          </div>
+          <!-- Arrow 2 -->
+          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
+          <!-- Hidden layer 2 -->
+          <div class="nn-layer">
+            <div class="nn-node">h₁</div>
+            <div class="nn-node">h₂</div>
+            <div class="nn-node">h₃</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">隐藏层2</span>
+          </div>
+          <!-- Arrow 3 -->
+          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
+          <!-- Output layer -->
+          <div class="nn-layer">
+            <div class="nn-node" style="background:var(--primary); color:white; border-color:var(--primary);">y</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">输出层</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 人工神经元的数学模型 ========== -->
       <h3>人工神经元的数学模型</h3>
       <p>生物神经元通过树突接收信号、轴突传递信号。人工神经元模仿了这个过程，将输入信号加权求和后，通过激活函数产生输出。</p>
       <p><strong>加权求和：</strong>每个输入 $x_i$ 乘以对应的权重 $w_i$，再加上偏置 $b$：</p>
@@ -260,42 +290,188 @@ for epoch in range(100):
     optimizer.step()</code></pre>
       </div>
 
+      <!-- ========== 常见优化器 ========== -->
+      <h3>常见优化器对比</h3>
+      <p>梯度下降的"步长"和"方向"策略决定了训练效率。不同优化器的核心区别在于<strong>如何利用历史梯度信息</strong>来加速收敛：</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>优化器</th><th>核心思想</th><th>学习率</th><th>适用场景</th><th>收敛速度</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SGD</td><td>最朴素的梯度下降</td><td>固定或衰减</td><td>凸优化、简单模型</td><td>慢</td></tr>
+          <tr><td>Momentum</td><td>引入"惯性"，加速通过平坦区域</td><td>固定</td><td>有鞍点的损失面</td><td>较快</td></tr>
+          <tr><td>Adam</td><td>自适应学习率 + 动量</td><td>自适应</td><td>通用首选</td><td>快</td></tr>
+          <tr><td>AdamW</td><td>Adam + 解耦权重衰减</td><td>自适应</td><td>大模型训练</td><td>快且泛化好</td></tr>
+        </tbody>
+      </table>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import torch.optim as optim
+
+model = MyModel()
+criterion = nn.CrossEntropyLoss()
+
+# SGD: 经典但需要调参
+optimizer_sgd = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+
+# Adam: 自适应学习率，最常用的默认选择
+optimizer_adam = optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999))
+
+# AdamW: 推荐用于Transformer和大模型训练
+optimizer_adamw = optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
+
+# 使用学习率调度器
+scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer_adam, T_max=100)
+for epoch in range(100):
+    train(...)
+    scheduler.step()</code></pre>
+      </div>
+
+      <!-- ========== 正则化技术 ========== -->
+      <h3>正则化技术</h3>
+      <p>正则化用于防止<strong>过拟合</strong> —— 模型在训练集上表现好但在测试集上表现差。以下是三种最常用的正则化技术：</p>
+
+      <p><strong>1. Dropout —— 随机丢弃神经元</strong></p>
+      <p>训练时以概率 $p$ 随机将部分神经元输出置零，迫使网络学习冗余表示，避免对单个神经元的过度依赖。推理时不使用Dropout。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import torch.nn as nn
+
+class MyModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(784, 256),
+            nn.ReLU(),
+            nn.Dropout(p=0.5),       # 50%的神经元随机置零
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Dropout(p=0.3),
+            nn.Linear(128, 10)
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+# 训练时开启Dropout
+model.train()
+output = model(x)
+
+# 推理时关闭Dropout
+model.eval()
+output = model(x)</code></pre>
+      </div>
+
+      <p><strong>2. Batch Normalization —— 批归一化</strong></p>
+      <p>对每个mini-batch的激活值进行归一化（均值0、方差1），然后通过可学习的参数 $\gamma$ 和 $\beta$ 恢复表达能力。好处：加速训练、允许使用更大学习率、自带轻微正则化效果。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">class MyModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(784, 256),
+            nn.BatchNorm1d(256),   # 批归一化
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Linear(128, 10)
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+# 注意: BatchNorm在训练和推理时行为不同
+model.train()  # 使用batch统计量
+model.eval()   # 使用全局统计量</code></pre>
+      </div>
+
+      <p><strong>3. 数据增强 —— 增加训练数据多样性</strong></p>
+      <p>通过对训练数据施加随机变换（旋转、翻转、裁剪、颜色抖动等），人为增加数据多样性，有效防止过拟合。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from torchvision import transforms
+
+# 训练时的数据增强
+train_transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(p=0.5),       # 随机水平翻转
+    transforms.RandomRotation(degrees=15),          # 随机旋转±15°
+    transforms.RandomCrop(32, padding=4),           # 随机裁剪
+    transforms.ColorJitter(brightness=0.2,          # 颜色抖动
+                           contrast=0.2,
+                           saturation=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+
+# 验证时不做增强
+val_transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+
+from torchvision.datasets import CIFAR10
+train_dataset = CIFAR10(root='./data', train=True,
+                        transform=train_transform, download=True)
+val_dataset = CIFAR10(root='./data', train=False,
+                      transform=val_transform)</code></pre>
+      </div>
+
+      <p><strong>正则化技术对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>技术</th><th>原理</th><th>计算开销</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dropout</td><td>训练时随机丢弃神经元</td><td>低</td><td>全连接层</td></tr>
+          <tr><td>BatchNorm</td><td>归一化激活值分布</td><td>中</td><td>卷积层、全连接层</td></tr>
+          <tr><td>数据增强</td><td>随机变换训练数据</td><td>低（CPU端）</td><td>图像、音频、文本</td></tr>
+          <tr><td>L2正则化</td><td>惩罚大权重</td><td>极低</td><td>所有模型</td></tr>
+          <tr><td>早停（Early Stopping）</td><td>验证集性能不再提升时停止</td><td>无</td><td>所有模型</td></tr>
+        </tbody>
+      </table>
+    
+
+    <!-- ==================== Chapter 5 ==================== -->
       
+      <h3>练习题</h3>
+      <p><strong>思考题1：</strong>如果把所有激活函数都换成线性函数（f(x)=x），多层网络和单层网络有什么区别？为什么需要非线性激活？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 线性函数的组合还是线性函数，多层线性变换等价于单层。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题2：</strong>为什么ReLU比Sigmoid更常用？Dead ReLU是什么问题？Leaky ReLU如何缓解？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> Sigmoid有梯度消失问题，ReLU在正区间梯度恒为1。Dead ReLU是神经元输出永远为0。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题3：</strong>反向传播中，为什么梯度会随层数增加而指数级衰减（梯度消失）？BatchNorm如何帮助缓解？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> 每层乘以小于1的导数（如Sigmoid导数<0.25），连乘后趋近于0。BN让每层输入分布稳定。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
 
-<!-- Footer -->
-<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
-  <p>AI入门指南 · 系统学习人工智能</p>
-</div>
-
+<div class="chapter-nav">
+        <a href="ch3.html"><span class="nav-label">← 上一章</span><span class="nav-title">监督学习</span></a>
+        <a href="index.html" style="margin:auto;text-align:center;"><span class="nav-title">📚 目录</span></a>
+        <a href="ch5.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">CNN</span></a>
+      </div>
     </section>
   </div>
 </main>
-
-    
-  </div>
-
-
-<div class="chapter-nav">  <a href="ch3.html"><span class="nav-label">← 上一章</span><span class="nav-title">📈 监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch5.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🖼️ CNN</span></a></div>
-    
-  </div>
-
-
-<!-- Footer -->
-<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
-  <p>AI入门指南 · 系统学习人工智能</p>
-</div>
-
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;"><p>AI入门指南 · 系统学习人工智能</p></div>
 <script src="common.js"></script>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const mathElements = {
-      'math-sigmoid-detail': '\\sigma(z) = \\frac{1}{1 + e^{-z}}',
-      'math-tanh-detail': '\\tanh(z) = \\frac{e^z - e^{-z}}{e^z + e^{-z}}',
-      'math-relu': '\\text{ReLU}(z) = \\max(0, z)',
-      'math-leaky-relu': '\\text{LeakyReLU}(z) = \\begin{cases} z & z > 0 \\\\ \\alpha z & z \\leq 0 \\end{cases}',
-      'math-softmax': '\\text{softmax}(z_i) = \\frac{e^{z_i}}{\\sum_{j=1}^{K} e^{z_j}}',
-      'math-chain-rule': '\\frac{\\partial L}{\\partial w} = \\frac{\\partial L}{\\partial a} \\cdot \\frac{\\partial a}{\\partial z} \\cdot \\frac{\\partial z}{\\partial w}',
+      'math-sigmoid-detail': '\sigma(z) = \frac{1}{1 + e^{-z}}',
+      'math-tanh-detail': '\tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}',
+      'math-relu': '\text{ReLU}(z) = \max(0, z)',
+      'math-leaky-relu': '\text{LeakyReLU}(z) = \begin{cases} z & z > 0 \\ \alpha z & z \leq 0 \end{cases}',
+      'math-softmax': '\text{softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}',
+      'math-chain-rule': '\frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} \cdot \frac{\partial a}{\partial z} \cdot \frac{\partial z}{\partial w}'
     };
     Object.entries(mathElements).forEach(([id, tex]) => {
       const el = document.getElementById(id);
@@ -305,13 +481,10 @@ for epoch in range(100):
       }
     });
     renderMathInElement(document.body, {
-      delimiters: [
-        { left: '$$', right: '$$', display: true },
-        { left: '$', right: '$', display: false },
-      ]
+      delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }]
     });
+    if (typeof hljs !== 'undefined') document.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
   });
   </script>
-
 </body>
 </html>
