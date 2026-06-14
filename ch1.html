@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🤖 第1章：什么是AI？ - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link active" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">🤖 第一章：什么是AI？</h2>
+
+      <h3>教小孩认猫 —— 传统编程 vs 机器学习</h3>
+      <p>想象你有一个3岁的小孩，你想教他认识什么是猫。传统编程的方式是这样：</p>
+      <blockquote>
+        <strong>传统编程：</strong>写一堆规则 —— "如果有尖耳朵、有胡须、有毛、会喵喵叫，那就是猫。"
+      </blockquote>
+      <p>但问题来了：世界上有各种各样的猫 —— 有的没有尾巴（波斯猫），有的很胖看不清耳朵，有的不叫只打呼噜。你需要写的规则会越来越多，最终无法穷举。</p>
+      <p><strong>机器学习的方式完全不同：</strong></p>
+      <blockquote>
+        <strong>机器学习：</strong>给小孩看1000张猫的照片和1000张不是猫的照片，让他自己总结规律。
+      </blockquote>
+      <p>这就是AI的核心思想：<strong>从数据中自动学习规律</strong>，而不是人工编写规则。</p>
+
+      <h3>AI、机器学习、深度学习的关系</h3>
+      <p style="text-align:center; font-size:1.5rem; margin:1.5rem 0;">
+        🤖 AI（人工智能）<br/>
+        <span style="font-size:1.2rem;">└── 📊 机器学习</span><br/>
+        <span style="font-size:1.2rem;">&nbsp;&nbsp;&nbsp;&nbsp;└── 🧠 深度学习</span>
+      </p>
+      <ul>
+        <li><strong>AI（人工智能）</strong>：让机器模拟人类智能的总称</li>
+        <li><strong>机器学习（ML）</strong>：AI的一个子集，通过数据学习</li>
+        <li><strong>深度学习（DL）</strong>：ML的一个子集，使用多层神经网络</li>
+      </ul>
+
+      <h3>AI的正式定义</h3>
+      <p>人工智能（Artificial Intelligence）有三层递进的含义：</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>层次</th><th>含义</th><th>例子</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>模拟</strong></td><td>让机器模拟人类现有的智能行为</td><td>语音助手、图像识别</td></tr>
+          <tr><td><strong>延伸</strong></td><td>让机器执行人类不擅长但机器擅长的任务</td><td>海量数据分析、基因序列比对</td></tr>
+          <tr><td><strong>扩展</strong></td><td>创造超越人类能力的全新智能形式</td><td>AlphaGo自我博弈、蛋白质折叠预测</td></tr>
+        </tbody>
+      </table>
+
+      <h3>AI发展的三次浪潮</h3>
+      <p>人工智能并非一帆风顺，而是经历了跌宕起伏的发展历程：</p>
+      <blockquote>
+        <strong>第一次浪潮（1956–1974）：黄金年代</strong><br/>
+        1956年达特茅斯会议，"人工智能"正式诞生。人们充满乐观，认为20年内就能创造出通用智能。
+        代表性成果：ELIZA聊天机器人（能模拟对话）、感知机（最早的神经网络模型）。
+        但计算能力有限，理论逐渐遇到瓶颈。
+      </blockquote>
+      <blockquote>
+        <strong>第一次AI寒冬（1974–1980）</strong><br/>
+        政府削减资金，研究陷入低谷。感知机无法解决异或（XOR）等非线性问题，批评声四起。
+      </blockquote>
+      <blockquote>
+        <strong>第二次浪潮（1980–1993）：专家系统</strong><br/>
+        专家系统兴起：将领域专家的知识编码成规则。代表系统：MYCIN（医疗诊断）、XCON（计算机配置）。
+        反向传播算法让多层神经网络成为可能，但硬件仍然昂贵。
+      </blockquote>
+      <blockquote>
+        <strong>第二次AI寒冬（1993–2011）</strong><br/>
+        专家系统维护成本过高，规则库越来越难管理。研究资金再次收缩。
+        但这一时期机器学习理论（SVM、决策树等）持续发展，为下一次突破积蓄力量。
+      </blockquote>
+      <blockquote>
+        <strong>第三次浪潮（2011–至今）：深度学习革命</strong><br/>
+        2012年，AlexNet在ImageNet比赛中碾压传统方法；2016年，AlphaGo击败围棋世界冠军；
+        2017年，Transformer论文《Attention Is All You Need》问世；
+        2022年，ChatGPT发布，大语言模型进入公众视野。
+        GPU算力爆发 + 海量数据 + 算法突破，三者共同推动了这场革命。
+      </blockquote>
+
+      <h3>机器学习的三大范式</h3>
+      <p>机器学习是当前AI最核心的技术路径，根据学习方式的不同，可分为三大范式：</p>
+
+      <p><strong>1. 监督学习（Supervised Learning）</strong> —— 有老师的学习</p>
+      <p>训练数据带有"正确答案"（标签），模型学习输入到输出的映射。</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>任务类型</th><th>输出</th><th>生活例子</th><th>技术例子</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>回归</td><td>连续数值</td><td>预测明天的气温</td><td>房价预测、股票价格</td></tr>
+          <tr><td>分类</td><td>离散类别</td><td>邮件是否是垃圾邮件</td><td>人脸识别、疾病诊断</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>2. 无监督学习（Unsupervised Learning）</strong> —— 自学成才</p>
+      <p>训练数据没有标签，模型自行发现数据中的结构和规律。</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>任务类型</th><th>目标</th><th>生活例子</th><th>技术例子</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>聚类</td><td>将相似数据分组</td><td>电商平台用户分群</td><td>K-Means、DBSCAN</td></tr>
+          <tr><td>降维</td><td>压缩数据保留核心信息</td><td>从高维数据中找到关键因素</td><td>PCA、t-SNE</td></tr>
+          <tr><td>异常检测</td><td>找出不符合规律的数据</td><td>信用卡欺诈检测</td><td>Isolation Forest</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>3. 强化学习（Reinforcement Learning）</strong> —— 在试错中学习</p>
+      <p>智能体在环境中行动，根据获得的奖励/惩罚调整策略。核心概念：</p>
+      <ul>
+        <li><strong>状态（State）</strong>：当前环境的情况（如棋盘局面）</li>
+        <li><strong>动作（Action）</strong>：智能体可以采取的行为（如落子位置）</li>
+        <li><strong>奖励（Reward）</strong>：环境反馈的即时反馈（如赢棋+1，输棋-1）</li>
+        <li><strong>策略（Policy）</strong>：根据状态选择动作的规则（智能体要优化的目标）</li>
+      </ul>
+      <p>典型应用：AlphaGo（围棋）、机器人控制、游戏AI（Atari、星际争霸）。</p>
+
+      <h3>机器学习的工作流程</h3>
+      <p>一个完整的机器学习项目通常包含以下9个步骤：</p>
+      <ol>
+        <li><strong>问题定义</strong> —— 明确要解决什么问题，评估指标是什么</li>
+        <li><strong>数据收集</strong> —— 获取相关的训练数据</li>
+        <li><strong>数据清洗</strong> —— 处理缺失值、异常值、重复数据</li>
+        <li><strong>特征工程</strong> —— 提取、选择、构造有用的特征</li>
+        <li><strong>模型选择</strong> —— 根据问题类型选择合适的算法</li>
+        <li><strong>模型训练</strong> —— 用训练数据调整模型参数</li>
+        <li><strong>模型评估</strong> —— 在验证集/测试集上评估模型表现</li>
+        <li><strong>模型调优</strong> —— 调整超参数，优化模型性能</li>
+        <li><strong>部署上线</strong> —— 将模型集成到实际系统中</li>
+      </ol>
+      <blockquote>
+        💡 实际项目中，这9个步骤往往需要多次迭代。你可能会回到前面的步骤重新调整，直到模型达到满意的性能。
+      </blockquote>
+
+      <h3>交互演示：红蓝点分类</h3>
+      <p>点击下方画布添加数据点（红/蓝交替），观察分类边界如何变化：</p>
+      <div style="display:flex; align-items:center; gap:1rem; margin:1rem 0; flex-wrap:wrap;">
+        <span style="font-size:0.875rem; color:#6b7280;">当前模式：</span>
+        <span id="point-mode" style="padding:4px 12px; border-radius:6px; font-size:0.875rem; font-weight:600; color:white; background:#ef4444;">红色点</span>
+        <button onclick="togglePointMode()" style="padding:4px 12px; border-radius:6px; font-size:0.875rem; border:1px solid var(--border); background:var(--card-bg); color:var(--text); cursor:pointer;">切换颜色</button>
+        <button onclick="clearCanvas()" style="padding:4px 12px; border-radius:6px; font-size:0.875rem; border:1px solid var(--border); background:var(--card-bg); color:var(--text); cursor:pointer;">清空画布</button>
+      </div>
+      <canvas id="classification-canvas" class="demo-canvas" width="670" height="350" style="width:100%; max-width:670px;"></canvas>
+      <p style="font-size:0.8rem; color:#9ca3af; margin-top:0.5rem;">💡 提示：尝试在不同位置点击，观察分类线的变化。当两类数据明显分开时，分类线会自动调整。</p>
+
+      <h3>本章小结</h3>
+      <ol>
+        <li><strong>AI的定义</strong>：人工智能旨在让机器模拟、延伸和扩展人类智能，包括感知、推理、学习和决策等能力。</li>
+        <li><strong>发展历程</strong>：AI经历了三次浪潮和两次寒冬，从早期的符号推理到专家系统，再到深度学习革命，算力、数据和算法的共同进步推动了当前的AI热潮。</li>
+        <li><strong>机器学习范式</strong>：监督学习（有标签）、无监督学习（无标签）、强化学习（试错反馈）是三大核心范式，覆盖了绝大多数AI应用场景。</li>
+        <li><strong>AI/ML/DL关系</strong>：AI ⊃ ML ⊃ DL，深度学习是机器学习的一个分支，使用多层神经网络自动学习特征。</li>
+        <li><strong>实践流程</strong>：完整的机器学习项目包含问题定义、数据收集、清洗、特征工程、模型选择、训练、评估、调优和部署9个步骤。</li>
+      </ol>
+
+      <h3>练习题</h3>
+      <p><strong>思考题1：</strong>请用自己的话解释"监督学习"和"无监督学习"的核心区别。举一个日常生活中符合监督学习的例子。</p>
+      <p><strong>思考题2：</strong>为什么说"数据和特征决定了机器学习的上限，而模型和算法只是逼近这个上限"？请结合本章内容谈谈你的理解。</p>
+      <p><strong>思考题3：</strong>AI经历了两次寒冬，请思考：当前的深度学习浪潮有可能迎来"第三次寒冬"吗？可能的原因是什么？</p>
+    
+
+<div class="chapter-nav">  <a href="index.html"><span class="nav-label">← 上一章</span><span class="nav-title">返回目录</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch2.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🍉 数据与特征</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mathElements = {
+      'math-lr': 'y = \\mathbf{w}^T \\mathbf{x} + b',
+      'math-mse': 'L(\\mathbf{w}, b) = \\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2',
+      'math-gd': '\\mathbf{w} \\leftarrow \\mathbf{w} - \\alpha \\nabla L(\\mathbf{w})',
+      'math-neuron': 'y = f\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)',
+    };
+    Object.entries(mathElements).forEach(([id, tex]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(tex, el, { displayMode: true, throwOnError: false }); }
+        catch(e) { el.textContent = tex; }
+      }
+    });
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+  </script>
+
+  <script>
+  // Upgraded Neural Network Classification Demo
+  const nnCanvas = document.getElementById('classification-canvas');
+  const nnCtx = nnCanvas ? nnCanvas.getContext('2d') : null;
+  let nnPoints = [];
+  let nnIsRed = true;
+  let nnWeights = null;
+  let nnTraining = false;
+  let nnLossHistory = [];
+
+  function nnResizeCanvas() {
+    if (!nnCanvas) return;
+    const rect = nnCanvas.getBoundingClientRect();
+    nnCanvas.width = rect.width * window.devicePixelRatio;
+    nnCanvas.height = rect.height * window.devicePixelRatio;
+    nnCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    nnDrawAll();
+  }
+
+  function nnGetCoords(e) {
+    const rect = nnCanvas.getBoundingClientRect();
+    return {
+      x: (e.clientX || e.touches[0].clientX) - rect.left,
+      y: (e.clientY || e.touches[0].clientY) - rect.top
+    };
+  }
+
+  if (nnCanvas) {
+    nnCanvas.addEventListener('click', (e) => {
+      const pos = nnGetCoords(e);
+      nnPoints.push({ x: pos.x, y: pos.y, c: nnIsRed ? 1 : 0 });
+      nnIsRed = !nnIsRed;
+      nnUpdateMode();
+      nnDrawAll();
+      if (nnPoints.length >= 4 && !nnTraining) nnTrain();
+    });
+    nnCanvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      const pos = nnGetCoords(e);
+      nnPoints.push({ x: pos.x, y: pos.y, c: nnIsRed ? 1 : 0 });
+      nnIsRed = !nnIsRed;
+      nnUpdateMode();
+      nnDrawAll();
+      if (nnPoints.length >= 4 && !nnTraining) nnTrain();
+    });
+  }
+
+  function nnUpdateMode() {
+    const label = document.getElementById('point-mode');
+    if (label) {
+      label.textContent = nnIsRed ? '红色点' : '蓝色点';
+      label.style.background = nnIsRed ? '#ef4444' : '#3b82f6';
+    }
+  }
+
+  function nnToggleMode() { nnIsRed = !nnIsRed; nnUpdateMode(); }
+  function nnClear() {
+    nnPoints = []; nnWeights = null; nnLossHistory = [];
+    nnIsRed = true; nnUpdateMode(); nnDrawAll();
+    const lossEl = document.getElementById('nn-loss-display');
+    if (lossEl) lossEl.textContent = '';
+  }
+
+  // Simple 2-layer neural network (2 -> 4 -> 1)
+  function sigmoid(x) { return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x)))); }
+
+  function nnInitWeights() {
+    const W1 = [], b1 = [0,0,0,0], W2 = [], b2 = [0];
+    for (let i = 0; i < 2; i++) { W1.push([]); for (let j = 0; j < 4; j++) W1[i].push((Math.random()-0.5)*2); }
+    for (let j = 0; j < 4; j++) { W2.push((Math.random()-0.5)*2); }
+    return { W1, b1, W2, b2 };
+  }
+
+  function nnForward(w, x, y) {
+    const h = [];
+    for (let j = 0; j < 4; j++) {
+      let s = w.W1[0][j]*x + w.W1[1][j]*y + w.b1[j];
+      h.push(sigmoid(s));
+    }
+    let o = w.b2[0];
+    for (let j = 0; j < 4; j++) o += w.W2[j]*h[j];
+    return { h, out: sigmoid(o) };
+  }
+
+  function nnTrain() {
+    if (nnPoints.length < 4) return;
+    nnTraining = true;
+    nnWeights = nnInitWeights();
+    nnLossHistory = [];
+    const lr = 2.0;
+    const w = nnCanvas.width / window.devicePixelRatio;
+    const h = nnCanvas.height / window.devicePixelRatio;
+
+    function step() {
+      let totalLoss = 0;
+      for (let iter = 0; iter < 50; iter++) {
+        for (const p of nnPoints) {
+          const nx = (p.x - w/2) / (w/2);
+          const ny = (p.y - h/2) / (h/2);
+          const { h: hid, out } = nnForward(nnWeights, nx, ny);
+          const err = out - p.c;
+          totalLoss += err * err;
+
+          const dO = err;
+          const dW2 = []; const dB2 = dO;
+          for (let j = 0; j < 4; j++) dW2.push(dO * hid[j]);
+          const dH = [];
+          for (let j = 0; j < 4; j++) dH.push(dO * nnWeights.W2[j] * hid[j] * (1-hid[j]));
+
+          for (let j = 0; j < 4; j++) {
+            nnWeights.W2[j] -= lr * dW2[j];
+            for (let i = 0; i < 2; i++) {
+              const inp = i===0 ? nx : ny;
+              nnWeights.W1[i][j] -= lr * dH[j] * inp;
+            }
+            nnWeights.b1[j] -= lr * dH[j];
+          }
+          nnWeights.b2[0] -= lr * dB2;
+        }
+      }
+      nnLossHistory.push(totalLoss / nnPoints.length);
+      nnDrawAll();
+      const lossEl = document.getElementById('nn-loss-display');
+      if (lossEl) lossEl.textContent = 'Loss: ' + (totalLoss / nnPoints.length).toFixed(4);
+      nnTraining = false;
+    }
+    setTimeout(step, 50);
+  }
+
+  function nnDrawAll() {
+    if (!nnCtx) return;
+    const w = nnCanvas.width / window.devicePixelRatio;
+    const h = nnCanvas.height / window.devicePixelRatio;
+    nnCtx.clearRect(0, 0, w, h);
+
+    // Draw decision boundary as smooth curve
+    if (nnWeights && nnPoints.length >= 4) {
+      const imageData = nnCtx.createImageData(w, h);
+      for (let px = 0; px < w; px += 2) {
+        for (let py = 0; py < h; py += 2) {
+          const nx = (px - w/2) / (w/2);
+          const ny = (py - h/2) / (h/2);
+          const { out } = nnForward(nnWeights, nx, ny);
+          const r = Math.round(out * 239 + (1-out)*59);
+          const g = Math.round(out * 68 + (1-out)*130);
+          const b_ = Math.round(out * 68 + (1-out)*246);
+          for (let dx = 0; dx < 2 && px+dx < w; dx++) {
+            for (let dy = 0; dy < 2 && py+dy < h; dy++) {
+              const idx = ((py+dy)*w + (px+dx))*4;
+              imageData.data[idx] = r;
+              imageData.data[idx+1] = g;
+              imageData.data[idx+2] = b_;
+              imageData.data[idx+3] = 30;
+            }
+          }
+        }
+      }
+      nnCtx.putImageData(imageData, 0, 0);
+
+      // Draw decision boundary line (0.5 contour)
+      nnCtx.beginPath();
+      for (let px = 0; px < w; px++) {
+        let found = false;
+        for (let py = 0; py < h - 1; py++) {
+          const nx1 = (px - w/2) / (w/2);
+          const ny1 = (py - h/2) / (h/2);
+          const nx2 = (px - w/2) / (w/2);
+          const ny2 = (py+1 - h/2) / (h/2);
+          const { out: o1 } = nnForward(nnWeights, nx1, ny1);
+          const { out: o2 } = nnForward(nnWeights, nx2, ny2);
+          if ((o1 < 0.5 && o2 >= 0.5) || (o1 >= 0.5 && o2 < 0.5)) {
+            nnCtx.lineTo(px, py + (0.5-o1)/(o2-o1));
+            found = true;
+            break;
+          }
+        }
+      }
+      nnCtx.strokeStyle = 'rgba(15,15,35,0.7)';
+      nnCtx.lineWidth = 2;
+      nnCtx.stroke();
+    }
+
+    // Draw points
+    nnPoints.forEach(p => {
+      nnCtx.beginPath();
+      nnCtx.arc(p.x, p.y, 6, 0, Math.PI*2);
+      nnCtx.fillStyle = p.c === 1 ? '#ef4444' : '#3b82f6';
+      nnCtx.fill();
+      nnCtx.strokeStyle = 'white';
+      nnCtx.lineWidth = 2;
+      nnCtx.stroke();
+    });
+
+    // Draw mini neural network diagram in top-right
+    const diagramX = w - 130, diagramY = 10;
+    nnCtx.save();
+    nnCtx.globalAlpha = 0.8;
+    nnCtx.fillStyle = 'rgba(255,255,255,0.9)';
+    nnCtx.strokeStyle = '#e5e7eb';
+    nnCtx.lineWidth = 1;
+    nnCtx.beginPath();
+    nnCtx.roundRect(diagramX, diagramY, 120, 80, 6);
+    nnCtx.fill(); nnCtx.stroke();
+    nnCtx.globalAlpha = 1;
+
+    // Input layer (2 nodes)
+    const layers = [{n:2, x:diagramX+20}, {n:4, x:diagramX+55}, {n:1, x:diagramX+100}];
+    const nodePositions = [];
+    layers.forEach((layer, li) => {
+      const positions = [];
+      for (let ni = 0; ni < layer.n; ni++) {
+        const ny = diagramY + 20 + (ni * 40 / Math.max(layer.n-1, 1));
+        positions.push({x: layer.x, y: ny});
+        nnCtx.beginPath();
+        nnCtx.arc(layer.x, ny, 5, 0, Math.PI*2);
+        nnCtx.fillStyle = li===2 ? '#3b49df' : 'rgba(59,73,223,0.2)';
+        nnCtx.fill();
+        nnCtx.strokeStyle = '#3b49df';
+        nnCtx.lineWidth = 1;
+        nnCtx.stroke();
+      }
+      nodePositions.push(positions);
+    });
+
+    // Draw connections
+    for (let li = 0; li < nodePositions.length-1; li++) {
+      for (const from of nodePositions[li]) {
+        for (const to of nodePositions[li+1]) {
+          nnCtx.beginPath();
+          nnCtx.moveTo(from.x+5, from.y);
+          nnCtx.lineTo(to.x-5, to.y);
+          nnCtx.strokeStyle = 'rgba(59,73,223,0.2)';
+          nnCtx.lineWidth = 0.5;
+          nnCtx.stroke();
+        }
+      }
+    }
+
+    // Labels
+    nnCtx.fillStyle = '#9ca3af';
+    nnCtx.font = '7px sans-serif';
+    nnCtx.textAlign = 'center';
+    nnCtx.fillText('2→4→1', diagramX+60, diagramY+75);
+    nnCtx.restore();
+  }
+
+  window.addEventListener('resize', nnResizeCanvas);
+  setTimeout(nnResizeCanvas, 100);
+  </script>
+
+</body>
+</html>

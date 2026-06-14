@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🚀 第12章：大模型与AI未来 - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link active" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">🚀 第十二章：大模型与AI未来</h2>
+
+      <h3>从专才到通才 —— 通用人工智能之路</h3>
+      <p>过去的AI是"专才"：下棋的只会下棋，翻译的只会翻译。现在的GPT-4能写代码、画画、翻译、推理，越来越像"通才"。</p>
+      <p><strong>AGI（通用人工智能）</strong>：像人类一样，能处理任何智力任务的AI。这是AI研究的终极目标。</p>
+
+      <!-- ========== Scaling Law ========== -->
+      <h3>大模型的Scaling Law —— 规模定律</h3>
+      <p><strong>核心发现：</strong>大语言模型的性能（损失）与三个因素呈幂律关系：</p>
+
+      <div class="math-display" id="math-scaling-law"></div>
+      <p>其中 $N$ 是模型参数量，$D$ 是训练数据量，$C$ 是计算量。三者中任何一个不足，都会成为性能瓶颈。</p>
+
+      <p><strong>Chinchilla定律（2022）：</strong></p>
+      <blockquote>
+        <strong>关键结论：</strong>对于给定的计算预算，模型参数量和训练数据量应该等比例增长。最优配比约为：每个参数对应20个训练token。
+      </blockquote>
+
+      <table class="feature-table">
+        <thead>
+          <tr><th>模型</th><th>参数量</th><th>训练数据</th><th>计算量</th><th>是否遵循Chinchilla</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GPT-3</td><td>1750亿</td><td>3000亿token</td><td>3640 PF天</td><td>否（数据不足）</td></tr>
+          <tr><td>Chinchilla</td><td>700亿</td><td>1.4万亿token</td><td>~5760 PF天</td><td>是</td></tr>
+          <tr><td>LLaMA-2</td><td>700亿</td><td>2万亿token</td><td>~1720 PF天</td><td>是</td></tr>
+        </tbody>
+      </table>
+      <p><strong>启示：</strong>与其盲目增大模型，不如用更小的模型+更多的数据，效果可能更好且推理更快。</p>
+
+      <!-- ========== 涌现能力 ========== -->
+      <h3>涌现能力 —— 量变引起质变</h3>
+      <p><strong>现象：</strong>当模型规模达到某个阈值时，突然"涌现"出训练时未明确教过的能力。</p>
+
+      <div style="background:var(--code-bg); padding:1rem; border-radius:8px; margin:1rem 0;">
+        <p><strong>涌现能力的例子：</strong></p>
+        <ul>
+          <li><strong>少样本学习（In-context Learning）：</strong>GPT-3在few-shot设置下能完成新任务，无需微调</li>
+          <li><strong>思维链推理（Chain-of-Thought）：</strong>大模型能分步推理解决数学问题</li>
+          <li><strong>代码生成：</strong>GPT-4能根据自然语言描述生成可运行的代码</li>
+          <li><strong>多语言理解：</strong>在未见过的语言对上进行翻译</li>
+        </ul>
+      </div>
+
+      <p><strong>涌现能力的特征：</strong></p>
+      <ul>
+        <li>在小模型上完全不存在，大模型上突然出现</li>
+        <li>无法通过小模型的表现来预测</li>
+        <li>通常在模型参数量达到数十亿到数千亿时出现</li>
+      </ul>
+
+      <!-- ========== 多模态融合 ========== -->
+      <h3>多模态融合 —— 打通视觉、语言和声音</h3>
+      <p><strong>目标：</strong>让AI同时理解和生成文本、图像、音频、视频等多种模态的信息。</p>
+
+      <table class="feature-table">
+        <thead>
+          <tr><th>模态</th><th>输入</th><th>输出</th><th>典型应用</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>文本</td><td>自然语言</td><td>自然语言</td><td>ChatGPT、Claude</td></tr>
+          <tr><td>视觉</td><td>图像/视频</td><td>图像/描述</td><td>DALL-E、Midjourney</td></tr>
+          <tr><td>音频</td><td>语音</td><td>语音/文本</td><td>Whisper、GPT-4o</td></tr>
+          <tr><td>多模态</td><td>混合输入</td><td>混合输出</td><td>GPT-4V、Gemini</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>多模态融合的三种方式：</strong></p>
+      <ol>
+        <li><strong>早期融合</strong>：将不同模态的特征直接拼接，一起输入模型</li>
+        <li><strong>晚期融合</strong>：各模态独立编码，最后在高层融合</li>
+        <li><strong>交叉注意力融合</strong>：不同模态通过注意力机制交互（如Flamingo）</li>
+      </ol>
+
+      <!-- ========== AI Agent ========== -->
+      <h3>AI Agent —— 自主决策的AI代理</h3>
+      <p><strong>定义：</strong>AI Agent是能够自主感知环境、制定计划、执行行动并从反馈中学习的智能系统。</p>
+
+      <p><strong>Agent的核心架构：</strong></p>
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem; margin:1rem 0;">
+        <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; border-left:4px solid var(--primary);">
+          <div style="font-weight:600;">感知</div>
+          <div style="font-size:0.8rem; color:#6b7280;">接收文本、图像、API返回等信息</div>
+        </div>
+        <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; border-left:4px solid #10b981;">
+          <div style="font-weight:600;">规划</div>
+          <div style="font-size:0.8rem; color:#6b7280;">分解任务、制定执行步骤</div>
+        </div>
+        <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; border-left:4px solid #f59e0b;">
+          <div style="font-weight:600;">行动</div>
+          <div style="font-size:0.8rem; color:#6b7280;">调用工具、执行代码、与环境交互</div>
+        </div>
+      </div>
+
+      <p><strong>Agent的关键组件：</strong></p>
+      <ul>
+        <li><strong>大语言模型（LLM）</strong>：作为"大脑"，负责推理和决策</li>
+        <li><strong>工具调用（Tool Use）</strong>：搜索、计算器、代码执行、API调用</li>
+        <li><strong>记忆系统</strong>：短期记忆（上下文窗口）+ 长期记忆（向量数据库）</li>
+        <li><strong>规划能力</strong>：任务分解、反思、自我纠错</li>
+      </ul>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># 简化的AI Agent伪代码
+class AIAgent:
+    def __init__(self, llm, tools):
+        self.llm = llm          # 大语言模型
+        self.tools = tools      # 可用工具列表
+        self.memory = []        # 对话历史
+
+    def think(self, task):
+        """规划：分解任务"""
+        plan = self.llm.generate(
+            f"任务: {task}\n"
+            f"请制定执行步骤:\n"
+            f"1. ..."
+        )
+        return plan
+
+    def act(self, step):
+        """行动：执行步骤"""
+        if step.startswith("调用工具:"):
+            tool_name = step.split(":")[1]
+            result = self.tools[tool_name].run()
+            self.memory.append({"role": "tool", "content": result})
+            return result
+        elif step.startswith("生成回复:"):
+            return self.llm.generate(step)
+        else:
+            return self.execute_code(step)
+
+    def run(self, task):
+        """完整的执行循环"""
+        plan = self.think(task)
+        results = []
+        for step in plan:
+            result = self.act(step)
+            results.append(result)
+            if not self.verify(result, task):
+                plan = self.revise_plan(plan, result)
+        return results
+
+# 工具定义
+tools = {
+    "search": SearchTool(),
+    "calculator": CalculatorTool(),
+    "code_executor": CodeExecutorTool(),
+}</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== 具身智能 ========== -->
+      <h3>具身智能 —— AI进入物理世界</h3>
+      <p><strong>目标：</strong>让AI不仅能思考，还能在物理世界中行动（机器人、自动驾驶等）。</p>
+
+      <p><strong>具身智能的关键技术：</strong></p>
+      <ul>
+        <li><strong>感知</strong>：视觉SLAM、深度估计、3D重建</li>
+        <li><strong>控制</strong>：运动规划、力控制、柔顺控制</li>
+        <li><strong>仿真</strong>：数字孪生、Sim-to-Real迁移</li>
+        <li><strong>学习</strong>：强化学习、模仿学习</li>
+      </ul>
+
+      <p><strong>代表性进展：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>项目</th><th>机构</th><th>特点</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Figure 01</td><td>Figure AI</td><td>人形机器人，与OpenAI合作</td></tr>
+          <tr><td>Optimus</td><td>Tesla</td><td>通用人形机器人</td></tr>
+          <tr><td>RT-2</td><td>Google DeepMind</td><td>视觉-语言-动作模型</td></tr>
+          <tr><td>灵宝机器人</td><td>中国多家公司</td><td>协作机器人、服务机器人</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ========== 学习路线图 ========== -->
+      <h3>AI学习路线图 —— 从入门到高级</h3>
+      <div style="background:var(--code-bg); padding:1.5rem; border-radius:8px; margin:1rem 0;">
+        <p style="font-weight:600; margin-bottom:0.75rem; color:var(--primary);">📍 第一阶段：入门基础（1-3个月）</p>
+        <ul style="margin-bottom:1rem;">
+          <li>Python编程基础（语法、NumPy、Pandas）</li>
+          <li>机器学习基本概念（监督/无监督/强化学习）</li>
+          <li>线性回归、逻辑回归、决策树</li>
+          <li>完成一个简单项目（如房价预测、鸢尾花分类）</li>
+          <li>推荐资源：Andrew Ng的Machine Learning课程</li>
+        </ul>
+
+        <p style="font-weight:600; margin-bottom:0.75rem; color:var(--primary);">📍 第二阶段：进阶提升（3-6个月）</p>
+        <ul style="margin-bottom:1rem;">
+          <li>深度学习基础（CNN、RNN、Transformer）</li>
+          <li>PyTorch或TensorFlow框架</li>
+          <li>计算机视觉（图像分类、目标检测）</li>
+          <li>自然语言处理（文本分类、序列建模）</li>
+          <li>完成一个完整项目（如图像分类系统）</li>
+          <li>推荐资源：d2l.ai（动手学深度学习）</li>
+        </ul>
+
+        <p style="font-weight:600; margin-bottom:0.75rem; color:var(--primary);">📍 第三阶段：高级研究（6个月+）</p>
+        <ul>
+          <li>阅读经典论文（Attention Is All You Need等）</li>
+          <li>大模型微调（LoRA、QLoRA、PEFT）</li>
+          <li>AI Agent和多模态模型</li>
+          <li>选择专业方向深入（NLP/CV/RL/Agent）</li>
+          <li>参与开源项目、发表论文</li>
+          <li>推荐资源：Hugging Face、Kaggle竞赛</li>
+        </ul>
+      </div>
+
+      <h3>大模型的关键技术</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>技术</th><th>说明</th><th>代表</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Transformer</td><td>注意力机制架构</td><td>GPT、BERT</td></tr>
+          <tr><td>预训练+微调</td><td>先通用学习，再任务适配</td><td>GPT-3/4</td></tr>
+          <tr><td>RLHF</td><td>人类反馈强化学习</td><td>ChatGPT</td></tr>
+          <tr><td>多模态</td><td>文本+图像+音频</td><td>GPT-4V、Gemini</td></tr>
+          <tr><td>Agent</td><td>自主决策的AI代理</td><td>AutoGPT、Claude Agent</td></tr>
+          <tr><td>RAG</td><td>检索增强生成</td><td>知识问答系统</td></tr>
+          <tr><td>MoE</td><td>混合专家模型</td><td>Mixtral、GPT-4（推测）</td></tr>
+        </tbody>
+      </table>
+
+      <h3>推荐学习资源</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>类型</th><th>资源</th><th>特点</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>📚 书籍</td><td>《动手学深度学习》(d2l.ai)</td><td>理论+代码，免费在线</td></tr>
+          <tr><td>📚 书籍</td><td>《Deep Learning》by Goodfellow</td><td>理论全面，适合进阶</td></tr>
+          <tr><td>🎓 课程</td><td>Andrew Ng - Machine Learning</td><td>入门首选，Coursera</td></tr>
+          <tr><td>🎓 课程</td><td>fast.ai</td><td>实战导向，免费</td></tr>
+          <tr><td>💻 平台</td><td>Kaggle</td><td>数据科学竞赛，练手</td></tr>
+          <tr><td>💻 平台</td><td>Hugging Face</td><td>模型库，NLP实战</td></tr>
+          <tr><td>📄 论文</td><td>"Attention Is All You Need"</td><td>必读，Transformer基础</td></tr>
+        </tbody>
+      </table>
+
+      <h3>AI的未来展望</h3>
+      <ul>
+        <li><strong>多模态AI</strong>：能看、能听、能说的全能助手</li>
+        <li><strong>具身智能</strong>：AI进入机器人，改变物理世界</li>
+        <li><strong>AI Agent</strong>：自主完成复杂任务的AI代理</li>
+        <li><strong>科学发现</strong>：AI辅助药物研发、材料发现、数学证明</li>
+        <li><strong>个性化AI</strong>：每个人都有专属AI助手</li>
+        <li><strong>AI安全</strong>：确保AI系统安全、可靠、可控</li>
+      </ul>
+
+      <div style="background:linear-gradient(135deg, rgba(59,73,223,0.1), rgba(99,102,241,0.1)); padding:1.5rem; border-radius:8px; margin-top:1.5rem; text-align:center;">
+        <p style="font-size:1.1rem; font-weight:600; color:var(--primary); margin-bottom:0.5rem;">恭喜你完成了AI入门之旅！</p>
+        <p style="color:#6b7280; margin-bottom:0;">这只是开始，AI的世界无限广阔。保持好奇心，持续学习，你就是未来的AI创造者！</p>
+      </div>
+
+      <h3>练习题</h3>
+      <p><strong>练习1：</strong>根据Chinchilla定律，如果计算预算固定为100 PF天，最优的模型参数量和训练数据量分别是多少？</p>
+      <p><strong>练习2：</strong>调研一个AI Agent框架（如LangChain、AutoGPT），分析其架构中的感知-规划-行动循环。</p>
+      <p><strong>练习3：</strong>设计一个多模态应用：输入一张图片和一个问题，输出回答。描述其技术架构。</p>
+      <p><strong>练习4：</strong>根据学习路线图，为自己制定一个3个月的AI学习计划，包括每周的学习目标和项目实践。</p>
+    
+
+<div class="chapter-nav">  <a href="ch11.html"><span class="nav-label">← 上一章</span><span class="nav-title">⚖️ AI伦理</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="index.html" class="nav-next"><span class="nav-label">返回目录 →</span><span class="nav-title">📚</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mathElements = {
+      'math-scaling-law': 'L(N, D, C) \\approx \\left(\\frac{N_c}{N}\\right)^{\\alpha_N} + \\left(\\frac{D_c}{D}\\right)^{\\alpha_D} + E',
+    };
+    Object.entries(mathElements).forEach(([id, tex]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(tex, el, { displayMode: true, throwOnError: false }); }
+        catch(e) { el.textContent = tex; }
+      }
+    });
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+  </script>
+
+
+</body>
+</html>

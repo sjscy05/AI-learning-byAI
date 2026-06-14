@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="系统学习人工智能，从基础到实践 - AI入门教程"/>
+  <title>AI入门指南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="common.css"/>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="flex items-center space-x-4">
+      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="切换主题">
+        <svg id="sun-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" style="margin-top:64px;">
+  <h1>AI入门指南</h1>
+  <p>系统学习人工智能，从基础概念到前沿应用，一本面向零基础读者的AI入门教程。</p>
+</section>
+
+<!-- Knowledge Graph -->
+<section style="max-width:960px;margin:0 auto;padding:0 1.5rem 2rem;">
+  <h2 style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:var(--heading);font-family:Georgia,serif;">知识图谱</h2>
+  <div class="knowledge-graph">
+    <svg viewBox="0 0 780 500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+        </marker>
+      </defs>
+
+      <!-- Edges: 1→2→3→4→5, 3→7,3→8, 4→6, 5→10, 6→9, 9→11,9→12, 10→11,10→12 -->
+      <line class="kg-edge" x1="148" y1="60" x2="232" y2="60"/>
+      <line class="kg-edge" x1="318" y1="60" x2="402" y2="60"/>
+      <line class="kg-edge" x1="488" y1="60" x2="612" y2="60"/>
+      <line class="kg-edge" x1="640" y1="92" x2="640" y2="168"/>
+      <line class="kg-edge" x1="640" y1="92" x2="640" y2="308"/>
+      <line class="kg-edge" x1="608" y1="200" x2="472" y2="200"/>
+      <line class="kg-edge" x1="608" y1="340" x2="472" y2="340"/>
+      <line class="kg-edge" x1="440" y1="232" x2="370" y2="408"/>
+      <line class="kg-edge" x1="440" y1="232" x2="510" y2="408"/>
+      <line class="kg-edge" x1="440" y1="308" x2="370" y2="408"/>
+      <line class="kg-edge" x1="440" y1="308" x2="510" y2="408"/>
+      <line class="kg-edge" x1="448" y1="60" x2="230" y2="168"/>
+      <line class="kg-edge" x1="448" y1="60" x2="230" y2="308"/>
+
+      <!-- Node 1: 什么是AI -->
+      <a href="ch1.html" class="kg-node">
+        <circle cx="120" cy="60" r="32" fill="#3b49df"/>
+        <text x="120" y="57">什么是</text>
+        <text x="120" y="71">AI</text>
+      </a>
+
+      <!-- Node 2: 数据与特征 -->
+      <a href="ch2.html" class="kg-node">
+        <circle cx="275" cy="60" r="32" fill="#6366f1"/>
+        <text x="275" y="57">数据与</text>
+        <text x="275" y="71">特征</text>
+      </a>
+
+      <!-- Node 3: 监督学习 -->
+      <a href="ch3.html" class="kg-node">
+        <circle cx="445" cy="60" r="32" fill="#8b5cf6"/>
+        <text x="445" y="57">监督</text>
+        <text x="445" y="71">学习</text>
+      </a>
+
+      <!-- Node 4: 神经网络 -->
+      <a href="ch4.html" class="kg-node">
+        <circle cx="640" cy="60" r="32" fill="#a855f7"/>
+        <text x="640" y="57">神经</text>
+        <text x="640" y="71">网络</text>
+      </a>
+
+      <!-- Node 5: CNN -->
+      <a href="ch5.html" class="kg-node">
+        <circle cx="640" cy="200" r="30" fill="#ec4899"/>
+        <text x="640" y="200">CNN</text>
+      </a>
+
+      <!-- Node 6: Transformer -->
+      <a href="ch6.html" class="kg-node">
+        <circle cx="640" cy="340" r="30" fill="#f43f5e"/>
+        <text x="640" y="337">Trans-</text>
+        <text x="640" y="351">former</text>
+      </a>
+
+      <!-- Node 7: 无监督学习 -->
+      <a href="ch7.html" class="kg-node">
+        <circle cx="200" cy="200" r="30" fill="#10b981"/>
+        <text x="200" y="197">无监督</text>
+        <text x="200" y="211">学习</text>
+      </a>
+
+      <!-- Node 8: 强化学习 -->
+      <a href="ch8.html" class="kg-node">
+        <circle cx="200" cy="340" r="30" fill="#14b8a6"/>
+        <text x="200" y="337">强化</text>
+        <text x="200" y="351">学习</text>
+      </a>
+
+      <!-- Node 9: NLP进阶 -->
+      <a href="ch9.html" class="kg-node">
+        <circle cx="440" cy="340" r="30" fill="#f97316"/>
+        <text x="440" y="337">NLP</text>
+        <text x="440" y="351">进阶</text>
+      </a>
+
+      <!-- Node 10: CV进阶 -->
+      <a href="ch10.html" class="kg-node">
+        <circle cx="440" cy="200" r="30" fill="#eab308"/>
+        <text x="440" y="197">CV</text>
+        <text x="440" y="211">进阶</text>
+      </a>
+
+      <!-- Node 11: AI伦理 -->
+      <a href="ch11.html" class="kg-node">
+        <circle cx="340" cy="440" r="30" fill="#06b6d4"/>
+        <text x="340" y="437">AI</text>
+        <text x="340" y="451">伦理</text>
+      </a>
+
+      <!-- Node 12: AI未来 -->
+      <a href="ch12.html" class="kg-node">
+        <circle cx="540" cy="440" r="30" fill="#0ea5e9"/>
+        <text x="540" y="437">AI</text>
+        <text x="540" y="451">未来</text>
+      </a>
+    </svg>
+  </div>
+</section>
+
+<!-- Chapter Cards -->
+<section style="max-width:960px;margin:0 auto;padding:0 1.5rem;">
+  <h2 style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:var(--heading);font-family:Georgia,serif;">章节目录</h2>
+  <div class="chapter-grid">
+    <a href="ch1.html" class="chapter-card-link">
+      <div class="card-num">第 1 章</div>
+      <div class="card-title">什么是AI</div>
+      <div class="card-desc">了解人工智能的基本概念、历史发展和应用领域。</div>
+    </a>
+    <a href="ch2.html" class="chapter-card-link">
+      <div class="card-num">第 2 章</div>
+      <div class="card-title">数据与特征</div>
+      <div class="card-desc">学习数据预处理、特征工程和数据表示方法。</div>
+    </a>
+    <a href="ch3.html" class="chapter-card-link">
+      <div class="card-num">第 3 章</div>
+      <div class="card-title">监督学习</div>
+      <div class="card-desc">掌握线性回归、逻辑回归、SVM等经典算法。</div>
+    </a>
+    <a href="ch4.html" class="chapter-card-link">
+      <div class="card-num">第 4 章</div>
+      <div class="card-title">神经网络</div>
+      <div class="card-desc">深入理解神经元、激活函数、反向传播和优化器。</div>
+    </a>
+    <a href="ch5.html" class="chapter-card-link">
+      <div class="card-num">第 5 章</div>
+      <div class="card-title">卷积神经网络</div>
+      <div class="card-desc">学习卷积、池化、经典架构（LeNet、ResNet等）。</div>
+    </a>
+    <a href="ch6.html" class="chapter-card-link">
+      <div class="card-num">第 6 章</div>
+      <div class="card-title">Transformer</div>
+      <div class="card-desc">理解注意力机制、自注意力和Transformer架构。</div>
+    </a>
+    <a href="ch7.html" class="chapter-card-link">
+      <div class="card-num">第 7 章</div>
+      <div class="card-title">无监督学习</div>
+      <div class="card-desc">探索聚类、降维、自编码器等无监督方法。</div>
+    </a>
+    <a href="ch8.html" class="chapter-card-link">
+      <div class="card-num">第 8 章</div>
+      <div class="card-title">强化学习</div>
+      <div class="card-desc">学习Q-learning、策略梯度和深度强化学习。</div>
+    </a>
+    <a href="ch9.html" class="chapter-card-link">
+      <div class="card-num">第 9 章</div>
+      <div class="card-title">NLP进阶</div>
+      <div class="card-desc">深入了解大语言模型、GPT架构和NLP应用。</div>
+    </a>
+    <a href="ch10.html" class="chapter-card-link">
+      <div class="card-num">第 10 章</div>
+      <div class="card-title">CV进阶</div>
+      <div class="card-desc">学习GAN、目标检测、图像分割等高级CV技术。</div>
+    </a>
+    <a href="ch11.html" class="chapter-card-link">
+      <div class="card-num">第 11 章</div>
+      <div class="card-title">AI伦理</div>
+      <div class="card-desc">探讨AI公平性、可解释性、隐私和安全问题。</div>
+    </a>
+    <a href="ch12.html" class="chapter-card-link">
+      <div class="card-num">第 12 章</div>
+      <div class="card-title">AI未来</div>
+      <div class="card-desc">展望AI发展趋势、AGI探索和未来挑战。</div>
+    </a>
+  </div>
+</section>
+
+<!-- Quote Box -->
+<section style="max-width:960px;margin:2rem auto 3rem;padding:0 1.5rem;">
+  <div class="quote-box" onclick="showRandomQuote()">
+    <p id="quote-text" style="font-size:1.1rem;color:var(--text);transition:opacity 0.2s;">学习AI最好的时间是十年前，其次是现在。</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="text-align:center;padding:2rem 1.5rem;color:#6b7280;font-size:0.9rem;border-top:1px solid var(--border);">
+  <p>AI入门指南 &copy; 2024 &mdash; 系统学习人工智能</p>
+</footer>
+
+<!-- Mobile menu -->
+<div id="mobile-overlay" class="mobile-overlay"></div>
+<div id="mobile-drawer" class="mobile-drawer">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+    <span style="font-weight:700;color:var(--heading);">目录</span>
+    <button id="close-drawer" style="background:none;border:none;cursor:pointer;font-size:1.5rem;color:var(--text);">&times;</button>
+  </div>
+  <nav>
+    <a href="ch1.html" class="mobile-nav-link sidebar-link">第1章 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link sidebar-link">第2章 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link sidebar-link">第3章 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link sidebar-link">第4章 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link sidebar-link">第5章 CNN</a>
+    <a href="ch6.html" class="mobile-nav-link sidebar-link">第6章 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link sidebar-link">第7章 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link sidebar-link">第8章 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link sidebar-link">第9章 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link sidebar-link">第10章 CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link sidebar-link">第11章 AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link sidebar-link">第12章 AI未来</a>
+  </nav>
+</div>
+
+<script src="common.js"></script>
+</body>
+</html>

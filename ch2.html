@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🍉 第2章：数据与特征 - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link active" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">🍉 第二章：数据与特征</h2>
+
+      <h3>数据的基本类型</h3>
+      <p>在开始特征工程之前，先了解数据的基本分类方式。不同类型的数据需要不同的处理方法。</p>
+
+      <p><strong>按数据结构分类</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>类型</th><th>特征</th><th>示例</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>结构化数据</td><td>行列分明，每行代表一条记录，每列代表一个特征</td><td>数据库表、Excel表格、CSV文件</td></tr>
+          <tr><td>非结构化数据</td><td>没有固定格式，无法直接用表格表示</td><td>文本、图片、音频、视频</td></tr>
+          <tr><td>半结构化数据</td><td>有一定的结构但不如结构化数据严格</td><td>JSON、XML、HTML、日志文件</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>按特征类型分类</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>类型</th><th>子类型</th><th>示例</th><th>处理方法</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>数值型</td><td>连续型</td><td>身高 175.5 cm、温度 36.5°C</td><td>归一化、标准化</td></tr>
+          <tr><td>数值型</td><td>离散型</td><td>家庭人数 3、购买次数 5</td><td>可直接使用或分箱</td></tr>
+          <tr><td>类别型</td><td>有序型</td><td>学历：小学 &lt; 初中 &lt; 高中 &lt; 大学</td><td>有序编码</td></tr>
+          <tr><td>类别型</td><td>无序型</td><td>颜色：红、绿、蓝</td><td>独热编码</td></tr>
+          <tr><td>文本型</td><td>-</td><td>评论、新闻、邮件</td><td>TF-IDF、词嵌入</td></tr>
+          <tr><td>时间型</td><td>-</td><td>日期、时间戳、时间段</td><td>提取年月日、时间差</td></tr>
+        </tbody>
+      </table>
+
+      <h3>西瓜问题的完整特征工程</h3>
+      <p>让我们用一个完整的例子来演示特征工程的全过程。</p>
+
+      <p><strong>原始数据表格</strong></p>
+      <p>假设我们从水果摊收集了以下数据：</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>编号</th><th>颜色</th><th>纹路</th><th>瓜蒂</th><th>敲声</th><th>重量(kg)</th><th>大小(cm)</th><th>含糖量(%)</th><th>好瓜</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>翠绿</td><td>清晰</td><td>卷曲</td><td>清脆</td><td>4.2</td><td>22</td><td>14.5</td><td>是</td></tr>
+          <tr><td>2</td><td>深绿</td><td>模糊</td><td>直</td><td>沉闷</td><td>3.1</td><td>18</td><td>9.2</td><td>否</td></tr>
+          <tr><td>3</td><td>浅绿</td><td>清晰</td><td>卷曲</td><td>清脆</td><td>5.0</td><td>25</td><td>16.8</td><td>是</td></tr>
+          <tr><td>4</td><td>翠绿</td><td>无</td><td>脱落</td><td>咚咚</td><td>2.8</td><td>16</td><td>7.5</td><td>否</td></tr>
+          <tr><td>5</td><td>深绿</td><td>清晰</td><td>卷曲</td><td>清脆</td><td>4.5</td><td>23</td><td>15.3</td><td>是</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>类别型特征编码</strong></p>
+      <p>机器学习模型无法直接理解"翠绿"、"清脆"这样的文字，需要转换为数字。</p>
+
+      <p>① <strong>独热编码（One-Hot Encoding）</strong> —— 适用于无序类别：</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+
+# 独热编码示例
+colors = pd.DataFrame({'颜色': ['翠绿', '深绿', '浅绿', '翠绿', '深绿']})
+
+encoder = OneHotEncoder(sparse_output=False)
+colors_encoded = encoder.fit_transform(colors)
+print(colors_encoded)
+# 输出: 
+# [[1, 0, 0],   # 翠绿 → [1,0,0]
+#  [0, 1, 0],   # 深绿 → [0,1,0]
+#  [0, 0, 1],   # 浅绿 → [0,0,1]
+#  [1, 0, 0],   # 翠绿 → [1,0,0]
+#  [0, 1, 0]]   # 深绿 → [0,1,0]</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p>② <strong>有序编码（Ordinal Encoding）</strong> —— 适用于有顺序的类别：</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from sklearn.preprocessing import OrdinalEncoder
+
+# 纹路: 有自然顺序 (无 < 模糊 < 清晰)
+纹路顺序 = [['无', '模糊', '清晰']]
+encoder = OrdinalEncoder(categories=纹路顺序)
+纹路编码 = encoder.fit_transform(df[['纹路']])</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>数值型特征处理</strong></p>
+      <p>重量（4.2kg）和含糖量（14.5%）量纲不同，需要缩放到相同范围。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+# 原始数值特征
+weight = [4.2, 3.1, 5.0, 2.8, 4.5]
+sugar = [14.5, 9.2, 16.8, 7.5, 15.3]
+
+# 方法1: Min-Max归一化 → 缩放到 [0, 1]
+scaler = MinMaxScaler()
+weight_minmax = scaler.fit_transform([[4.2],[3.1],[5.0],[2.8],[4.5]])
+# 输出: [0.692, 0.269, 1.0, 0.0, 0.808]
+
+# 方法2: Z-score标准化 → 均值0, 标准差1
+scaler = StandardScaler()
+weight_zscore = scaler.fit_transform([[4.2],[3.1],[5.0],[2.8],[4.5]])
+# 输出: [0.216, -0.862, 1.203, -1.382, 0.479]</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <table class="feature-table">
+        <thead>
+          <tr><th>方法</th><th>公式</th><th>适用场景</th><th>特点</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Min-Max归一化</td><td>(x - min) / (max - min)</td><td>数据分布有明确边界</td><td>输出在[0,1]，对异常值敏感</td></tr>
+          <tr><td>Z-score标准化</td><td>(x - mean) / std</td><td>数据近似正态分布</td><td>输出均值0方差1，对异常值鲁棒</td></tr>
+        </tbody>
+      </table>
+
+      <h3>特征工程的完整流程</h3>
+      <p>一个完整的特征工程流程包含四个核心步骤：</p>
+
+      <p><strong>步骤1：数据清洗</strong></p>
+      <p>数据质量决定模型效果的天花板。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import pandas as pd
+import numpy as np
+
+df = pd.read_csv('watermelon.csv')
+
+# 缺失值处理
+df.fillna(df.mean(), inplace=True)          # 数值型: 用均值填充
+df['颜色'].fillna(df['颜色'].mode()[0])      # 类别型: 用众数填充
+
+# 异常值检测 (IQR方法)
+Q1 = df['重量'].quantile(0.25)
+Q3 = df['重量'].quantile(0.75)
+IQR = Q3 - Q1
+df = df[(df['重量'] >= Q1-1.5*IQR) & (df['重量'] <= Q3+1.5*IQR)]
+
+# 重复值删除
+df.drop_duplicates(inplace=True)</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>步骤2：特征构造</strong></p>
+      <p>从已有特征中创造更有信息量的新特征。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># 组合特征: 重量与大小的比值反映密度
+df['密度'] = df['重量'] / (df['大小'] ** 3)
+
+# 多项式特征: 捕捉非线性关系
+from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(df[['重量', '大小']])
+
+# 时间特征: 从日期中提取信息
+df['购买日期'] = pd.to_datetime(df['购买日期'])
+df['星期'] = df['购买日期'].dt.dayofweek
+df['是否周末'] = df['星期'].isin([5, 6]).astype(int)</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>步骤3：特征选择</strong></p>
+      <p>从众多特征中选出最有价值的子集。</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>方法</th><th>原理</th><th>优点</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>过滤法</td><td>根据统计指标（相关系数、卡方检验）排序</td><td>计算快、与模型无关</td><td>高维数据快速筛选</td></tr>
+          <tr><td>包裹法</td><td>用模型性能评估特征子集</td><td>针对特定模型优化</td><td>特征数量适中时</td></tr>
+          <tr><td>嵌入法</td><td>模型训练中自动选择</td><td>效率高、效果好</td><td>树模型、正则化模型</td></tr>
+        </tbody>
+      </table>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># 过滤法: 相关系数
+correlations = df.corr()['好瓜'].abs().sort_values(ascending=False)
+
+# 嵌入法: L1正则化自动选择
+from sklearn.linear_model import LassoCV
+model = LassoCV()
+model.fit(X, y)
+importance = np.abs(model.coef_)
+selected = X.columns[importance > 0]</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>步骤4：特征降维</strong></p>
+      <p>当特征维度太高时，降维可以减少计算量、去除噪声。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># PCA: 保留95%方差
+from sklearn.decomposition import PCA
+pca = PCA(n_components=0.95)
+X_reduced = pca.fit_transform(X)
+
+# t-SNE: 可视化降维（保留局部结构）
+from sklearn.manifold import TSNE
+X_2d = TSNE(n_components=2).fit_transform(X)</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+      <table class="feature-table">
+        <thead>
+          <tr><th>方法</th><th>特点</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PCA</td><td>线性降维，保留全局方差，可逆</td><td>高维数值数据压缩</td></tr>
+          <tr><td>t-SNE</td><td>非线性降维，保留局部结构，不可逆</td><td>数据可视化</td></tr>
+          <tr><td>UMAP</td><td>比t-SNE更快，更好保留全局结构</td><td>大规模数据可视化</td></tr>
+        </tbody>
+      </table>
+
+      <h3>特征工程的最佳实践</h3>
+      <blockquote>
+        "数据和特征决定了机器学习的上限，而模型和算法只是逼近这个上限。" —— Andrew Ng
+      </blockquote>
+      <p>一个简单的模型 + 好的特征，往往比复杂模型 + 差的特征效果更好。以下是5条经过验证的最佳实践：</p>
+      <ul>
+        <li><strong>先理解业务再动手</strong> —— 特征工程不是盲目尝试，先理解数据背后的业务逻辑</li>
+        <li><strong>数据清洗优先</strong> —— 垃圾进垃圾出，确保数据质量后再做特征构造</li>
+        <li><strong>从简单开始</strong> —— 先用基础特征建基线模型，再逐步增加复杂度</li>
+        <li><strong>避免数据泄露</strong> —— 特征缩放、缺失值填充等操作必须在训练集上fit，再应用到测试集</li>
+        <li><strong>特征可解释性</strong> —— 可解释的特征更易调试、更值得信任</li>
+      </ul>
+    
+
+<div class="chapter-nav">  <a href="ch1.html"><span class="nav-label">← 上一章</span><span class="nav-title">🤖 什么是AI</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch3.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">📈 监督学习</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+
+
+</body>
+</html>

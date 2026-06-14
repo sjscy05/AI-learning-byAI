@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>⚖️ 第11章：AI伦理与社会影响 - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link active" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">⚖️ 第十一章：AI伦理与社会影响</h2>
+
+      <h3>AI的道德课 —— 技术向善</h3>
+      <p>AI技术越来越强大，但强大的技术也需要<strong>负责任地使用</strong>。就像一把菜刀可以切菜也可以伤人，AI的使用方式决定了它对社会的影响。</p>
+
+      <!-- ========== 算法公平性定义 ========== -->
+      <h3>算法公平性 —— AI也会"歧视"</h3>
+      <p><strong>真实案例：</strong>亚马逊的AI招聘系统被发现歧视女性候选人。原因是训练数据中男性简历更多，AI学会了"男性更适合"的偏见。</p>
+      <blockquote>
+        <strong>偏见来源：</strong>数据偏见 → 模型学习偏见 → 放大偏见 → 造成不公平
+      </blockquote>
+
+      <p><strong>公平性的数学定义：</strong></p>
+
+      <p><strong>1. 统计均等（Demographic Parity）：</strong></p>
+      <div class="math-display" id="math-demographic-parity"></div>
+      <p>要求：无论受保护属性（如性别、种族）如何，获得正类预测的概率应相同。</p>
+
+      <p><strong>2. 均等机会（Equalized Odds）：</strong></p>
+      <div class="math-display" id="math-equalized-odds"></div>
+      <p>要求：不同群体的真正率和假正率相同。即对不同群体的预测准确率应该一致。</p>
+
+      <p><strong>3. 校准（Calibration）：</strong></p>
+      <div class="math-display" id="math-calibration"></div>
+      <p>要求：预测概率为 $p$ 的样本中，真正属于正类的比例确实是 $p$。</p>
+
+      <p><strong>公平性定义的不可能定理：</strong></p>
+      <blockquote>
+        当受保护属性与标签相关时，统计均等、均等机会和校准不可能同时满足。我们必须根据具体应用场景选择最合适的公平性定义。
+      </blockquote>
+
+      <p><strong>生活比喻：</strong>如果你只用左眼看世界，你会觉得所有东西都偏向左边。AI如果只看有偏见的数据，也会产生偏见。</p>
+
+      <!-- ========== 差分隐私 ========== -->
+      <h3>差分隐私 —— 数学化的隐私保护</h3>
+      <p><strong>问题：</strong>机器学习需要大量数据，但数据包含个人隐私。如何在训练模型的同时保护隐私？</p>
+
+      <p><strong>差分隐私（Differential Privacy）的定义：</strong></p>
+      <p>一个随机算法 $M$ 满足 $(\varepsilon, \delta)$-差分隐私，当且仅当对于任意两个相邻数据集 $D_1$ 和 $D_2$（仅差一条记录），以及任意输出子集 $S$：</p>
+      <div class="math-display" id="math-dp"></div>
+      <p>其中 $\varepsilon$（隐私预算）越小，隐私保护越强。$\varepsilon=0$ 表示完全隐私，$\varepsilon=\infty$ 表示无隐私保护。</p>
+
+      <p><strong>噪声注入机制：</strong></p>
+      <p>最常用的实现方式是在梯度上添加噪声（差分隐私随机梯度下降，DP-SGD）：</p>
+      <div class="math-display" id="math-dp-sgd"></div>
+      <p>其中 $\sigma$ 是噪声标准差，$\sigma = \frac{S \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon}$，$S$ 是梯度裁剪阈值。</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># 差分隐私的简单实现
+import torch
+import numpy as np
+
+def dp_sgd_step(model, dataloader, lr, noise_multiplier, max_grad_norm):
+    """差分隐私SGD的一步更新"""
+    for p in model.parameters():
+        if p.grad is not None:
+            # 1. 梯度裁剪（按样本裁剪）
+            grad_norm = torch.norm(p.grad, p=2)
+            clip_factor = max_grad_norm / (grad_norm + 1e-8)
+            if clip_factor < 1:
+                p.grad *= clip_factor
+
+            # 2. 添加高斯噪声
+            noise = torch.randn_like(p.grad) * noise_multiplier * max_grad_norm
+            p.grad += noise
+
+            # 3. 标准SGD更新
+            p.data -= lr * p.grad
+
+# 隐私预算计算
+# ε = 8 对应较好的隐私保护
+# ε = 1 对应非常强的隐私保护
+# ε = 0.1 几乎完全隐私保护</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== 联邦学习 ========== -->
+      <h3>联邦学习 —— 数据不出本地的AI</h3>
+      <p><strong>核心思想：</strong>数据保留在本地设备上，只共享模型参数更新，而不是原始数据。</p>
+
+      <p><strong>联邦学习的流程：</strong></p>
+      <ol>
+        <li>服务器发送全局模型给各客户端</li>
+        <li>各客户端在本地数据上训练</li>
+        <li>客户端只上传模型更新（梯度）</li>
+        <li>服务器聚合更新，生成新的全局模型</li>
+        <li>重复以上步骤直到收敛</li>
+      </ol>
+
+      <div style="background:var(--code-bg); padding:1rem; border-radius:8px; margin:1rem 0; text-align:center;">
+        <p><strong>服务器</strong> ↔ <strong>手机1（本地数据）</strong></p>
+        <p style="margin-left:3rem;">↔ <strong>手机2（本地数据）</strong></p>
+        <p style="margin-left:3rem;">↔ <strong>手机3（本地数据）</strong></p>
+        <p style="font-size:0.8rem; color:#6b7280;">数据不出手机，只上传模型参数</p>
+      </div>
+
+      <p><strong>联邦学习的挑战：</strong></p>
+      <ul>
+        <li><strong>数据异构</strong>：不同客户端的数据分布可能差异很大</li>
+        <li><strong>通信效率</strong>：模型更新需要大量通信</li>
+        <li><strong>安全性</strong>：攻击者可能通过梯度推断原始数据</li>
+      </ul>
+
+      <!-- ========== 可解释AI ========== -->
+      <h3>可解释AI —— 让AI决策透明化</h3>
+      <p><strong>问题：</strong>深度学习模型是"黑箱"，我们不知道它为什么做出某个决策。在医疗、金融等高风险领域，不可解释的AI是不可接受的。</p>
+
+      <p><strong>两种可解释性：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>类型</th><th>定义</th><th>方法</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>全局可解释性</strong></td><td>理解模型整体行为</td><td>特征重要性、部分依赖图</td></tr>
+          <tr><td><strong>局部可解释性</strong></td><td>解释单个预测</td><td>LIME、SHAP</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>LIME（Local Interpretable Model-agnostic Explanations）：</strong></p>
+      <p>在待解释样本的邻域内训练一个简单的可解释模型（如线性模型）来近似黑箱模型。</p>
+
+      <p><strong>SHAP（SHapley Additive exPlanations）：</strong></p>
+      <p>基于博弈论中的Shapley值，计算每个特征对预测的贡献：</p>
+      <div class="math-display" id="math-shap"></div>
+      <p>其中 $S$ 是特征子集，$|S|$ 是子集大小，$d$ 是特征总数。</p>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># SHAP可解释性示例
+import shap
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+
+# 训练模型
+X, y = load_iris(return_X_y=True, as_frame=True)
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X, y)
+
+# 计算SHAP值
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X)
+
+# 全局特征重要性
+shap.summary_plot(shap_values, X)
+
+# 单个样本解释
+shap.force_plot(explainer.expected_value[0],
+                shap_values[0][0],
+                X.iloc[0])
+
+# LIME解释
+from lime.lime_tabular import LimeTabularExplainer
+lime_explainer = LimeTabularExplainer(
+    X.values, feature_names=X.columns.tolist(),
+    class_names=['setosa', 'versicolor', 'virginica']
+)
+explanation = lime_explainer.explain_instance(
+    X.iloc[0].values, model.predict_proba, num_features=4
+)
+explanation.show_in_notebook()</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== 伦理框架对比 ========== -->
+      <h3>AI伦理原则 —— 框架对比</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>原则</th><th>描述</th><th>代表组织</th><th>实践措施</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>公平公正</strong></td><td>AI决策不应歧视任何群体</td><td>EU、IEEE</td><td>公平性审计、偏见检测</td></tr>
+          <tr><td><strong>透明可解释</strong></td><td>AI的决策过程应该可以理解</td><td>EU GDPR、中国AI治理</td><td>可解释AI、模型文档</td></tr>
+          <tr><td><strong>隐私保护</strong></td><td>保护用户数据安全和隐私</td><td>GDPR、CCPA</td><td>差分隐私、联邦学习</td></tr>
+          <tr><td><strong>人类可控</strong></td><td>AI始终在人类控制之下</td><td>联合国、AI安全研究所</td><td>人机协同、紧急停止机制</td></tr>
+          <tr><td><strong>安全可靠</strong></td><td>AI系统应安全、可靠、可审计</td><td>NIST、ISO</td><td>红队测试、安全评估</td></tr>
+          <tr><td><strong>责任归属</strong></td><td>AI造成的损害应有明确责任人</td><td>各国立法机构</td><td>AI责任法、保险机制</td></tr>
+        </tbody>
+      </table>
+
+      <h3>AI安全 —— 防止滥用</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>风险</th><th>说明</th><th>防范措施</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>深度伪造</td><td>生成逼真的假视频</td><td>数字水印、检测算法</td></tr>
+          <tr><td>AI武器</td><td>自主武器系统</td><td>国际公约、伦理审查</td></tr>
+          <tr><td>信息茧房</td><td>推荐算法制造偏见</td><td>多元化推荐、人工审核</td></tr>
+          <tr><td>就业冲击</td><td>AI取代人类工作</td><td>再培训、新职业发展</td></tr>
+          <tr><td>大模型滥用</td><td>生成虚假信息、恶意代码</td><td>内容审核、使用政策</td></tr>
+        </tbody>
+      </table>
+
+      <h3>思考题</h3>
+      <ol>
+        <li>如果AI法官判案，你会信任它的判决吗？如何定义"公平"的AI法官？</li>
+        <li>自动驾驶汽车在紧急情况下应该保护乘客还是行人？不同文化背景下答案会不同吗？</li>
+        <li>AI生成的艺术作品算"创作"吗？版权应该归谁？</li>
+        <li>差分隐私的隐私预算 $\varepsilon$ 应该由谁来设定？用户、企业还是政府？</li>
+        <li>联邦学习真的能完全保护隐私吗？可能存在哪些攻击方式？</li>
+      </ol>
+    
+
+<div class="chapter-nav">  <a href="ch10.html"><span class="nav-label">← 上一章</span><span class="nav-title">👁️ CV进阶</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch12.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🚀 AI未来</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mathElements = {
+      'math-demographic-parity': 'P(\\hat{Y}=1 | A=0) = P(\\hat{Y}=1 | A=1)',
+      'math-equalized-odds': 'P(\\hat{Y}=1 | Y=y, A=0) = P(\\hat{Y}=1 | Y=y, A=1), \\quad y \\in \\{0,1\\}',
+      'math-calibration': 'P(Y=1 | \\hat{P}=p, A=a) = p, \\quad \\forall p \\in [0,1], \\forall a',
+      'math-dp': 'P[M(D_1) \\in S] \\leq e^{\\varepsilon} \\cdot P[M(D_2) \\in S]',
+      'math-dp-sgd': '\\tilde{g}_t = \\text{clip}(g_t, C) + \\mathcal{N}(0, \\sigma^2 C^2 \\mathbf{I})',
+      'math-shap': '\\phi_i = \\sum_{S \\subseteq F \\setminus \\{i\\}} \\frac{|S|!(d-|S|-1)!}{d!} [f(S \\cup \\{i\\}) - f(S)]',
+    };
+    Object.entries(mathElements).forEach(([id, tex]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(tex, el, { displayMode: true, throwOnError: false }); }
+        catch(e) { el.textContent = tex; }
+      }
+    });
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>📝 第9章：自然语言处理进阶 - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link active" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">📝 第九章：自然语言处理进阶</h2>
+
+      <h3>给词语画地图 —— 词嵌入</h3>
+      <p>计算机不理解"国王"、"女王"这些词的含义。但如果我们把每个词映射到一个<strong>向量空间</strong>，让意思相近的词距离也近，计算机就能"理解"词语了。</p>
+      <blockquote>
+        <strong>词嵌入(Word Embedding)：</strong>将词语映射为稠密向量，使得语义相近的词在向量空间中距离也相近。
+      </blockquote>
+
+      <p><strong>生活比喻：</strong>想象一个巨大的地图，每个词是一个城市。"北京"和"上海"挨得很近（都是中国大城市），"猫"和"狗"挨得很近（都是宠物），但"北京"和"猫"就离得很远。</p>
+
+      <h3>Word2Vec —— 两种训练方式</h3>
+      <p>Word2Vec是Google在2013年提出的词嵌入方法，有两种训练架构：</p>
+
+      <p><strong>1. CBOW（Continuous Bag of Words）—— 根据上下文预测中心词</strong></p>
+      <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; margin:1rem 0;">
+        <p style="font-size:0.9rem;"><strong>输入（上下文）</strong> → <strong>预测</strong> → <strong>输出（中心词）</strong></p>
+        <p style="font-size:0.8rem; color:#6b7280;">"the cat ___ on the mat" → 预测 "sat"</p>
+        <p style="font-size:0.75rem; color:#9ca3af;">适合：频繁词、语法规则学习</p>
+      </div>
+
+      <p><strong>2. Skip-gram —— 根据中心词预测上下文</strong></p>
+      <div style="background:var(--code-bg); padding:1rem; border-radius:8px; text-align:center; margin:1rem 0;">
+        <p style="font-size:0.9rem;"><strong>输入（中心词）</strong> → <strong>预测</strong> → <strong>输出（上下文）</strong></p>
+        <p style="font-size:0.8rem; color:#6b7280;">"sat" → 预测 "the", "cat", "on", "the", "mat"</p>
+        <p style="font-size:0.75rem; color:#9ca3af;">适合：稀疏词、语义关系学习</p>
+      </div>
+
+      <p><strong>CBOW vs Skip-gram 对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>特性</th><th>CBOW</th><th>Skip-gram</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>训练速度</td><td>快</td><td>较慢</td></tr>
+          <tr><td>罕见词效果</td><td>一般</td><td>更好</td></tr>
+          <tr><td>语义相似度</td><td>较好</td><td>更好</td></tr>
+          <tr><td>语法规则</td><td>更好</td><td>一般</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># Word2Vec经典发现
+# "国王 - 男人 + 女人 ≈ 女王"
+# 向量运算居然能捕捉语义关系！
+
+from gensim.models import Word2Vec
+import numpy as np
+
+# 训练Word2Vec模型
+sentences = [
+    ["我", "喜欢", "自然", "语言", "处理"],
+    ["深度", "学习", "是", "人工智能", "的", "分支"],
+    ["神经", "网络", "可以", "学习", "特征"],
+]
+model = Word2Vec(sentences, vector_size=100, window=5, min_count=1, epochs=100)
+
+# 获取词向量
+vector = model.wv["学习"]  # 100维向量
+print(f"'学习'的词向量维度: {vector.shape}")
+
+# 查找相似词
+# similar_words = model.wv.most_similar("学习", topn=5)
+
+# 词向量运算
+# king - man + woman ≈ queen
+# result = model.wv["国王"] - model.wv["男人"] + model.wv["女人"]</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <div style="background:var(--code-bg); padding:1.5rem; border-radius:8px; text-align:center; font-family:monospace; margin:1rem 0;">
+        <div style="margin-bottom:1rem;">
+          <span style="color:var(--primary); font-weight:600;">国王</span> - <span style="color:var(--primary); font-weight:600;">男人</span> + <span style="color:var(--primary); font-weight:600;">女人</span> ≈ <span style="color:#10b981; font-weight:600;">女王</span>
+        </div>
+        <div style="font-size:0.85rem; color:#6b7280;">向量运算居然能捕捉语义关系！</div>
+      </div>
+
+      <!-- ========== Attention机制数学推导 ========== -->
+      <h3>Attention机制 —— 数学推导</h3>
+      <p>Attention机制的核心思想：让模型在处理每个位置时，能"关注"输入序列中最相关的部分。</p>
+
+      <p><strong>缩放点积注意力（Scaled Dot-Product Attention）：</strong></p>
+      <div class="math-display" id="math-nlp-attention"></div>
+      <p>其中 $Q$（查询）、$K$（键）、$V$（值）都是输入通过线性变换得到的，$d_k$ 是键向量维度。</p>
+
+      <p><strong>为什么要除以 $\sqrt{d_k}$？</strong></p>
+      <p>假设 $Q$ 和 $K$ 的元素独立同分布，均值为0，方差为1。则点积 $Q \cdot K$ 的方差为 $d_k$。当 $d_k$ 很大时，softmax的输入值会很大，导致梯度消失。除以 $\sqrt{d_k}$ 将方差归一化为1。</p>
+
+      <p><strong>Self-Attention的完整流程：</strong></p>
+      <ol>
+        <li>输入序列 $\mathbf{X} \in \mathbb{R}^{n \times d}$</li>
+        <li>计算 $Q = \mathbf{X}W_Q$, $K = \mathbf{X}W_K$, $V = \mathbf{X}W_V$</li>
+        <li>计算注意力分数 $\text{score} = \frac{QK^T}{\sqrt{d_k}}$</li>
+        <li>Softmax归一化得到注意力权重</li>
+        <li>对 $V$ 加权求和得到输出</li>
+      </ol>
+
+      <!-- ========== BERT ========== -->
+      <h3>BERT —— 双向预训练模型</h3>
+      <p><strong>BERT（Bidirectional Encoder Representations from Transformers）</strong>是Google在2018年提出的预训练语言模型。核心创新：<strong>双向上下文理解</strong>。</p>
+
+      <p><strong>预训练任务1：掩码语言模型（MLM）</strong></p>
+      <p>随机遮盖15%的词，让模型预测被遮盖的词：</p>
+      <div style="background:var(--code-bg); padding:0.75rem 1rem; border-radius:6px; margin:0.5rem 0; font-family:monospace;">
+        输入: "我 喜欢 [MASK] 算法"<br/>
+        标签: "机器"
+      </div>
+      <p>80%替换为[MASK]，10%替换为随机词，10%保持不变。</p>
+
+      <p><strong>预训练任务2：下一句预测（NSP）</strong></p>
+      <p>判断两个句子是否是连续的：</p>
+      <div style="background:var(--code-bg); padding:0.75rem 1rem; border-radius:6px; margin:0.5rem 0; font-family:monospace;">
+        输入: "[CLS] 今天天气很好 [SEP] 适合出去玩 [SEP]" → IsNext<br/>
+        输入: "[CLS] 今天天气很好 [SEP] 苹果是一种水果 [SEP]" → NotNext
+      </div>
+
+      <p><strong>BERT微调示例：</strong></p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import Trainer, TrainingArguments
+import torch
+
+# 加载预训练BERT和分词器
+tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
+model = BertForSequenceClassification.from_pretrained('bert-base-chinese', num_labels=2)
+
+# 准备数据
+texts = ["这部电影太精彩了", "剧情拖沓无聊"]
+labels = [1, 0]  # 1=正面, 0=负面
+
+# 分词和编码
+inputs = tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
+print(f"输入ID形状: {inputs['input_ids'].shape}")  # (2, max_len)
+
+# 前向传播
+outputs = model(**inputs, labels=torch.tensor(labels))
+loss = outputs.loss
+logits = outputs.logits
+print(f"预测概率: {torch.softmax(logits, dim=-1)}")
+
+# 微调训练
+training_args = TrainingArguments(
+    output_dir='./results',
+    num_train_epochs=3,
+    per_device_train_batch_size=16,
+    learning_rate=2e-5,  # BERT微调用小学习率
+    weight_decay=0.01,
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset,
+)
+trainer.train()</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== GPT ========== -->
+      <h3>GPT —— 自回归生成</h3>
+      <p><strong>GPT（Generative Pre-trained Transformer）</strong>使用Transformer解码器，通过自回归方式生成文本。</p>
+
+      <p><strong>GPT的训练目标：</strong>给定前文，预测下一个词（语言建模）：</p>
+      <div class="math-display" id="math-gpt-objective"></div>
+      <p>其中 $\theta$ 是模型参数，$u_i$ 是第 $i$ 个词的上下文。</p>
+
+      <p><strong>BERT vs GPT 对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>特性</th><th>BERT</th><th>GPT</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>架构</td><td>Transformer编码器</td><td>Transformer解码器</td></tr>
+          <tr><td>注意力方向</td><td>双向（同时看左右）</td><td>单向（只看左边）</td></tr>
+          <tr><td>预训练任务</td><td>MLM + NSP</td><td>语言模型（预测下一个词）</td></tr>
+          <tr><td>适合任务</td><td>理解任务（分类、NER）</td><td>生成任务（对话、写作）</td></tr>
+          <tr><td>参数量</td><td>1.1亿（base）</td><td>1750亿（GPT-3）</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># GPT文本生成示例
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+# 自回归生成
+def generate_text(prompt, max_length=50, temperature=0.8):
+    inputs = tokenizer.encode(prompt, return_tensors='pt')
+
+    outputs = model.generate(
+        inputs,
+        max_length=max_length,
+        temperature=temperature,  # 控制随机性
+        top_k=50,                 # Top-K采样
+        top_p=0.95,               # Nucleus采样
+        do_sample=True,
+        num_return_sequences=1
+    )
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+# 生成文本
+prompt = "The future of AI is"
+generated = generate_text(prompt)
+print(generated)</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <h3>RNN与LSTM —— 处理序列数据</h3>
+      <p><strong>问题：</strong>普通神经网络处理固定长度的输入。但句子有长有短。</p>
+      <p><strong>解决方案：</strong>RNN（循环神经网络）有一个"记忆"，可以记住前面看过的内容。</p>
+
+      <p><strong>LSTM的比喻 —— 带选择的记忆：</strong></p>
+      <ul>
+        <li><strong>遗忘门</strong>：决定丢掉哪些旧记忆（"昨天吃了什么不重要"）</li>
+        <li><strong>输入门</strong>：决定记住哪些新信息（"今天学了Python很重要"）</li>
+        <li><strong>输出门</strong>：决定输出什么（"现在需要回忆Python知识"）</li>
+      </ul>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python"># 文本情感分析示例（简化版）
+from transformers import pipeline
+
+# 加载预训练的情感分析模型
+classifier = pipeline("sentiment-analysis")
+
+# 分析电影评论的情感
+reviews = [
+    "这部电影太精彩了，强烈推荐！",
+    "剧情拖沓，浪费了两个小时。",
+    "演员演技在线，值得一看。"
+]
+
+for review in reviews:
+    result = classifier(review)[0]
+    print(f"评论: {review}")
+    print(f"情感: {result['label']}, 置信度: {result['score']:.2f}")
+    print()</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <h3>NLP的主要任务</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>任务</th><th>说明</th><th>应用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>文本分类</td><td>给文本打标签</td><td>垃圾邮件识别、情感分析</td></tr>
+          <tr><td>命名实体识别</td><td>识别人名、地名等</td><td>信息抽取、知识图谱</td></tr>
+          <tr><td>机器翻译</td><td>不同语言互译</td><td>Google翻译</td></tr>
+          <tr><td>文本生成</td><td>自动生成文本</td><td>ChatGPT、写作助手</td></tr>
+          <tr><td>问答系统</td><td>根据问题找答案</td><td>智能客服、搜索引擎</td></tr>
+          <tr><td>文本摘要</td><td>提取关键信息</td><td>新闻摘要、论文总结</td></tr>
+        </tbody>
+      </table>
+
+      <h3>练习题</h3>
+      <p><strong>练习1：</strong>训练一个Word2Vec模型（使用gensim），在中文语料上学习词向量，验证"国王-男人+女人≈女王"的语义关系。</p>
+      <p><strong>练习2：</strong>解释Self-Attention中为什么要除以 $\sqrt{d_k}$。如果不除，会发生什么？</p>
+      <p><strong>练习3：</strong>使用BERT对中文文本进行情感分类。比较BERT和传统机器学习方法（如TF-IDF+SVM）的效果差异。</p>
+      <p><strong>练习4：</strong>比较BERT和GPT的架构差异，分析为什么BERT更适合理解任务，GPT更适合生成任务。</p>
+    
+
+<div class="chapter-nav">  <a href="ch8.html"><span class="nav-label">← 上一章</span><span class="nav-title">🎮 强化学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch10.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">👁️ CV进阶</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mathElements = {
+      'math-nlp-attention': '\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V',
+      'math-gpt-objective': '\\mathcal{L}(\\theta) = -\\sum_{i} \\log P(u_i | u_{<i}; \\theta)',
+    };
+    Object.entries(mathElements).forEach(([id, tex]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(tex, el, { displayMode: true, throwOnError: false }); }
+        catch(e) { el.textContent = tex; }
+      }
+    });
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>📊 第7章：无监督学习与聚类 - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link active" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">📊 第七章：无监督学习与聚类</h2>
+
+      <h3>整理衣柜 —— 让机器自己发现规律</h3>
+      <p>想象你有一大堆乱七八糟的衣服，你想把它们整理好。你不需要提前定义"什么是上衣、什么是裤子"，而是<strong>让机器自动把相似的东西放在一起</strong>。这就是无监督学习。</p>
+      <blockquote>
+        <strong>无监督学习：</strong>没有标签的训练数据，让算法自己发现数据中的结构和规律。核心挑战在于没有"正确答案"来指导学习。
+      </blockquote>
+
+      <p><strong>无监督学习的三大任务：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>任务</th><th>目标</th><th>典型算法</th><th>应用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>聚类</td><td>将数据分组成有意义的簇</td><td>K-Means、DBSCAN、层次聚类</td><td>客户分群、图像分割</td></tr>
+          <tr><td>降维</td><td>减少特征数量保留核心信息</td><td>PCA、t-SNE、UMAP</td><td>数据可视化、特征压缩</td></tr>
+          <tr><td>异常检测</td><td>识别偏离正常模式的数据点</td><td>Isolation Forest、LOF</td><td>欺诈检测、故障诊断</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ========== K-Means详解 ========== -->
+      <h3>K-Means聚类 —— 最简单的聚类算法</h3>
+      <p><strong>生活比喻：</strong>想象你是一个学校食堂管理员，需要决定开几个打饭窗口。你会观察学生们的排队习惯，自动把他们分成几组。</p>
+
+      <p>K-Means的工作步骤：</p>
+      <ol>
+        <li><strong>初始化</strong>：随机选择K个数据点作为初始中心</li>
+        <li><strong>分配</strong>：将每个数据点分配到最近的中心点</li>
+        <li><strong>更新</strong>：重新计算每个簇的中心点</li>
+        <li><strong>重复</strong>：直到中心点不再变化或达到最大迭代次数</li>
+      </ol>
+
+      <p><strong>K-Means的数学表达：</strong></p>
+      <p>K-Means的目标是最小化簇内平方误差（Within-Cluster Sum of Squares, WCSS）：</p>
+      <div class="math-display" id="math-kmeans-objective"></div>
+      <p>其中 $\mu_k$ 是第 $k$ 个簇的中心点，$r_{nk}$ 是指示变量（$r_{nk}=1$ 表示点 $n$ 属于簇 $k$）。</p>
+
+      <p><strong>K-Means的收敛性：</strong></p>
+      <blockquote>
+        <strong>定理：</strong>K-Means算法在每次迭代中都会使目标函数 $J$ 单调递减，因此保证收敛。但由于目标函数是非凸的，算法可能收敛到局部最优解。
+      </blockquote>
+      <p>收敛过程保证：</p>
+      <ul>
+        <li>分配步骤：每个点分配到最近的中心，使 $J$ 减小或不变</li>
+        <li>更新步骤：中心点移向簇的均值，使 $J$ 减小或不变</li>
+        <li>$J$ 有下界（$\geq 0$），且每次迭代严格递减</li>
+      </ul>
+      <p>因此，K-Means一定在有限步内收敛。通常10-30次迭代即可收敛。</p>
+
+      <p><strong>如何选择K值？—— 肘部法则（Elbow Method）</strong></p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import numpy as np
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# 生成示例数据
+np.random.seed(42)
+X = np.vstack([
+    np.random.randn(100, 2) * 0.8 + [0, 0],
+    np.random.randn(100, 2) * 0.8 + [4, 4],
+    np.random.randn(100, 2) * 0.8 + [0, 4]
+])
+
+# 肘部法则：计算不同K值的WCSS
+wcss = []
+K_range = range(1, 11)
+for k in K_range:
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)  # inertia_ 就是WCSS
+
+# 绘制肘部图
+plt.figure(figsize=(8, 4))
+plt.plot(K_range, wcss, 'bo-')
+plt.xlabel('K (簇数)')
+plt.ylabel('WCSS (簇内平方误差)')
+plt.title('肘部法则选择最优K值')
+plt.grid(True)
+plt.show()
+# 选择"肘部"对应的K值（曲线下降速度突然变缓的点）</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <h3>聚类过程可视化</h3>
+      <canvas id="kmeans-canvas" width="600" height="300" style="width:100%; height:300px; border:1px solid var(--border); border-radius:8px; cursor:pointer;"></canvas>
+      <div style="display:flex; gap:0.5rem; margin-top:0.75rem; align-items:center; flex-wrap:wrap;">
+        <button onclick="runKMeans()" style="padding:6px 16px; background:var(--primary); color:white; border:none; border-radius:6px; cursor:pointer; font-size:0.875rem;">开始聚类</button>
+        <button onclick="resetKMeans()" style="padding:6px 16px; background:var(--code-bg); color:var(--text); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:0.875rem;">重置</button>
+        <span style="font-size:0.8rem; color:#9ca3af;">点击画布添加数据点</span>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from sklearn.cluster import KMeans
+import numpy as np
+
+# 假设我们有100个学生的成绩数据
+# 每个学生有2个特征：数学成绩、英语成绩
+X = np.random.rand(100, 2) * 100  # 100个学生，2门课
+
+# 使用K-Means分成3组（比如：理科强、文科强、均衡）
+kmeans = KMeans(n_clusters=3, random_state=42)
+labels = kmeans.fit_predict(X)
+
+# 查看每个学生被分到哪一组
+print(f"第1个学生属于第{labels[0]}组")
+
+# 查看每个组的中心点（代表该组的典型特征）
+print(f"各组中心点:\n{kmeans.cluster_centers_}")
+
+# K-Means的局限性：
+# 1. 需要预先指定K值
+# 2. 对初始中心敏感（K-Means++改进）
+# 3. 只能发现球形簇
+# 4. 对异常值敏感</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== DBSCAN详解 ========== -->
+      <h3>DBSCAN —— 基于密度的聚类</h3>
+      <p><strong>K-Means的局限性：</strong>只能发现球形簇，对噪声敏感。DBSCAN（Density-Based Spatial Clustering of Applications with Noise）解决了这些问题。</p>
+
+      <p><strong>核心概念：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>概念</th><th>定义</th><th>生活类比</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>ε-邻域</strong></td><td>以点为中心、半径为ε的圆形区域</td><td>你家周围的"步行可达"范围</td></tr>
+          <tr><td><strong>MinPts</strong></td><td>成为核心点所需的最少邻居数</td><td>开饭馆需要的最少顾客数</td></tr>
+          <tr><td><strong>核心点</strong></td><td>ε-邻域内包含至少MinPts个点的点</td><td>热闹的十字路口</td></tr>
+          <tr><td><strong>边界点</strong></td><td>不是核心点，但在某个核心点的ε-邻域内</td><td>十字路口旁边的便利店</td></tr>
+          <tr><td><strong>噪声点</strong></td><td>既不是核心点也不是边界点的点</td><td>荒郊野外的孤零零房子</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>DBSCAN的工作流程：</strong></p>
+      <ol>
+        <li>选择任意一个未访问的点</li>
+        <li>计算其ε-邻域内的点数</li>
+        <li>如果是核心点（≥MinPts），创建一个新簇</li>
+        <li>从该核心点出发，将所有密度可达的点加入同一簇</li>
+        <li>如果遇到边界点，将其加入当前簇但不再向外扩展</li>
+        <li>重复以上步骤，直到所有点都被访问</li>
+      </ol>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from sklearn.cluster import DBSCAN
+from sklearn.datasets import make_moons
+import numpy as np
+
+# 生成非球形数据（月牙形）
+X, y_true = make_moons(n_samples=300, noise=0.08, random_state=42)
+
+# K-Means无法正确聚类非球形数据
+from sklearn.cluster import KMeans
+kmeans_labels = KMeans(n_clusters=2, random_state=42).fit_predict(X)
+
+# DBSCAN可以正确处理
+dbscan = DBSCAN(eps=0.2, min_samples=5)
+dbscan_labels = dbscan.fit_predict(X)
+
+# 查看结果
+n_clusters = len(set(dbscan_labels)) - (1 if -1 in dbscan_labels else 0)
+n_noise = list(dbscan_labels).count(-1)
+print(f"DBSCAN发现 {n_clusters} 个簇")
+print(f"噪声点数量: {n_noise}")
+
+# DBSCAN的优缺点：
+# 优点：不需要指定K、能发现任意形状的簇、能识别噪声
+# 缺点：对ε和MinPts敏感、高维数据效果差、密度不均匀时效果差</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>DBSCAN vs K-Means 对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>特性</th><th>K-Means</th><th>DBSCAN</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>簇形状</td><td>球形</td><td>任意形状</td></tr>
+          <tr><td>噪声处理</td><td>不支持</td><td>支持</td></tr>
+          <tr><td>需要指定K</td><td>是</td><td>否</td></tr>
+          <tr><td>超参数</td><td>K</td><td>ε, MinPts</td></tr>
+          <tr><td>时间复杂度</td><td>O(nKd)</td><td>O(n log n)（使用KD-tree）</td></tr>
+          <tr><td>适用场景</td><td>球形簇、大数据</td><td>任意形状、有噪声</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ========== PCA数学推导 ========== -->
+      <h3>PCA降维 —— 数学推导</h3>
+      <p><strong>生活比喻：</strong>你在描述一个人时，可以说身高、体重、年龄、学历、收入等100个特征。但其实核心可能就是"经济实力"和"健康状况"两个维度。PCA就是帮你找到最重要的维度。</p>
+      <p>PCA的核心思想：<strong>找到数据变化最大的方向</strong>，保留最重要的信息，去掉冗余。</p>
+
+      <p><strong>PCA的数学推导（特征值分解）：</strong></p>
+      <p>给定 $n$ 个 $d$ 维样本 $\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_n$，PCA的目标是找到 $k$ 个方向（$k < d$），使数据投影后的方差最大。</p>
+
+      <p><strong>步骤1：中心化数据</strong></p>
+      <div class="math-display" id="math-pca-center"></div>
+
+      <p><strong>步骤2：计算协方差矩阵</strong></p>
+      <div class="math-display" id="math-pca-cov"></div>
+
+      <p><strong>步骤3：特征值分解</strong></p>
+      <div class="math-display" id="math-pca-eigen"></div>
+
+      <p><strong>步骤4：选择主成分</strong></p>
+      <p>对特征值从大到小排序 $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d$，选择前 $k$ 个特征向量，使得累积方差贡献率达到阈值（如95%）：</p>
+      <div class="math-display" id="math-pca-variance"></div>
+
+      <p><strong>步骤5：投影</strong></p>
+      <div class="math-display" id="math-pca-project"></div>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import numpy as np
+from sklearn.decomposition import PCA
+
+# 生成高维数据
+np.random.seed(42)
+X = np.random.randn(200, 10)  # 200个样本，10个特征
+
+# PCA降维
+pca = PCA()  # 不指定维度，保留所有成分
+X_pca = pca.fit_transform(X)
+
+# 查看各主成分的方差贡献率
+print("各主成分方差贡献率:")
+for i, ratio in enumerate(pca.explained_variance_ratio_):
+    print(f"  PC{i+1}: {ratio:.4f}")
+
+# 选择保留95%方差的维度
+pca_95 = PCA(n_components=0.95)
+X_reduced = pca_95.fit_transform(X)
+print(f"\n原始维度: {X.shape[1]}")
+print(f"保留95%方差后维度: {X_reduced.shape[1]}")
+
+# 手动实现PCA（理解原理）
+def my_pca(X, n_components):
+    # 1. 中心化
+    X_centered = X - np.mean(X, axis=0)
+    # 2. 计算协方差矩阵
+    cov = np.cov(X_centered.T)
+    # 3. 特征值分解
+    eigenvalues, eigenvectors = np.linalg.eig(cov)
+    # 4. 按特征值排序
+    idx = np.argsort(eigenvalues)[::-1]
+    eigenvalues = eigenvalues[idx]
+    eigenvectors = eigenvectors[:, idx]
+    # 5. 选择前k个特征向量
+    W = eigenvectors[:, :n_components]
+    # 6. 投影
+    X_projected = X_centered @ W
+    return X_projected, eigenvalues
+
+X_proj, eigenvals = my_pca(X, n_components=3)
+print(f"\n手动PCA结果形状: {X_proj.shape}")</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== 聚类评估指标 ========== -->
+      <h3>聚类评估指标</h3>
+      <p>如何评价聚类结果的好坏？有两类指标：<strong>内部指标</strong>（不需要真实标签）和<strong>外部指标</strong>（需要真实标签）。</p>
+
+      <p><strong>1. 轮廓系数（Silhouette Cohouette）</strong></p>
+      <p>衡量每个样本的簇内紧密度与簇间分离度的平衡：</p>
+      <div class="math-display" id="math-silhouette"></div>
+      <p>其中 $a(i)$ 是点 $i$ 到同簇其他点的平均距离，$b(i)$ 是点 $i$ 到最近其他簇的平均距离。轮廓系数范围 $[-1, 1]$，越接近1越好。</p>
+
+      <p><strong>2. Calinski-Harabasz指数</strong></p>
+      <p>也称为方差比准则，衡量簇间离散度与簇内离散度的比值：</p>
+      <div class="math-display" id="math-ch"></div>
+      <p>其中 $B_k$ 是簇间离散度矩阵的迹，$W_k$ 是簇内离散度矩阵的迹。CH值越大，聚类效果越好。</p>
+
+      <p><strong>3. 轮廓系数与CH指数对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>指标</th><th>计算复杂度</th><th>范围</th><th>越大越好</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>轮廓系数</td><td>O(n²)</td><td>[-1, 1]</td><td>是</td><td>中小规模数据</td></tr>
+          <tr><td>CH指数</td><td>O(nkd)</td><td>[0, +∞)</td><td>是</td><td>大规模数据</td></tr>
+          <tr><td>WCSS</td><td>O(nkd)</td><td>[0, +∞)</td><td>否（越小越好）</td><td>肘部法则选K</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from sklearn.cluster import KMeans, DBSCAN
+from sklearn.metrics import silhouette_score, calinski_harabasz_score
+from sklearn.datasets import make_blobs
+import numpy as np
+
+# 生成示例数据
+X, y_true = make_blobs(n_samples=300, centers=4, random_state=42)
+
+# 尝试不同的K值
+for k in range(2, 7):
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    labels = kmeans.fit_predict(X)
+
+    sil_score = silhouette_score(X, labels)
+    ch_score = calinski_harabasz_score(X, labels)
+
+    print(f"K={k}: 轮廓系数={sil_score:.4f}, CH指数={ch_score:.1f}")
+
+# DBSCAN评估
+dbscan = DBSCAN(eps=0.5, min_samples=5)
+db_labels = dbscan.fit_predict(X)
+
+# DBSCAN可能将部分点标记为噪声(-1)
+mask = db_labels != -1
+if len(set(db_labels[mask])) > 1:
+    sil_db = silhouette_score(X[mask], db_labels[mask])
+    ch_db = calinski_harabasz_score(X[mask], db_labels[mask])
+    print(f"\nDBSCAN: 轮廓系数={sil_db:.4f}, CH指数={ch_db:.1f}")
+    print(f"噪声点: {np.sum(db_labels == -1)}")</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <h3>其他聚类算法简介</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>算法</th><th>原理</th><th>优点</th><th>缺点</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>层次聚类</td><td>自底向上合并或自顶向下分裂</td><td>无需指定K，树状图直观</td><td>计算量大，不适合大数据</td></tr>
+          <tr><td>GMM</td><td>假设数据服从高斯混合分布</td><td>软聚类（概率分配）</td><td>假设球形分布</td></tr>
+          <tr><td>谱聚类</td><td>基于图的拉普拉斯矩阵</td><td>能发现非凸簇</td><td>对参数敏感</td></tr>
+        </tbody>
+      </table>
+
+      <h3>无监督学习的应用</h3>
+      <table class="feature-table">
+        <thead>
+          <tr><th>应用</th><th>说明</th><th>例子</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>客户分群</td><td>根据消费行为分组</td><td>电商用户画像</td></tr>
+          <tr><td>异常检测</td><td>找出不符合规律的数据</td><td>信用卡欺诈检测</td></tr>
+          <tr><td>图像压缩</td><td>减少颜色数量</td><td>图片压缩存储</td></tr>
+          <tr><td>基因聚类</td><td>发现相似基因</td><td>生物信息学研究</td></tr>
+          <tr><td>文档聚类</td><td>将相似文档分组</td><td>新闻主题分类</td></tr>
+        </tbody>
+      </table>
+
+      <h3>练习题</h3>
+      <p><strong>练习1：</strong>使用肘部法则确定最优K值。在Iris数据集上运行K-Means，绘制WCSS随K变化的曲线，找到最优K值。</p>
+      <p><strong>练习2：</strong>比较K-Means和DBSCAN在以下数据集上的表现：(a) 球形簇 (b) 月牙形簇 (c) 环形簇。分析各自的优缺点。</p>
+      <p><strong>练习3：</strong>手动实现PCA（不使用sklearn），在2D数据上验证结果。将数据投影到方差最大的方向，可视化投影前后的数据。</p>
+      <p><strong>练习4：</strong>在客户分群场景中，使用轮廓系数和CH指数选择最优的聚类算法和参数。</p>
+    
+
+<div class="chapter-nav">  <a href="ch6.html"><span class="nav-label">← 上一章</span><span class="nav-title">💬 Transformer</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch8.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🎮 强化学习</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mathElements = {
+      'math-kmeans-objective': 'J = \\sum_{k=1}^{K} \\sum_{\\mathbf{x}_n \\in C_k} \\| \\mathbf{x}_n - \\boldsymbol{\\mu}_k \\|^2',
+      'math-pca-center': '\\tilde{\\mathbf{x}}_i = \\mathbf{x}_i - \\frac{1}{n}\\sum_{j=1}^{n}\\mathbf{x}_j',
+      'math-pca-cov': '\\mathbf{C} = \\frac{1}{n}\\sum_{i=1}^{n}\\tilde{\\mathbf{x}}_i \\tilde{\\mathbf{x}}_i^T',
+      'math-pca-eigen': '\\mathbf{C}\\mathbf{w}_k = \\lambda_k \\mathbf{w}_k, \\quad k=1,\\ldots,d',
+      'math-pca-variance': '\\frac{\\sum_{k=1}^{d}\\lambda_k}{\\sum_{k=1}^{d}\\lambda_k} \\geq 0.95',
+      'math-pca-project': '\\mathbf{z} = \\mathbf{W}^T \\tilde{\\mathbf{x}}, \\quad \\mathbf{W} = [\\mathbf{w}_1, \\ldots, \\mathbf{w}_k]',
+      'math-silhouette': 's(i) = \\frac{b(i) - a(i)}{\\max\\{a(i), b(i)\\}}',
+      'math-ch': 'CH = \\frac{B_k / (k-1)}{W_k / (n-k)}',
+    };
+    Object.entries(mathElements).forEach(([id, tex]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(tex, el, { displayMode: true, throwOnError: false }); }
+        catch(e) { el.textContent = tex; }
+      }
+    });
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+  </script>
+
+
+  <script>
+  const kmeansCanvas = document.getElementById('kmeans-canvas');
+  const kmeansCtx = kmeansCanvas ? kmeansCanvas.getContext('2d') : null;
+  let kmeansPoints = [];
+  let centroids = [];
+  let kmeansAssignment = [];
+  let kmeansAnimating = false;
+
+  function resizeKmeansCanvas() {
+    if (!kmeansCanvas) return;
+    const rect = kmeansCanvas.getBoundingClientRect();
+    kmeansCanvas.width = rect.width * window.devicePixelRatio;
+    kmeansCanvas.height = rect.height * window.devicePixelRatio;
+    kmeansCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    drawKmeans();
+  }
+
+  function drawKmeans() {
+    if (!kmeansCtx) return;
+    const w = kmeansCanvas.width / window.devicePixelRatio;
+    const h = kmeansCanvas.height / window.devicePixelRatio;
+    kmeansCtx.clearRect(0, 0, w, h);
+    const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+
+    if (centroids.length > 0 && kmeansAssignment.length > 0) {
+      kmeansCtx.globalAlpha = 0.2;
+      kmeansPoints.forEach((p, i) => {
+        const c = centroids[kmeansAssignment[i]];
+        kmeansCtx.beginPath();
+        kmeansCtx.moveTo(p.x, p.y);
+        kmeansCtx.lineTo(c.x, c.y);
+        kmeansCtx.strokeStyle = colors[kmeansAssignment[i] % colors.length];
+        kmeansCtx.lineWidth = 1;
+        kmeansCtx.stroke();
+      });
+      kmeansCtx.globalAlpha = 1;
+    }
+
+    kmeansPoints.forEach((p, i) => {
+      const color = kmeansAssignment.length > 0 ? colors[kmeansAssignment[i] % colors.length] : '#6b7280';
+      kmeansCtx.beginPath();
+      kmeansCtx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+      kmeansCtx.fillStyle = color;
+      kmeansCtx.fill();
+      kmeansCtx.strokeStyle = 'white';
+      kmeansCtx.lineWidth = 1.5;
+      kmeansCtx.stroke();
+    });
+
+    centroids.forEach((c, i) => {
+      kmeansCtx.beginPath();
+      kmeansCtx.arc(c.x, c.y, 10, 0, Math.PI * 2);
+      kmeansCtx.fillStyle = colors[i % colors.length];
+      kmeansCtx.fill();
+      kmeansCtx.strokeStyle = 'white';
+      kmeansCtx.lineWidth = 2;
+      kmeansCtx.stroke();
+      kmeansCtx.fillStyle = 'white';
+      kmeansCtx.font = 'bold 10px sans-serif';
+      kmeansCtx.textAlign = 'center';
+      kmeansCtx.textBaseline = 'middle';
+      kmeansCtx.fillText(i + 1, c.x, c.y);
+    });
+  }
+
+  if (kmeansCanvas) {
+    kmeansCanvas.addEventListener('click', (e) => {
+      if (kmeansAnimating) return;
+      const rect = kmeansCanvas.getBoundingClientRect();
+      kmeansPoints.push({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      drawKmeans();
+    });
+  }
+
+  function runKMeans() {
+    if (kmeansPoints.length < 3) { alert('请先添加至少3个数据点'); return; }
+    if (kmeansAnimating) return;
+    kmeansAnimating = true;
+    const k = Math.min(3, kmeansPoints.length);
+    centroids = [];
+    const shuffled = [...kmeansPoints].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < k; i++) centroids.push({ x: shuffled[i].x, y: shuffled[i].y });
+
+    let iteration = 0;
+    function step() {
+      kmeansAssignment = kmeansPoints.map(p => {
+        let minDist = Infinity, minIdx = 0;
+        centroids.forEach((c, i) => {
+          const dist = Math.hypot(p.x - c.x, p.y - c.y);
+          if (dist < minDist) { minDist = dist; minIdx = i; }
+        });
+        return minIdx;
+      });
+      const newCentroids = centroids.map((c, i) => {
+        const cluster = kmeansPoints.filter((_, j) => kmeansAssignment[j] === i);
+        if (cluster.length === 0) return c;
+        return { x: cluster.reduce((s, p) => s + p.x, 0) / cluster.length, y: cluster.reduce((s, p) => s + p.y, 0) / cluster.length };
+      });
+      const moved = centroids.some((c, i) => Math.hypot(c.x - newCentroids[i].x, c.y - newCentroids[i].y) > 0.5);
+      centroids = newCentroids;
+      drawKmeans();
+      iteration++;
+      if (moved && iteration < 10) setTimeout(step, 500);
+      else kmeansAnimating = false;
+    }
+    step();
+  }
+
+  function resetKMeans() {
+    kmeansPoints = []; centroids = []; kmeansAssignment = []; kmeansAnimating = false;
+    drawKmeans();
+  }
+
+  window.addEventListener('resize', resizeKmeansCanvas);
+  setTimeout(resizeKmeansCanvas, 100);
+  </script>
+</body>
+</html>

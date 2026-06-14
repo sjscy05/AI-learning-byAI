@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🧠 第4章：神经网络直观理解 - AI入门指南</title>
+  <link rel="stylesheet" href="common.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b49df',
+            'primary-dark': '#6366f1',
+            surface: { light: '#fdfbf7', dark: '#0f0f23' },
+            card: { light: '#ffffff', dark: '#1a1a2e' },
+            ink: { light: '#1a1a2e', dark: '#e2e8f0' },
+            heading: { light: '#0f0f23', dark: '#f8fafc' },
+            code: { light: '#f6f8fa', dark: '#1e293b' },
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center space-x-2">
+      <span class="text-xl font-bold font-serif" style="color:var(--heading)">AI入门指南</span>
+    </a>
+    <div class="hidden md:flex items-center space-x-1" id="nav-links">
+      <a href="ch1.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+      <a href="ch2.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+      <a href="ch3.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+      <a href="ch4.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🧠 神经网络</a>
+      <a href="ch5.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+      <a href="ch6.html" class="nav-link px-3 py-2 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="theme-toggle" class="p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="切换深色模式">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+      <button id="hamburger" class="md:hidden p-2 rounded-md transition-colors" style="color:#6b7280" aria-label="打开菜单">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobile-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="flex items-center justify-between mb-6">
+    <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
+    <button id="close-drawer" class="p-2 rounded-md" style="color:#6b7280">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="space-y-1" id="mobile-nav">
+    <a href="ch1.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🤖 什么是AI</a>
+    <a href="ch2.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🍉 数据与特征</a>
+    <a href="ch3.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📈 监督学习</a>
+    <a href="ch4.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:var(--primary)">🧠 神经网络</a>
+    <a href="ch5.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🖼️ CNN</a>
+    <a href="ch6.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">💬 Transformer</a>
+    <a href="ch7.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📊 无监督学习</a>
+    <a href="ch8.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🎮 强化学习</a>
+    <a href="ch9.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">📝 NLP进阶</a>
+    <a href="ch10.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">👁️ CV进阶</a>
+    <a href="ch11.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">⚖️ AI伦理</a>
+    <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
+  </nav>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="mb-4 px-3">
+    <h3 class="text-xs font-semibold uppercase tracking-wider" style="color:#9ca3af">章节导航</h3>
+  </div>
+  <nav class="space-y-0.5" id="sidebar-nav">
+    <a href="ch1.html" class="sidebar-link" data-section="ai-intro">🤖 什么是AI</a>
+    <a href="ch2.html" class="sidebar-link" data-section="data-features">🍉 数据与特征</a>
+    <a href="ch3.html" class="sidebar-link" data-section="supervised-learning">📈 监督学习</a>
+    <a href="ch4.html" class="sidebar-link active" data-section="neural-networks">🧠 神经网络</a>
+    <a href="ch5.html" class="sidebar-link" data-section="cnn">🖼️ CNN</a>
+    <a href="ch6.html" class="sidebar-link" data-section="transformer">💬 Transformer</a>
+    <a href="ch7.html" class="sidebar-link" data-section="unsupervised">📊 无监督学习</a>
+    <a href="ch8.html" class="sidebar-link" data-section="reinforcement">🎮 强化学习</a>
+    <a href="ch9.html" class="sidebar-link" data-section="nlp-advanced">📝 NLP进阶</a>
+    <a href="ch10.html" class="sidebar-link" data-section="cv-advanced">👁️ CV进阶</a>
+    <a href="ch11.html" class="sidebar-link" data-section="ethics">⚖️ AI伦理</a>
+    <a href="ch12.html" class="sidebar-link" data-section="future">🚀 AI未来</a>
+  </nav>
+  <div class="mt-8 px-3">
+    <a href="index.html" class="sidebar-link" style="color:#9ca3af">↑ 回到目录</a>
+  </div>
+</aside>
+
+<!-- Main content -->
+<main class="main-content" style="margin-left:240px; padding-top:80px; padding-bottom:4rem;">
+  <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
+    <section class="chapter-card prose">
+
+      <h2 style="margin-top:0;">🧠 第四章：神经网络直观理解</h2>
+
+      <h3>多层水闸调节水流 —— 神经元的工作方式</h3>
+      <p>想象一条水渠系统：</p>
+      <ul>
+        <li>上游有多条支流（<strong>输入</strong>）</li>
+        <li>每个支流有一个水闸（<strong>权重</strong>），控制放水量</li>
+        <li>水流汇集到一个水池（<strong>求和</strong>）</li>
+        <li>水池有一个出水阀门（<strong>激活函数</strong>），决定是否放水、放多少</li>
+      </ul>
+      <p>这就是一个神经元的工作方式：</p>
+      <div class="math-display" id="math-neuron"></div>
+      <p>其中 f 是激活函数，决定这个神经元是否"激活"。</p>
+
+      <h3>CSS绘制的神经网络结构图</h3>
+      <div style="overflow-x:auto; padding:1rem 0;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:0; min-width:500px;">
+          <!-- Input layer -->
+          <div class="nn-layer">
+            <div class="nn-node">x₁</div>
+            <div class="nn-node">x₂</div>
+            <div class="nn-node">x₃</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">输入层</span>
+          </div>
+          <!-- Arrow 1 -->
+          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
+          <!-- Hidden layer 1 -->
+          <div class="nn-layer">
+            <div class="nn-node">h₁</div>
+            <div class="nn-node">h₂</div>
+            <div class="nn-node">h₃</div>
+            <div class="nn-node">h₄</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">隐藏层1</span>
+          </div>
+          <!-- Arrow 2 -->
+          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
+          <!-- Hidden layer 2 -->
+          <div class="nn-layer">
+            <div class="nn-node">h₁</div>
+            <div class="nn-node">h₂</div>
+            <div class="nn-node">h₃</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">隐藏层2</span>
+          </div>
+          <!-- Arrow 3 -->
+          <div style="width:60px; text-align:center; color:#cbd5e1; font-size:1.5rem;">→</div>
+          <!-- Output layer -->
+          <div class="nn-layer">
+            <div class="nn-node" style="background:var(--primary); color:white; border-color:var(--primary);">y</div>
+            <span style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">输出层</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 人工神经元的数学模型 ========== -->
+      <h3>人工神经元的数学模型</h3>
+      <p>生物神经元通过树突接收信号、轴突传递信号。人工神经元模仿了这个过程，将输入信号加权求和后，通过激活函数产生输出。</p>
+      <p><strong>加权求和：</strong>每个输入 $x_i$ 乘以对应的权重 $w_i$，再加上偏置 $b$：</p>
+      <div class="math-display" id="math-z-sum"></div>
+      <p>用向量形式表示更简洁：</p>
+      <div class="math-display" id="math-z-vector"></div>
+      <p><strong>激活：</strong>将加权求和的结果通过一个非线性函数 $f$ 得到输出：</p>
+      <div class="math-display" id="math-a-activate"></div>
+      <table class="feature-table">
+        <thead>
+          <tr><th>符号</th><th>含义</th><th>维度</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>$\mathbf{x}$</td><td>输入向量</td><td>$n \times 1$（n个特征）</td></tr>
+          <tr><td>$\mathbf{w}$</td><td>权重向量</td><td>$n \times 1$（每个输入一个权重）</td></tr>
+          <tr><td>$b$</td><td>偏置（bias）</td><td>标量</td></tr>
+          <tr><td>$f(\cdot)$</td><td>激活函数</td><td>非线性映射</td></tr>
+          <tr><td>$a$</td><td>输出（activation）</td><td>标量</td></tr>
+        </tbody>
+      </table>
+      <blockquote>
+        <strong>为什么需要激活函数？</strong>如果没有激活函数，无论网络有多少层，整个网络等价于一个线性变换，无法学习复杂的非线性模式。激活函数赋予了神经网络"学习万物"的能力。
+      </blockquote>
+
+      <!-- ========== 激活函数详解 ========== -->
+      <h3>激活函数详解</h3>
+      <p>激活函数是神经网络的灵魂。不同的激活函数有不同的数学特性和适用场景：</p>
+
+      <p><strong>1. Sigmoid 函数</strong></p>
+      <div class="math-display" id="math-sigmoid-detail"></div>
+      <ul>
+        <li><strong>输出范围</strong>：$(0, 1)$，可以解释为概率</li>
+        <li><strong>优点</strong>：输出有界，适合二分类的输出层</li>
+        <li><strong>缺点</strong>：输出非零中心（均值≈0.5），导致梯度更新效率低；深度网络中容易出现梯度消失（梯度最大值仅 0.25）</li>
+      </ul>
+
+      <p><strong>2. Tanh 函数</strong></p>
+      <div class="math-display" id="math-tanh-detail"></div>
+      <ul>
+        <li><strong>输出范围</strong>：$(-1, 1)$，零中心化</li>
+        <li><strong>优点</strong>：输出以0为中心，比Sigmoid收敛更快</li>
+        <li><strong>缺点</strong>：同样存在梯度消失问题（但比Sigmoid轻）</li>
+      </ul>
+
+      <p><strong>3. ReLU 函数</strong></p>
+      <div class="math-display" id="math-relu"></div>
+      <ul>
+        <li><strong>输出范围</strong>：$[0, +\infty)$</li>
+        <li><strong>优点</strong>：计算极快、缓解梯度消失、产生稀疏激活</li>
+        <li><strong>缺点</strong>：<strong>Dead ReLU问题</strong> —— 当输入为负时梯度为0，神经元"永久死亡"，不再更新</li>
+      </ul>
+
+      <p><strong>4. Leaky ReLU 函数</strong></p>
+      <div class="math-display" id="math-leaky-relu"></div>
+      <p>其中 $\alpha$ 是一个小常数（如0.01）。当输入为负时仍保留微小梯度，有效缓解Dead ReLU问题。</p>
+
+      <p><strong>5. Softmax 函数</strong></p>
+      <div class="math-display" id="math-softmax"></div>
+      <ul>
+        <li><strong>输出范围</strong>：$(0, 1)$，所有输出之和为1</li>
+        <li><strong>适用场景</strong>：多分类问题的输出层，将logits转换为概率分布</li>
+      </ul>
+
+      <p><strong>激活函数对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>激活函数</th><th>输出范围</th><th>零中心</th><th>梯度消失</th><th>计算开销</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sigmoid</td><td>$(0, 1)$</td><td>否</td><td>严重</td><td>中</td><td>二分类输出层</td></tr>
+          <tr><td>Tanh</td><td>$(-1, 1)$</td><td>是</td><td>中等</td><td>中</td><td>RNN/LSTM</td></tr>
+          <tr><td>ReLU</td><td>$[0, +\infty)$</td><td>近似</td><td>无</td><td>极低</td><td>隐藏层首选</td></tr>
+          <tr><td>Leaky ReLU</td><td>$(-\infty, +\infty)$</td><td>近似</td><td>无</td><td>极低</td><td>避免Dead ReLU</td></tr>
+          <tr><td>Softmax</td><td>$(0, 1)$</td><td>否</td><td>不适用</td><td>高</td><td>多分类输出层</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ========== 反向传播算法详解 ========== -->
+      <h3>反向传播算法详解</h3>
+      <p>反向传播是神经网络学习的核心算法。它的本质是<strong>微积分中的链式法则（Chain Rule）</strong>在计算图上的高效应用。</p>
+
+      <p><strong>链式法则</strong></p>
+      <div class="math-display" id="math-chain-rule"></div>
+      <p>如果 $y = f(g(x))$，则 $\frac{dy}{dx} = \frac{dy}{dg} \cdot \frac{dg}{dx}$。反向传播就是从输出层开始，沿着计算图反向逐层应用链式法则，计算损失函数对每个参数的梯度。</p>
+
+      <p><strong>前向传播示例（5步）</strong></p>
+      <p>以一个简单的两层网络为例，输入 $x=2$，目标输出 $y=1$：</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>步骤</th><th>计算</th><th>结果</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>① 输入层</td><td>$x = 2$</td><td>$a^{(0)} = 2$</td></tr>
+          <tr><td>② 隐藏层加权求和</td><td>$z^{(1)} = w_1 \cdot a^{(0)} + b_1 = 0.5 \times 2 + 0.1$</td><td>$z^{(1)} = 1.1$</td></tr>
+          <tr><td>③ 隐藏层激活</td><td>$a^{(1)} = \text{ReLU}(1.1)$</td><td>$a^{(1)} = 1.1$</td></tr>
+          <tr><td>④ 输出层加权求和</td><td>$z^{(2)} = w_2 \cdot a^{(1)} + b_2 = 0.3 \times 1.1 + 0.05$</td><td>$z^{(2)} = 0.38$</td></tr>
+          <tr><td>⑤ 输出层激活</td><td>$\hat{y} = \text{ReLU}(0.38)$</td><td>$\hat{y} = 0.38$</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>反向传播梯度计算（8步）</strong></p>
+      <p>损失函数 $L = \frac{1}{2}(y - \hat{y})^2 = \frac{1}{2}(1 - 0.38)^2 = 0.1922$</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>步骤</th><th>计算</th><th>结果</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>① $\frac{\partial L}{\partial \hat{y}}$</td><td>$\hat{y} - y$</td><td>$-0.62$</td></tr>
+          <tr><td>② $\frac{\partial \hat{y}}{\partial z^{(2)}}$</td><td>$\text{ReLU}'(0.38)$</td><td>$1$</td></tr>
+          <tr><td>③ $\frac{\partial L}{\partial w_2}$</td><td>$\frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(2)}} \cdot a^{(1)}$</td><td>$-0.682$</td></tr>
+          <tr><td>④ $\frac{\partial L}{\partial b_2}$</td><td>$\frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(2)}}$</td><td>$-0.62$</td></tr>
+          <tr><td>⑤ $\frac{\partial L}{\partial a^{(1)}}$</td><td>$\frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(2)}} \cdot w_2$</td><td>$-0.186$</td></tr>
+          <tr><td>⑥ $\frac{\partial L}{\partial z^{(1)}}$</td><td>$\frac{\partial L}{\partial a^{(1)}} \cdot \text{ReLU}'(1.1)$</td><td>$-0.186$</td></tr>
+          <tr><td>⑦ $\frac{\partial L}{\partial w_1}$</td><td>$\frac{\partial L}{\partial z^{(1)}} \cdot a^{(0)}$</td><td>$-0.372$</td></tr>
+          <tr><td>⑧ $\frac{\partial L}{\partial b_1}$</td><td>$\frac{\partial L}{\partial z^{(1)}}$</td><td>$-0.186$</td></tr>
+        </tbody>
+      </table>
+      <p>得到所有梯度后，使用梯度下降更新参数：$w \leftarrow w - \alpha \frac{\partial L}{\partial w}$。</p>
+
+      <p><strong>完整Python实现（NeuralNetwork类）</strong></p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import numpy as np
+
+class NeuralNetwork:
+    """一个完整的两层神经网络，含前向传播和反向传播"""
+    def __init__(self, input_size, hidden_size, output_size, lr=0.01):
+        self.lr = lr
+        # He初始化
+        self.W1 = np.random.randn(input_size, hidden_size) * np.sqrt(2 / input_size)
+        self.b1 = np.zeros((1, hidden_size))
+        self.W2 = np.random.randn(hidden_size, output_size) * np.sqrt(2 / hidden_size)
+        self.b2 = np.zeros((1, output_size))
+
+    def relu(self, z):
+        return np.maximum(0, z)
+
+    def relu_derivative(self, z):
+        return (z > 0).astype(float)
+
+    def forward(self, X):
+        """前向传播"""
+        self.z1 = X.dot(self.W1) + self.b1
+        self.a1 = self.relu(self.z1)
+        self.z2 = self.a1.dot(self.W2) + self.b2
+        self.a2 = self.z2  # 回归任务直接输出
+        return self.a2
+
+    def backward(self, X, y):
+        """反向传播，计算梯度并更新参数"""
+        m = X.shape[0]
+
+        # 输出层梯度
+        dz2 = self.a2 - y
+        dW2 = (1 / m) * self.a1.T.dot(dz2)
+        db2 = (1 / m) * np.sum(dz2, axis=0, keepdims=True)
+
+        # 隐藏层梯度
+        dz1 = dz2.dot(self.W2.T) * self.relu_derivative(self.z1)
+        dW1 = (1 / m) * X.T.dot(dz1)
+        db1 = (1 / m) * np.sum(dz1, axis=0, keepdims=True)
+
+        # 梯度下降更新
+        self.W2 -= self.lr * dW2
+        self.b2 -= self.lr * db2
+        self.W1 -= self.lr * dW1
+        self.b1 -= self.lr * db1
+
+    def train(self, X, y, epochs=1000):
+        for epoch in range(epochs):
+            pred = self.forward(X)
+            self.backward(X, y)
+            if epoch % 200 == 0:
+                loss = np.mean((pred - y) ** 2)
+                print(f"Epoch {epoch}, Loss: {loss:.6f}")
+
+# 使用示例
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[0], [1], [1], [0]])  # XOR问题
+
+nn = NeuralNetwork(input_size=2, hidden_size=8, output_size=1, lr=0.1)
+nn.train(X, y, epochs=2000)
+print("预测结果:", nn.forward(X).round())</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import torch
+import torch.nn as nn
+
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(3, 16),
+            nn.ReLU(),
+            nn.Linear(16, 8),
+            nn.ReLU(),
+            nn.Linear(8, 1)
+        )
+
+    def forward(self, x):
+        return self.layers(x)
+
+model = SimpleNet()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+criterion = nn.MSELoss()
+
+for epoch in range(100):
+    pred = model(X_train)
+    loss = criterion(pred, y_train)
+    optimizer.zero_grad()
+    loss.backward()       # 自动反向传播
+    optimizer.step()</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== 常见优化器 ========== -->
+      <h3>常见优化器对比</h3>
+      <p>梯度下降的"步长"和"方向"策略决定了训练效率。不同优化器的核心区别在于<strong>如何利用历史梯度信息</strong>来加速收敛：</p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>优化器</th><th>核心思想</th><th>学习率</th><th>适用场景</th><th>收敛速度</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SGD</td><td>最朴素的梯度下降</td><td>固定或衰减</td><td>凸优化、简单模型</td><td>慢</td></tr>
+          <tr><td>Momentum</td><td>引入"惯性"，加速通过平坦区域</td><td>固定</td><td>有鞍点的损失面</td><td>较快</td></tr>
+          <tr><td>Adam</td><td>自适应学习率 + 动量</td><td>自适应</td><td>通用首选</td><td>快</td></tr>
+          <tr><td>AdamW</td><td>Adam + 解耦权重衰减</td><td>自适应</td><td>大模型训练</td><td>快且泛化好</td></tr>
+        </tbody>
+      </table>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import torch.optim as optim
+
+model = MyModel()
+criterion = nn.CrossEntropyLoss()
+
+# SGD: 经典但需要调参
+optimizer_sgd = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+
+# Adam: 自适应学习率，最常用的默认选择
+optimizer_adam = optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999))
+
+# AdamW: 推荐用于Transformer和大模型训练
+optimizer_adamw = optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
+
+# 使用学习率调度器
+scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer_adam, T_max=100)
+for epoch in range(100):
+    train(...)
+    scheduler.step()</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <!-- ========== 正则化技术 ========== -->
+      <h3>正则化技术</h3>
+      <p>正则化用于防止<strong>过拟合</strong> —— 模型在训练集上表现好但在测试集上表现差。以下是三种最常用的正则化技术：</p>
+
+      <p><strong>1. Dropout —— 随机丢弃神经元</strong></p>
+      <p>训练时以概率 $p$ 随机将部分神经元输出置零，迫使网络学习冗余表示，避免对单个神经元的过度依赖。推理时不使用Dropout。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">import torch.nn as nn
+
+class MyModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(784, 256),
+            nn.ReLU(),
+            nn.Dropout(p=0.5),       # 50%的神经元随机置零
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Dropout(p=0.3),
+            nn.Linear(128, 10)
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+# 训练时开启Dropout
+model.train()
+output = model(x)
+
+# 推理时关闭Dropout
+model.eval()
+output = model(x)</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>2. Batch Normalization —— 批归一化</strong></p>
+      <p>对每个mini-batch的激活值进行归一化（均值0、方差1），然后通过可学习的参数 $\gamma$ 和 $\beta$ 恢复表达能力。好处：加速训练、允许使用更大学习率、自带轻微正则化效果。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">class MyModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(784, 256),
+            nn.BatchNorm1d(256),   # 批归一化
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
+            nn.Linear(128, 10)
+        )
+
+    def forward(self, x):
+        return self.network(x)
+
+# 注意: BatchNorm在训练和推理时行为不同
+model.train()  # 使用batch统计量
+model.eval()   # 使用全局统计量</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>3. 数据增强 —— 增加训练数据多样性</strong></p>
+      <p>通过对训练数据施加随机变换（旋转、翻转、裁剪、颜色抖动等），人为增加数据多样性，有效防止过拟合。</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+        <pre><code class="language-python">from torchvision import transforms
+
+# 训练时的数据增强
+train_transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(p=0.5),       # 随机水平翻转
+    transforms.RandomRotation(degrees=15),          # 随机旋转±15°
+    transforms.RandomCrop(32, padding=4),           # 随机裁剪
+    transforms.ColorJitter(brightness=0.2,          # 颜色抖动
+                           contrast=0.2,
+                           saturation=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+
+# 验证时不做增强
+val_transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
+
+from torchvision.datasets import CIFAR10
+train_dataset = CIFAR10(root='./data', train=True,
+                        transform=train_transform, download=True)
+val_dataset = CIFAR10(root='./data', train=False,
+                      transform=val_transform)</code></pre>
+      </div>
+      <div style="margin-top:-0.5rem; margin-bottom:1rem;">
+        <button class="run-btn" onclick="runCode(this)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 运行代码</button>
+      </div>
+
+      <p><strong>正则化技术对比：</strong></p>
+      <table class="feature-table">
+        <thead>
+          <tr><th>技术</th><th>原理</th><th>计算开销</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dropout</td><td>训练时随机丢弃神经元</td><td>低</td><td>全连接层</td></tr>
+          <tr><td>BatchNorm</td><td>归一化激活值分布</td><td>中</td><td>卷积层、全连接层</td></tr>
+          <tr><td>数据增强</td><td>随机变换训练数据</td><td>低（CPU端）</td><td>图像、音频、文本</td></tr>
+          <tr><td>L2正则化</td><td>惩罚大权重</td><td>极低</td><td>所有模型</td></tr>
+          <tr><td>早停（Early Stopping）</td><td>验证集性能不再提升时停止</td><td>无</td><td>所有模型</td></tr>
+        </tbody>
+      </table>
+    
+
+<div class="chapter-nav">  <a href="ch3.html"><span class="nav-label">← 上一章</span><span class="nav-title">📈 监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch5.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🖼️ CNN</span></a></div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<div style="text-align:center; padding:3rem 0 1rem; color:#9ca3af; font-size:0.875rem;">
+  <p>AI入门指南 · 系统学习人工智能</p>
+</div>
+
+<script src="common.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mathElements = {
+      'math-sigmoid-detail': '\\sigma(z) = \\frac{1}{1 + e^{-z}}',
+      'math-tanh-detail': '\\tanh(z) = \\frac{e^z - e^{-z}}{e^z + e^{-z}}',
+      'math-relu': '\\text{ReLU}(z) = \\max(0, z)',
+      'math-leaky-relu': '\\text{LeakyReLU}(z) = \\begin{cases} z & z > 0 \\\\ \\alpha z & z \\leq 0 \\end{cases}',
+      'math-softmax': '\\text{softmax}(z_i) = \\frac{e^{z_i}}{\\sum_{j=1}^{K} e^{z_j}}',
+      'math-chain-rule': '\\frac{\\partial L}{\\partial w} = \\frac{\\partial L}{\\partial a} \\cdot \\frac{\\partial a}{\\partial z} \\cdot \\frac{\\partial z}{\\partial w}',
+    };
+    Object.entries(mathElements).forEach(([id, tex]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        try { katex.render(tex, el, { displayMode: true, throwOnError: false }); }
+        catch(e) { el.textContent = tex; }
+      }
+    });
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ]
+    });
+  });
+  </script>
+
+
+</body>
+</html>
