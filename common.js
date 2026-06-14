@@ -105,10 +105,21 @@ function copyCode(btn) {
 window.addEventListener('beforeunload', () => {
   localStorage.setItem('scrollPos', window.scrollY);
 });
+// Only restore scroll on same page (not on chapter navigation)
 const savedPos = localStorage.getItem('scrollPos');
-if (savedPos && !document.querySelector('.knowledge-graph')) {
+const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+const lastPath = localStorage.getItem('lastPage');
+if (savedPos && lastPath === currentPath && !document.querySelector('.knowledge-graph')) {
   setTimeout(() => window.scrollTo(0, parseInt(savedPos)), 100);
 }
+localStorage.setItem('lastPage', currentPath);
+
+// Clear scroll position when clicking chapter navigation links
+document.querySelectorAll('.chapter-nav a, .nav-next, .nav-prev').forEach(link => {
+  link.addEventListener('click', () => {
+    localStorage.removeItem('scrollPos');
+  });
+});
 
 // ========== KaTeX Rendering ==========
 document.addEventListener('DOMContentLoaded', () => {
