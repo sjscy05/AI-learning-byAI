@@ -39,14 +39,7 @@
   </script>
 </head>
 <body>
-
-<!-- Progress bar -->
-
-<!-- Navbar -->
-
-<!-- Mobile overlay -->
-
-      <!-- ========== 人工神经元的数学模型 ========== -->
+<!-- ========== 人工神经元的数学模型 ========== -->
       <h3>人工神经元的数学模型</h3>
       <p>生物神经元通过树突接收信号、轴突传递信号。人工神经元模仿了这个过程，将输入信号加权求和后，通过激活函数产生输出。</p>
       <p><strong>加权求和：</strong>每个输入 $x_i$ 乘以对应的权重 $w_i$，再加上偏置 $b$：</p>
@@ -404,7 +397,24 @@ val_dataset = CIFAR10(root='./data', train=False,
           <tr><td>早停（Early Stopping）</td><td>验证集性能不再提升时停止</td><td>无</td><td>所有模型</td></tr>
         </tbody>
       </table>
-    
+
+
+      <h3>练习题</h3>
+      <p><strong>思考题1：</strong>如果把所有激活函数都换成线性函数（f(x)=x），多层网络和单层网络有什么区别？为什么需要非线性激活？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>线性函数的组合还是线性函数，多层线性变换等价于单层。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题2：</strong>为什么ReLU比Sigmoid更常用？Dead ReLU是什么问题？Leaky ReLU如何缓解？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>Sigmoid有梯度消失问题，ReLU在正区间梯度恒为1。Dead ReLU是神经元输出永远为0。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题3：</strong>反向传播中，为什么梯度会随层数增加而指数级衰减（梯度消失）？BatchNorm如何帮助缓解？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>每层乘以小于1的导数（如Sigmoid导数<0.25），连乘后趋近于0。BN让每层输入分布稳定。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
 
 <div class="chapter-nav">  <a href="ch3.html"><span class="nav-label">← 上一章</span><span class="nav-title">📈 监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch5.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🖼️ CNN</span></a></div>
     </section>

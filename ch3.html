@@ -39,12 +39,6 @@
   </script>
 </head>
 <body>
-
-<!-- Progress bar -->
-
-<!-- Navbar -->
-
-<!-- Mobile overlay -->
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="flex items-center justify-between mb-6">
     <span class="text-lg font-bold font-serif" style="color:var(--heading)">目录</span>
@@ -69,11 +63,8 @@
     <a href="ch12.html" class="mobile-nav-link block px-3 py-2.5 text-sm font-medium rounded-md transition-colors" style="color:#6b7280">🚀 AI未来</a>
   </nav>
 </div>
-
-<!-- Sidebar -->
-
 <!-- Main content -->
-<main class="main-content" style="margin-left:0; padding-top:80px; padding-bottom:4rem;">
+<main class="main-content" style="margin-left:0; padding-top:2rem; padding-bottom:4rem;">
   <div style="max-width:720px; margin:0 auto; padding:0 1.5rem;">
     <section class="chapter-card prose">
 
@@ -434,7 +425,24 @@ print(f"R²:   {r2_score(y_reg_true, y_reg_pred):.4f}")</code></pre>
           <tr><td>评估指标</td><td>MSE、R²</td><td>准确率、F1分数</td></tr>
         </tbody>
       </table>
-    
+
+
+      <h3>练习题</h3>
+      <p><strong>思考题1：</strong>用线性回归预测房价时，如果加入"门牌号"作为特征，模型会怎样？这说明了什么问题？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>门牌号是数值但没有实际意义，模型可能学到虚假的线性关系。这叫过拟合到噪声特征。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题2：</strong>逻辑回归的输出是概率，为什么不能直接用MSE作为损失函数？交叉熵的优势是什么？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>MSE在概率输出上的梯度特性不好（饱和区梯度接近0），交叉熵的梯度与误差成正比。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题3：</strong>在垃圾邮件分类中，精确率和召回率哪个更重要？如果把重要邮件误判为垃圾（假阴性），后果是什么？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>想想假阳性和假阴性的不对称代价——错过重要邮件 vs 多看几封垃圾邮件。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
 
 <div class="chapter-nav">  <a href="ch2.html"><span class="nav-label">← 上一章</span><span class="nav-title">🍉 数据与特征</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch4.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">🧠 神经网络</span></a></div>
     </section>

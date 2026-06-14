@@ -39,14 +39,7 @@
   </script>
 </head>
 <body>
-
-<!-- Progress bar -->
-
-<!-- Navbar -->
-
-<!-- Mobile overlay -->
-
-      <h3>卷积的数学定义</h3>
+<h3>卷积的数学定义</h3>
       <p><strong>连续卷积：</strong></p>
       <div class="math-display" id="math-conv"></div>
       <p>其中 <em>f</em> 是输入信号，<em>g</em> 是卷积核（滤波器），<em>τ</em> 是位移量。</p>
@@ -292,7 +285,24 @@ class SimpleCNN(nn.Module):
         x = x.view(x.size(0), -1)  # 拍平
         return self.classifier(x)</code></pre>
       </div>
-    
+
+
+      <h3>练习题</h3>
+      <p><strong>思考题1：</strong>一个3×3卷积核的参数量是多少？如果输入通道数为64，输出通道数为128，总参数量是多少？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>3×3=9个参数 per pair，总参数=输入通道×输出通道×9。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题2：</strong>为什么ResNet要引入残差连接？如果没有跳跃连接，直接训练100层网络会遇到什么问题？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>深层网络的退化问题——不是过拟合，而是训练集误差反而上升。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
+      <p><strong>思考题3：</strong>迁移学习中，为什么冻结浅层、只训练深层是合理的？如果微调所有层会怎样？</p>
+      <div class="exercise-hint" style="display:none; margin:0.5rem 0 1rem 1rem; padding:1rem; background:rgba(59,73,223,0.05); border-left:3px solid var(--primary); border-radius:0 8px 8px 0;">
+        <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong>浅层学到通用特征（边缘、纹理），深层学到任务特定特征。全量微调可能破坏通用特征。</p>
+      </div>
+      <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
 
 <div class="chapter-nav">  <a href="ch4.html"><span class="nav-label">← 上一章</span><span class="nav-title">🧠 神经网络</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch6.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">💬 Transformer</span></a></div>
     </section>

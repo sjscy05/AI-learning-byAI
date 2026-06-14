@@ -39,14 +39,7 @@
   </script>
 </head>
 <body>
-
-<!-- Progress bar -->
-
-<!-- Navbar -->
-
-<!-- Mobile overlay -->
-
-      <p><strong>策略 $\pi(a|s)$：</strong>在状态 $s$ 下选择动作 $a$ 的概率分布。强化学习的目标是找到最优策略 $\pi^*$，使得累积折扣奖励最大化。</p>
+<p><strong>策略 $\pi(a|s)$：</strong>在状态 $s$ 下选择动作 $a$ 的概率分布。强化学习的目标是找到最优策略 $\pi^*$，使得累积折扣奖励最大化。</p>
 
       <!-- ========== 贝尔曼方程 ========== -->
       <h3>贝尔曼方程 —— 强化学习的核心方程</h3>
@@ -379,7 +372,7 @@ def REINFORCE(env, policy, lr=1e-3, gamma=0.99):
         <p style="font-size:0.9rem; color:#6b7280; margin:0;"><strong>💡 指引：</strong> DQN的关键组件：经验回放缓冲区（打破数据相关性）、目标网络（稳定训练）、ε-greedy探索。注意CartPole的奖励设计：每存活一步+1，目标是让总奖励最大化。训练时观察loss曲线和reward曲线的变化趋势。</p>
       </div>
       <button class="hint-toggle" onclick="this.previousElementSibling.style.display=this.previousElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent==='查看指引'?'收起指引':'查看指引';" style="font-size:0.8rem; color:var(--primary); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;">查看指引</button>
-    
+
 
 <div class="chapter-nav">  <a href="ch7.html"><span class="nav-label">← 上一章</span><span class="nav-title">📊 无监督学习</span></a>  <a href="index.html" style="margin:auto; max-width:auto; text-align:center;"><span class="nav-title">📚 目录</span></a>  <a href="ch9.html" class="nav-next"><span class="nav-label">下一章 →</span><span class="nav-title">📝 NLP进阶</span></a></div>
     </section>
