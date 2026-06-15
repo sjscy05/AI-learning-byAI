@@ -4,26 +4,41 @@
 
 @import 'katex/dist/katex.min.css';
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground: #1a1a2e;
+  --background: #fdfbf7;
+  --card-bg: #ffffff;
+  --heading: #0f0f23;
+  --primary: #3b49df;
+  --code-bg: #f6f8fa;
+  --border: #e5e7eb;
 }
 
 .dark {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
+  --foreground: #e2e8f0;
+  --background: #0f0f23;
+  --card-bg: #1a1a2e;
+  --heading: #f8fafc;
+  --primary: #6366f1;
+  --code-bg: #1e293b;
+  --border: #374151;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+  color: var(--heading);
+  line-height: 1.3;
 }
 
 @layer utilities {
@@ -33,9 +48,9 @@ body {
 }
 
 .prose {
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
 }
 
 .prose h1 {
@@ -47,7 +62,7 @@ body {
 .prose h2 {
   font-size: 2rem;
   font-weight: 600;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
 }
 
@@ -59,12 +74,12 @@ body {
 }
 
 .prose p {
-  margin-bottom: 1rem;
-  line-height: 1.75;
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
 }
 
 .prose ul, .prose ol {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   padding-left: 1.5rem;
 }
 
@@ -74,34 +89,217 @@ body {
 }
 
 .prose code {
-  background-color: #f3f4f6;
+  background-color: var(--code-bg);
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  font-family: monospace;
-}
-
-.dark .prose code {
-  background-color: #374151;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9em;
 }
 
 .prose pre {
-  background-color: #1f2937;
-  color: #f9fafb;
-  padding: 1rem;
+  background-color: #1e293b;
+  color: #f1f5f9;
+  padding: 1.25rem;
   border-radius: 0.5rem;
   overflow-x: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  font-size: 0.875rem;
 }
 
 .prose blockquote {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--primary);
   padding-left: 1rem;
   margin-left: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   color: #6b7280;
   font-style: italic;
 }
 
-.dark .prose blockquote {
-  color: #9ca3af;
+.prose strong {
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: #2d3ac7;
+}
+
+.dark .prose a:hover {
+  color: #818cf8;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.25rem;
+}
+
+.prose th, .prose td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.prose th {
+  background-color: var(--code-bg);
+  font-weight: 600;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+/* Progress bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), #818cf8);
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+/* Sidebar navigation */
+.sidebar-nav {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 240px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+  scrollbar-width: thin;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 4px;
+}
+
+.sidebar-nav-item {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav-item:hover {
+  color: var(--primary);
+  background-color: rgba(59, 73, 223, 0.05);
+}
+
+.sidebar-nav-item.active {
+  color: var(--primary);
+  border-left-color: var(--primary);
+  background-color: rgba(59, 73, 223, 0.08);
+  font-weight: 500;
+}
+
+/* Mobile hamburger */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--card-bg);
+  z-index: 50;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* Card styling */
+.chapter-card {
+  background-color: var(--card-bg);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  border-left: 4px solid var(--primary);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.chapter-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* Canvas demo */
+.demo-canvas {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  cursor: crosshair;
+  background-color: var(--code-bg);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(59, 73, 223, 0.2);
+  color: var(--foreground);
 }
